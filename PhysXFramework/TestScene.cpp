@@ -20,7 +20,7 @@ void TestScene::Initialize()
 	m_pBox = new CubePosColorNorm(5.f, 2.f, 1.f);
 	AddGameObject(m_pBox);
 
-	m_pBox->Translate(.0f, 1.f, .0f);
+	m_pBox->Translate(.0f, .0f, .0f);
 	m_pBox->RotateDegrees(.0f, 45.f, .0f);
 
 	//CAMERA
@@ -28,13 +28,12 @@ void TestScene::Initialize()
 	m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .0f, -.3f, 1.f });
 
 	//TORUS
-	m_pTorus = new TorusPosColorNorm(8.f, 50, 1.f, 10, XMFLOAT4{ Colors::Crimson });
+	m_pTorus = new TorusPosColorNorm(8.f, 50, 1.f, 10, XMFLOAT4{ Colors::Green });
 	AddGameObject(m_pTorus);
 
-	m_pCylinder = new CylinderPosColorNorm(1.5f, 10, 4.f);
+	m_pCylinder = new CylinderPosColorNorm(1.5f, 10, 4.f, XMFLOAT4{ Colors::Blue });
 	m_pTorus->AddChild(m_pCylinder);
 
-	//m_pTorus->Translate(10.f, .0f, .0f);
 	m_pCylinder->Translate(.0f, 8.f, .0f);
 
 	//INPUT
@@ -114,6 +113,7 @@ void TestScene::Draw() const
 void TestScene::OnSceneActivated()
 {
 	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Translate = 'Arrow Keys']", GetName().c_str());
 }
 
 void TestScene::OnSceneDeactivated()

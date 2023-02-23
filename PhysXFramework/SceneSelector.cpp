@@ -23,7 +23,7 @@ namespace dae
 	void AddScenes(SceneManager* pSceneManager)
 	{
 #ifdef W01
-		//pSceneManager->AddGameScene(new TestScene());
+		pSceneManager->AddGameScene(new TestScene());
 		pSceneManager->AddGameScene(new PhysXTestScene());
 #endif
 

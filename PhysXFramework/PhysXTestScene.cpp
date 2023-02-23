@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PhysXTestScene.h"
 #include "CubePosColorNorm.h"
+#include "Logger.h"
 
 void PhysXTestScene::Initialize()
 {
@@ -9,8 +10,12 @@ void PhysXTestScene::Initialize()
 	const auto pPhysX{ PhysxManager::GetInstance()->GetPhysics() };
 	const PxMaterial* pDefaultMaterial{ pPhysX->createMaterial(.5f, .5f, .2f) };
 
+	//CAMERA
+	m_SceneContext.GetCamera()->SetPosition(XMFLOAT3{ .0f, 5.f, -20.f });
+	m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .0f, -.25f, 1.f });
+
 	//CUBE
-	const XMFLOAT3 actorDimensions{ 1.f, 1.f, 1.f };
+	const XMFLOAT3 actorDimensions{ 1.5f, 1.f, 1.f };
 	m_pCube = new CubePosColorNorm(actorDimensions.x, actorDimensions.y, actorDimensions.z);
 	AddGameObject(m_pCube);
 
@@ -29,8 +34,8 @@ void PhysXTestScene::Initialize()
 	//Link CUBE with CUBE_ACTOR
 	m_pCube->AttachRigidActor(pCubeActor);
 
-	m_pCube->Translate(.0f, 10.f, .0f);
-	m_pCube->RotateDegrees(30.f, 45.f, 25.f);
+	m_pCube->Translate(.0f, 5.f, .0f);
+	m_pCube->RotateDegrees(40.f, 30.f, 20.f);
 
 	//GROUND PLANE
 	const auto pGroundActor{ pPhysX->createRigidStatic(PxTransform{ PxQuat{PxPiDivTwo, PxVec3{ .0f, .0f, 1.f } } }) };
@@ -42,7 +47,12 @@ void PhysXTestScene::Update()
 {
 	if (m_SceneContext.GetInput()->IsKeyboardKey(InputTriggerState::pressed, 'R'))
 	{
-		m_pCube->Translate(0.f, 10.f, 0.f);
+		m_pCube->Translate(0.f, 5.f, 0.f);
+		m_pCube->RotateDegrees(40.f, 30.f, 20.f);
+
+		//CAMERA
+		m_SceneContext.GetCamera()->SetPosition(XMFLOAT3{ .0f, 5.f, -20.f });
+		m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .0f, -.25f, 1.f });
 	}
 }
 
@@ -52,6 +62,8 @@ void PhysXTestScene::Draw() const
 
 void PhysXTestScene::OnSceneActivated()
 {
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset = 'R']", GetName().c_str());
 }
 
 void PhysXTestScene::OnSceneDeactivated()
