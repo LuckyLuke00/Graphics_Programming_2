@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{1883a859-7b0a-4d22-ad73-ba80108f87e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Camera">
+      <UniqueIdentifier>{0d6b6999-85e9-4890-a50a-6367b8da531b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Managers">
+      <UniqueIdentifier>{ad8563db-0a5e-48a5-b1b5-38762f05e079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Helpers">
+      <UniqueIdentifier>{af5ef74b-62ea-42b4-8caa-561231a36d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\SceneGraph">
+      <UniqueIdentifier>{789ff73b-fe38-4ebf-9b6c-fffec716f0bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\PhysX">
+      <UniqueIdentifier>{56dcbc7d-1ceb-4cb5-bacd-6959c0493f0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Content">
+      <UniqueIdentifier>{9847c05d-a51c-4ce1-9a70-a13564ff7988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles">
+      <UniqueIdentifier>{574b8b15-83c6-4747-b0a0-5d8400582b88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles\Prefabs">
+      <UniqueIdentifier>{ce480d3d-0f58-44a9-8f2d-ae6b97ec52f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles\Scenes">
+      <UniqueIdentifier>{b4fc1cfa-35d5-445c-a5c2-b74cc10c4079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Diagnostics">
+      <UniqueIdentifier>{5bc95701-5346-4fe2-b826-4411cbffa064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles\Scenes\W01_PhysX">
+      <UniqueIdentifier>{7b6973a1-1950-42b0-81c0-1a6769dc80c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles\Scenes\W02_PhysX">
+      <UniqueIdentifier>{8ada88e9-b3e1-41e8-9aba-82d0ad91b35c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.h">
+      <Filter>Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCamera.h">
+      <Filter>Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexStructs.h">
+      <Filter>Framework\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentLoader.h">
+      <Filter>Framework\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysxManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Framework\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysxAllocator.h">
+      <Filter>Framework\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysxErrorCallback.h">
+      <Filter>Framework\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysxHelpers.h">
+      <Filter>Framework\PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSimulationFilterShader.h">
+      <Filter>Framework\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectLoader.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDataLoader.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="PxConvexMeshLoader.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="PxTriangleMeshLoader.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshData.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryReader.h">
+      <Filter>Framework\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="DdsTexLoader.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="DdsTexResource.h">
+      <Filter>Framework\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshObject.h">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshObjectTex.h">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="TorusPosColorNorm.h">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CubePosColorNorm.h">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CylinderPosColorNorm.h">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackingCamera.h">
+      <Filter>Framework\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Framework\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>Framework\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Framework\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Framework\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneContext.h">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D11.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Locator.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="SpherePosColorNorm.h">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSelector.h">
+      <Filter>GameFiles\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysXTestScene.h">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCamera.cpp">
+      <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCamera.cpp">
+      <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysxManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysxErrorCallback.cpp">
+      <Filter>Framework\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectLoader.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDataLoader.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="PxConvexMeshLoader.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="PxTriangleMeshLoader.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshData.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryReader.cpp">
+      <Filter>Framework\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="DdsTexLoader.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="DdsTexResource.cpp">
+      <Filter>Framework\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshObject.cpp">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshObjectTex.cpp">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="TorusPosColorNorm.cpp">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CubePosColorNorm.cpp">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CylinderPosColorNorm.cpp">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackingCamera.cpp">
+      <Filter>Framework\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Framework\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>Framework\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Framework\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Framework\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneContext.cpp">
+      <Filter>Framework\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D11.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Locator.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="SpherePosColorNorm.cpp">
+      <Filter>GameFiles\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSelector.cpp">
+      <Filter>GameFiles\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXTestScene.cpp">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
