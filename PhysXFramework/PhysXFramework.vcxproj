@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="BinaryReader.h" />
+    <ClInclude Include="BouncingBallScene.h" />
     <ClInclude Include="ContentLoader.h" />
     <ClInclude Include="ContentManager.h" />
     <ClInclude Include="Core.h" />
@@ -129,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="BinaryReader.cpp" />
+    <ClCompile Include="BouncingBallScene.cpp" />
     <ClCompile Include="ContentManager.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="CubePosColorNorm.cpp" />

@@ -2,7 +2,7 @@
 #include "SceneSelector.h"
 #include "SceneManager.h"
 
-//Change this define to activate/deactive the corresponding scenes
+//Change this define to activate/deactivate the corresponding scenes
 // W01 - W02  (#define ...)
 
 #define W01
@@ -11,6 +11,7 @@
 #ifdef W01
 #include "TestScene.h"
 #include "PhysXTestScene.h"
+#include "BouncingBallScene.h"
 
 #endif
 
@@ -25,6 +26,7 @@ namespace dae
 #ifdef W01
 		pSceneManager->AddGameScene(new TestScene());
 		pSceneManager->AddGameScene(new PhysXTestScene());
+		pSceneManager->AddGameScene(new BouncingBallScene());
 #endif
 
 #ifdef W02
