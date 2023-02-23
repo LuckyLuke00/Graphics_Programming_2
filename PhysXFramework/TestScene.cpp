@@ -113,7 +113,7 @@ void TestScene::Draw() const
 void TestScene::OnSceneActivated()
 {
 	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
-	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Translate = 'Arrow Keys']", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Translate = 'Arrow Keys']");
 }
 
 void TestScene::OnSceneDeactivated()

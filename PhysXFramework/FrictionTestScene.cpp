@@ -58,6 +58,7 @@ void FrictionTestScene::Initialize()
 
 void FrictionTestScene::Update()
 {
+	//RESET
 	if (m_SceneContext.GetInput()->IsKeyboardKey(InputTriggerState::pressed, 'R'))
 	{
 		//BALLS
@@ -81,6 +82,8 @@ void FrictionTestScene::Draw() const
 
 void FrictionTestScene::OnSceneActivated()
 {
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R']");
 }
 
 void FrictionTestScene::OnSceneDeactivated()

@@ -121,7 +121,7 @@ void BoxTorqueScene::Draw() const
 void BoxTorqueScene::OnSceneActivated()
 {
 	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
-	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R' | Apply_Torque='Arrow Keys']", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R' | Apply_Torque='Arrow Keys']");
 }
 
 void BoxTorqueScene::OnSceneDeactivated()

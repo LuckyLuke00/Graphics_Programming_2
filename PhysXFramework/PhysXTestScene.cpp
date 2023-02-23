@@ -45,6 +45,7 @@ void PhysXTestScene::Initialize()
 
 void PhysXTestScene::Update()
 {
+	//RESET
 	if (m_SceneContext.GetInput()->IsKeyboardKey(InputTriggerState::pressed, 'R'))
 	{
 		m_pCube->Translate(0.f, 5.f, 0.f);
@@ -63,7 +64,7 @@ void PhysXTestScene::Draw() const
 void PhysXTestScene::OnSceneActivated()
 {
 	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
-	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset = 'R']", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R']");
 }
 
 void PhysXTestScene::OnSceneDeactivated()

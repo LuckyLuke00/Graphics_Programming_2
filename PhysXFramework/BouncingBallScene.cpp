@@ -43,6 +43,7 @@ void BouncingBallScene::Initialize()
 
 void BouncingBallScene::Update()
 {
+	//RESET
 	if (m_SceneContext.GetInput()->IsKeyboardKey(InputTriggerState::pressed, 'R'))
 	{
 		//BALLS
@@ -66,7 +67,7 @@ void BouncingBallScene::Draw() const
 void BouncingBallScene::OnSceneActivated()
 {
 	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
-	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset = 'R']", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R']");
 }
 
 void BouncingBallScene::OnSceneDeactivated()
