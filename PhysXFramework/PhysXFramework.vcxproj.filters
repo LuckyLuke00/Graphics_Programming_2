@@ -165,9 +165,6 @@
     <ClInclude Include="SpherePosColorNorm.h">
       <Filter>GameFiles\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="SceneSelector.h">
-      <Filter>GameFiles\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="TestScene.h">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClInclude>
@@ -178,6 +175,12 @@
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClInclude>
     <ClInclude Include="FrictionTestScene.h">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSelector.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxForceScene.h">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClInclude>
   </ItemGroup>
@@ -284,9 +287,6 @@
     <ClCompile Include="SpherePosColorNorm.cpp">
       <Filter>GameFiles\Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="SceneSelector.cpp">
-      <Filter>GameFiles\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="TestScene.cpp">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
@@ -297,6 +297,12 @@
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
     <ClCompile Include="FrictionTestScene.cpp">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSelector.cpp">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxForceScene.cpp">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
   </ItemGroup>
