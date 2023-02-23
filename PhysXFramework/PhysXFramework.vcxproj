@@ -96,6 +96,7 @@
     <ClInclude Include="DebugRenderer.h" />
     <ClInclude Include="EffectLoader.h" />
     <ClInclude Include="FreeCamera.h" />
+    <ClInclude Include="FrictionTestScene.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameSettings.h" />
@@ -141,6 +142,7 @@
     <ClCompile Include="DebugRenderer.cpp" />
     <ClCompile Include="EffectLoader.cpp" />
     <ClCompile Include="FreeCamera.cpp" />
+    <ClCompile Include="FrictionTestScene.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameTime.cpp" />

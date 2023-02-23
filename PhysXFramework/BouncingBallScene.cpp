@@ -14,6 +14,11 @@ void BouncingBallScene::Initialize()
 	m_SceneContext.GetCamera()->SetPosition(XMFLOAT3{ .0f, 10.f, -30.f });
 	m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .0f, -.265f, 1.f });
 
+	//GROUND PLANE
+	const auto pGroundActor{ pPhysX->createRigidStatic(PxTransform{ PxQuat{PxPiDivTwo, PxVec3{ .0f, .0f, 1.f } } }) };
+	PxRigidActorExt::createExclusiveShape(*pGroundActor, PxPlaneGeometry{}, *pDefaultMaterial);
+	m_pPhysxScene->addActor(*pGroundActor);
+
 	//BALLS
 	const float xStart{ -((m_pBalls.size() - 1) * m_Separation) * .5f };
 
@@ -34,11 +39,6 @@ void BouncingBallScene::Initialize()
 
 		m_pBalls[i]->Translate(xStart + (static_cast<float>(i) * m_Separation), 10.f, .0f);
 	}
-
-	//GROUND PLANE
-	const auto pGroundActor{ pPhysX->createRigidStatic(PxTransform{ PxQuat{PxPiDivTwo, PxVec3{ .0f, .0f, 1.f } } }) };
-	PxRigidActorExt::createExclusiveShape(*pGroundActor, PxPlaneGeometry{}, *pDefaultMaterial);
-	m_pPhysxScene->addActor(*pGroundActor);
 }
 
 void BouncingBallScene::Update()

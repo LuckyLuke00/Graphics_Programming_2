@@ -177,6 +177,9 @@
     <ClInclude Include="BouncingBallScene.h">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="FrictionTestScene.h">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -291,6 +294,9 @@
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
     <ClCompile Include="BouncingBallScene.cpp">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="FrictionTestScene.cpp">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
   </ItemGroup>
