@@ -19,5 +19,6 @@ protected:
 	void OnSceneDeactivated() override;
 
 private:
+	const float m_BoxSize{ 2.f };
 	GameObject* m_pBox{ nullptr };
 };

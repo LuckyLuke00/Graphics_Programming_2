@@ -29,15 +29,14 @@ void BoxForceScene::Initialize()
 	m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .0f, -2.f, 1.f });
 
 	//CUBE
-	const XMFLOAT3 actorDimensions{ 2.f, 2.f, 2.f };
-	m_pBox = new CubePosColorNorm(actorDimensions.x, actorDimensions.y, actorDimensions.z);
+	m_pBox = new CubePosColorNorm(m_BoxSize, m_BoxSize, m_BoxSize);
 	PxRigidDynamic* pBoxActor{ pPhysX->createRigidDynamic(PxTransform{ PxIdentity }) };
-	PxBoxGeometry boxGeometry{ PxBoxGeometry{ actorDimensions.x * .5f, actorDimensions.y * .5f, actorDimensions.z * .5f } };
+	PxBoxGeometry boxGeometry{ PxBoxGeometry{ m_BoxSize * .5f, m_BoxSize * .5f, m_BoxSize * .5f } };
 	PxRigidActorExt::createExclusiveShape(*pBoxActor, boxGeometry, *pDefaultMaterial);
 	m_pBox->AttachRigidActor(pBoxActor);
 	AddGameObject(m_pBox);
 
-	m_pBox->Translate(0.f, actorDimensions.y * .5f, 0.f);
+	m_pBox->Translate(0.f, m_BoxSize * .5f, 0.f);
 
 	//INPUT
 	m_SceneContext.GetInput()->AddInputAction(InputAction
@@ -82,22 +81,36 @@ void BoxForceScene::Update()
 	constexpr float speed{ 10.f };
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Up)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ 0.f, 0.f, speed });
+		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ .0f, .0f, speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Down)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ 0.f, 0.f, -speed });
+		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ .0f, .0f, -speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Left)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ -speed, 0.f, 0.f });
+		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ -speed, .0f, .0f });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Right)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ speed, 0.f, 0.f });
+		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ speed, .0f, .0f });
+	}
+
+	//RESET
+	if (m_SceneContext.GetInput()->IsKeyboardKey(InputTriggerState::pressed, 'R'))
+	{
+		//CAMERA
+		m_SceneContext.GetCamera()->SetPosition(XMFLOAT3{ .0f, 40.f, -20.f });
+		m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .0f, -2.f, 1.f });
+
+		//CUBE
+		m_pBox->Translate(0.f, m_BoxSize * .5f, 0.f);
+		m_pBox->RotateDegrees(.0f, .0f, .0f);
+		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->setAngularVelocity(PxVec3{ .0f, .0f, .0f });
+		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->setLinearVelocity(PxVec3{ .0f, .0f, .0f });
 	}
 }
 
@@ -107,6 +120,8 @@ void BoxForceScene::Draw() const
 
 void BoxForceScene::OnSceneActivated()
 {
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R' | Apply_Torque='Arrow Keys']", GetName().c_str());
 }
 
 void BoxForceScene::OnSceneDeactivated()
