@@ -129,6 +129,7 @@
     <ClInclude Include="TorusPosColorNorm.h" />
     <ClInclude Include="TrackingCamera.h" />
     <ClInclude Include="VertexStructs.h" />
+    <ClInclude Include="W1_AssignmentScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseCamera.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TorusPosColorNorm.cpp" />
     <ClCompile Include="TrackingCamera.cpp" />
+    <ClCompile Include="W1_AssignmentScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

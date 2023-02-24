@@ -186,6 +186,9 @@
     <ClInclude Include="BoxTorqueScene.h">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="W1_AssignmentScene.h">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -309,6 +312,9 @@
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
     <ClCompile Include="BoxTorqueScene.cpp">
+      <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="W1_AssignmentScene.cpp">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClCompile>
   </ItemGroup>
