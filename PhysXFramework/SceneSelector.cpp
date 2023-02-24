@@ -27,12 +27,12 @@ namespace dae
 	void AddScenes(SceneManager* pSceneManager)
 	{
 #ifdef W01
-		//pSceneManager->AddGameScene(new TestScene());
-		//pSceneManager->AddGameScene(new PhysXTestScene());
-		//pSceneManager->AddGameScene(new BouncingBallScene());
-		//pSceneManager->AddGameScene(new FrictionTestScene());
-		//pSceneManager->AddGameScene(new BoxForceScene());
-		//pSceneManager->AddGameScene(new BoxTorqueScene());
+		pSceneManager->AddGameScene(new TestScene());
+		pSceneManager->AddGameScene(new PhysXTestScene());
+		pSceneManager->AddGameScene(new BouncingBallScene());
+		pSceneManager->AddGameScene(new FrictionTestScene());
+		pSceneManager->AddGameScene(new BoxForceScene());
+		pSceneManager->AddGameScene(new BoxTorqueScene());
 		pSceneManager->AddGameScene(new W1_AssignmentScene());
 #endif
 
