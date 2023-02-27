@@ -25,7 +25,7 @@ void W1_AssignmentScene::Initialize()
 	m_SceneContext.GetCamera()->SetForward(XMFLOAT3{ .5f, -.25f, 1.f });
 
 	const auto pPhysX{ PhysxManager::GetInstance()->GetPhysics() };
-	
+
 	// Materials
 	const PxMaterial* pFloorMaterial{ pPhysX->createMaterial(.6f, .6f, .2f) };
 	const PxMaterial* pWallMaterial{ pPhysX->createMaterial(.7f, .7f, .4f) };
@@ -33,7 +33,7 @@ void W1_AssignmentScene::Initialize()
 
 	//FLOOR
 	m_pFloor = new CubePosColorNorm(m_FloorSize, .0f, m_FloorSize, XMFLOAT4{ Colors::LightGray });
-	PxRigidStatic* pFloorActor{ pPhysX->createRigidStatic( PxTransform{ PxIdentity }) };
+	PxRigidStatic* pFloorActor{ pPhysX->createRigidStatic(PxTransform{ PxIdentity }) };
 	PxBoxGeometry floorGeometry{ PxBoxGeometry{ m_FloorSize * .5f, .0f, m_FloorSize * .5f } };
 	PxRigidActorExt::createExclusiveShape(*pFloorActor, floorGeometry, *pFloorMaterial);
 	m_pFloor->AttachRigidActor(pFloorActor);
@@ -155,7 +155,6 @@ void W1_AssignmentScene::Update()
 	}
 }
 
-
 void W1_AssignmentScene::Draw() const
 {
 }
@@ -178,7 +177,7 @@ void W1_AssignmentScene::CreateWall(const int boxes, const int verticalBoxes, co
 
 	for (int i{ 0 }; i < boxes; ++i)
 	{
-		m_pWall.emplace_back(new CubePosColorNorm(m_BoxSize, m_BoxSize, m_BoxSize) );
+		m_pWall.emplace_back(new CubePosColorNorm(m_BoxSize, m_BoxSize, m_BoxSize));
 		PxRigidDynamic* pBoxActor{ pPhysX->createRigidDynamic(PxTransform{ PxIdentity }) };
 		PxBoxGeometry boxGeometry{ PxBoxGeometry{ m_BoxSize * .5f, m_BoxSize * .5f, m_BoxSize * .5f } };
 		PxRigidActorExt::createExclusiveShape(*pBoxActor, boxGeometry, *pMaterial);

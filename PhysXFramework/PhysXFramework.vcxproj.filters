@@ -189,6 +189,15 @@
     <ClInclude Include="W1_AssignmentScene.h">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="PhysXMeshTestScene.h">
+      <Filter>GameFiles\Scenes\W02_PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerTestScene.h">
+      <Filter>GameFiles\Scenes\W02_PhysX</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioTestScene.h">
+      <Filter>GameFiles\Scenes\W02_PhysX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -316,6 +325,15 @@
     </ClCompile>
     <ClCompile Include="W1_AssignmentScene.cpp">
       <Filter>GameFiles\Scenes\W01_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXMeshTestScene.cpp">
+      <Filter>GameFiles\Scenes\W02_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerTestScene.cpp">
+      <Filter>GameFiles\Scenes\W02_PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioTestScene.cpp">
+      <Filter>GameFiles\Scenes\W02_PhysX</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
