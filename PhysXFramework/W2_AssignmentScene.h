@@ -19,11 +19,28 @@ protected:
 	void OnSceneDeactivated() override;
 
 private:
+	// Boxes
+	const float m_BoxMass{ .15f };
+	const float m_BoxSize{ 1.5f };
+	GameObject* m_pBlueBox{ nullptr };
+	GameObject* m_pRedBox{ nullptr };
+	
+	// Spheres
+	const float m_SmallSphereRadius{ .75f };
+	const float m_PlayerSphereRadius{ 1.f };
 	GameObject* m_pBlueSphere{ nullptr };
-	GameObject* m_pLevelTriangle{ nullptr };
 	GameObject* m_pPlayerSphere{ nullptr };
 	GameObject* m_pRedSphere{ nullptr };
 
-	const float m_PlayerSphereRadius{ 1.f };
-	const float m_SmallSphereRadius{ .75f };
+	// Hatches
+	const float m_HatchHeight{ 1.f };
+	const float m_HatchWidth{ 2.f };
+	GameObject* m_pBlueHatch{ nullptr };
+	GameObject* m_pRedHatch{ nullptr };
+	
+	// Level mesh
+	GameObject* m_pLevelTriangle{ nullptr };
+
+	void ResetScene();
+
 };
