@@ -18,6 +18,8 @@ protected:
 	void OnSceneActivated() override;
 	void OnSceneDeactivated() override;
 
+	void onTrigger(PxTriggerPair* pairs, PxU32 count) override;
+
 private:
 	// Boxes
 	const float m_BoxMass{ .15f };
@@ -33,13 +35,29 @@ private:
 	GameObject* m_pRedSphere{ nullptr };
 
 	// Hatches
-	const float m_HatchHeight{ 1.f };
+	const float m_HatchHeight{ .25f };
 	const float m_HatchWidth{ 2.f };
+	const float m_HatchDepth{ 5.5f };
 	GameObject* m_pBlueHatch{ nullptr };
 	GameObject* m_pRedHatch{ nullptr };
+
+	// Trigger boxes
+	const float m_TriggerWidth{ 1.f };
+	GameObject* m_pBlueTriggerBox{ nullptr };
+	GameObject* m_pRedTriggerBox{ nullptr };
+
+	// Triggers
+	PxRigidStatic* m_pBlueTrigger{ nullptr };
+	PxRigidStatic* m_pRedTrigger{ nullptr };
 	
 	// Level mesh
 	GameObject* m_pLevelTriangle{ nullptr };
+
+	bool m_IsTriggerBlue{ false };
+	bool m_IsTriggerRed{ false };
+
+	FMOD::Channel* m_pChannel2D{ nullptr };
+	FMOD::Sound* m_pSound2D{ nullptr };
 
 	void ResetScene();
 

@@ -6,6 +6,7 @@
 #include "MeshObject.h"
 #include "PhysxManager.h"
 #include "SpherePosColorNorm.h"
+#include "SoundManager.h"
 
 void W2_AssignmentScene::Initialize()
 {
@@ -81,6 +82,56 @@ void W2_AssignmentScene::Initialize()
 	m_pRedBox->AttachRigidActor(pRedBoxActor);
 	m_pRedBox->Translate(2.5f, 5.f, .0f);
 	pRedBoxActor->setMass(m_BoxMass);
+
+	// Hatches
+	m_pBlueHatch = new CubePosColorNorm(m_HatchWidth, m_HatchHeight, m_HatchDepth, XMFLOAT4{ Colors::Blue });
+	AddGameObject(m_pBlueHatch);
+
+	m_pRedHatch = new CubePosColorNorm(m_HatchWidth, m_HatchHeight, m_HatchDepth, XMFLOAT4{ Colors::Red });
+	AddGameObject(m_pRedHatch);
+
+	const auto pBlueHatchActor{ pPhysX->createRigidDynamic(PxTransform{ PxIdentity }) };
+	pBlueHatchActor->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+	PxRigidActorExt::createExclusiveShape(*pBlueHatchActor, PxBoxGeometry{ m_HatchWidth * .5f, m_HatchHeight * .5f, m_HatchDepth * .5f }, *pDefaultMaterial);
+	m_pBlueHatch->AttachRigidActor(pBlueHatchActor);
+	m_pBlueHatch->Translate(-9.f, 17.f, .0f);
+
+	const auto pRedHatchActor{ pPhysX->createRigidDynamic(PxTransform{ PxIdentity }) };
+	pRedHatchActor->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+	PxRigidActorExt::createExclusiveShape(*pRedHatchActor, PxBoxGeometry{ m_HatchWidth * .5f, m_HatchHeight * .5f, m_HatchDepth * .5f }, *pDefaultMaterial);
+	m_pRedHatch->AttachRigidActor(pRedHatchActor);
+	m_pRedHatch->Translate(9.f, 17.f, .0f);
+
+	// Trigger boxes
+	m_pBlueTriggerBox = new CubePosColorNorm(m_HatchWidth, m_TriggerWidth, m_HatchDepth, XMFLOAT4{ Colors::Blue });
+	AddGameObject(m_pBlueTriggerBox);
+	m_pBlueTriggerBox->Translate(-7.5f, 2.5f, .0f);
+
+	m_pRedTriggerBox = new CubePosColorNorm(m_HatchWidth, m_TriggerWidth, m_HatchDepth, XMFLOAT4{ Colors::Red });
+	AddGameObject(m_pRedTriggerBox);
+	m_pRedTriggerBox->Translate(6.5f, 2.5f, .0f);
+
+	// Triggers
+	m_pBlueTrigger = pPhysX->createRigidStatic(PxTransform{ { -7.5f, 2.5f, .0f } });
+	auto pShape{ PxRigidActorExt::createExclusiveShape(*m_pBlueTrigger, PxBoxGeometry{ m_HatchWidth * .5f, m_TriggerWidth * .5f, m_HatchDepth * .5f }, *pDefaultMaterial) };
+
+	pShape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+	pShape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+
+	m_pPhysxScene->addActor(*m_pBlueTrigger);
+
+	m_pRedTrigger = pPhysX->createRigidStatic(PxTransform{ { 6.5f, 2.5f, .0f } });
+	pShape = PxRigidActorExt::createExclusiveShape(*m_pRedTrigger, PxBoxGeometry{ m_HatchWidth * .5f, m_TriggerWidth * .5f, m_HatchDepth * .5f }, *pDefaultMaterial);
+
+	pShape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+	pShape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+
+	m_pPhysxScene->addActor(*m_pRedTrigger);
+
+	// Sound
+	const auto pFmod{ SoundManager::GetInstance()->GetSystem() };
+	FMOD_RESULT result{ pFmod->createStream("Resources/Sounds/bell.mp3", FMOD_2D, nullptr, &m_pSound2D) };
+	SoundManager::GetInstance()->ErrorCheck(result);
 }
 
 void W2_AssignmentScene::Update()
@@ -129,6 +180,40 @@ void W2_AssignmentScene::OnSceneActivated()
 
 void W2_AssignmentScene::OnSceneDeactivated()
 {
+}
+
+void W2_AssignmentScene::onTrigger(PxTriggerPair* pairs, PxU32 count)
+{
+	for (size_t i{ 0 }; i < count; ++i)
+	{
+		// Ignore deleted shapes
+		if (pairs[i].flags & (PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
+			continue;
+
+		const PxTriggerPair& pair{ pairs[i] };
+
+		if (pair.triggerActor == m_pBlueTrigger && pair.otherActor == m_pBlueBox->GetRigidActor())
+		{
+			if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND) // ENTERED
+			{
+				FMOD_RESULT result{ SoundManager::GetInstance()->GetSystem()->playSound(m_pSound2D, nullptr, false, &m_pChannel2D)};
+				SoundManager::GetInstance()->ErrorCheck(result);
+
+				m_IsTriggerBlue = true;
+			}
+		}
+
+		if (pair.triggerActor == m_pRedTrigger && pair.otherActor == m_pRedBox->GetRigidActor())
+		{
+			if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND) // ENTERED
+			{
+				FMOD_RESULT result{ SoundManager::GetInstance()->GetSystem()->playSound(m_pSound2D, nullptr, false, &m_pChannel2D) };
+				SoundManager::GetInstance()->ErrorCheck(result);
+				m_IsTriggerRed = true;
+
+			}
+		}
+	}
 }
 
 void W2_AssignmentScene::ResetScene()
