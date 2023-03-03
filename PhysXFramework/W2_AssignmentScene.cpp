@@ -102,6 +102,33 @@ void W2_AssignmentScene::Initialize()
 	m_pRedHatch->AttachRigidActor(pRedHatchActor);
 	m_pRedHatch->Translate(9.f, 17.f, .0f);
 
+	// Joint between hatch and level
+	m_pBlueHatchJoint = PxRevoluteJointCreate
+	(
+		*pPhysX,
+		pBlueHatchActor,
+		PxTransform{ { m_HatchWidth * .5f, m_HatchHeight * .5f, .0f }, PxQuat{ -PxPiDivTwo, { .0f, 1.f, .0f } } *PxQuat{ PxPiDivTwo, { 1.f, .0f, .0f } } },
+		m_pLevelTriangle->GetRigidActor(),
+		PxTransform{ { -9.f + m_HatchWidth * .5f, 17.f, .0f }, PxQuat{ -PxPiDivTwo, { .0f, 1.f, .0f } } *PxQuat{ PxPiDivTwo, { 1.f, .0f, .0f } } }
+	);
+
+	m_pBlueHatchJoint->setConstraintFlag(PxConstraintFlag::eVISUALIZATION, true);
+	m_pBlueHatchJoint->setRevoluteJointFlag(PxRevoluteJointFlag::eDRIVE_ENABLED, false);
+	m_pBlueHatchJoint->setDriveVelocity(-10.f);
+
+	m_pRedHatchJoint = PxRevoluteJointCreate
+	(
+		*pPhysX,
+		pRedHatchActor,
+		PxTransform{ { -m_HatchWidth * .5f, m_HatchHeight * .5f, .0f }, PxQuat{ -PxPiDivTwo, { .0f, 1.f, .0f } } *PxQuat{ PxPiDivTwo, { 1.f, .0f, .0f } } },
+		m_pLevelTriangle->GetRigidActor(),
+		PxTransform{ { 9.f - m_HatchWidth * .5f, 17.f, .0f }, PxQuat{ -PxPiDivTwo, { .0f, 1.f, .0f } } *PxQuat{ PxPiDivTwo, { 1.f, .0f, .0f } } }
+	);
+
+	m_pRedHatchJoint->setConstraintFlag(PxConstraintFlag::eVISUALIZATION, true);
+	m_pRedHatchJoint->setRevoluteJointFlag(PxRevoluteJointFlag::eDRIVE_ENABLED, false);
+	m_pRedHatchJoint->setDriveVelocity(10.f);
+
 	// Trigger boxes
 	m_pBlueTriggerBox = new CubePosColorNorm(m_HatchWidth, m_TriggerWidth, m_HatchDepth, XMFLOAT4{ Colors::Blue });
 	AddGameObject(m_pBlueTriggerBox);
@@ -166,6 +193,34 @@ void W2_AssignmentScene::Update()
 	{
 		ResetScene();
 	}
+
+	if (m_IsTriggerBlue)
+	{
+		m_pBlueHatch->GetRigidActor()->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
+		m_pBlueHatch->GetRigidActor()->is<PxRigidDynamic>()->wakeUp();
+
+		// When the hatch is rotated 90 degrees, stop the rotation
+		if (m_pBlueHatchJoint->getAngle() < -PxPiDivTwo)
+		{
+			m_pBlueHatchJoint->setRevoluteJointFlag(PxRevoluteJointFlag::eDRIVE_ENABLED, false);
+			m_pBlueHatch->GetRigidActor()->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+			m_IsTriggerBlue = false;
+		}
+	}
+
+	if (m_IsTriggerRed)
+	{
+		m_pRedHatch->GetRigidActor()->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, false);
+		m_pRedHatch->GetRigidActor()->is<PxRigidDynamic>()->wakeUp();
+
+		// When the hatch is rotated 90 degrees, stop the rotation
+		if (m_pRedHatchJoint->getAngle() > PxPiDivTwo)
+		{
+			m_pRedHatchJoint->setRevoluteJointFlag(PxRevoluteJointFlag::eDRIVE_ENABLED, false);
+			m_pRedHatch->GetRigidActor()->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+			m_IsTriggerRed = false;
+		}
+	}
 }
 
 void W2_AssignmentScene::Draw() const
@@ -196,7 +251,7 @@ void W2_AssignmentScene::onTrigger(PxTriggerPair* pairs, PxU32 count)
 		{
 			if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND) // ENTERED
 			{
-				FMOD_RESULT result{ SoundManager::GetInstance()->GetSystem()->playSound(m_pSound2D, nullptr, false, &m_pChannel2D)};
+				FMOD_RESULT result{ SoundManager::GetInstance()->GetSystem()->playSound(m_pSound2D, nullptr, false, &m_pChannel2D) };
 				SoundManager::GetInstance()->ErrorCheck(result);
 
 				m_IsTriggerBlue = true;
@@ -210,7 +265,6 @@ void W2_AssignmentScene::onTrigger(PxTriggerPair* pairs, PxU32 count)
 				FMOD_RESULT result{ SoundManager::GetInstance()->GetSystem()->playSound(m_pSound2D, nullptr, false, &m_pChannel2D) };
 				SoundManager::GetInstance()->ErrorCheck(result);
 				m_IsTriggerRed = true;
-
 			}
 		}
 	}
@@ -226,10 +280,10 @@ void W2_AssignmentScene::ResetScene()
 	// Set velocities and angular velocities to zero
 	m_pBlueSphere->GetRigidActor()->is<PxRigidDynamic>()->setLinearVelocity({ .0f, .0f, .0f });
 	m_pBlueSphere->GetRigidActor()->is<PxRigidDynamic>()->setAngularVelocity({ .0f, .0f, .0f });
-	
+
 	m_pPlayerSphere->GetRigidActor()->is<PxRigidDynamic>()->setLinearVelocity({ .0f, .0f, .0f });
 	m_pPlayerSphere->GetRigidActor()->is<PxRigidDynamic>()->setAngularVelocity({ .0f, .0f, .0f });
-	
+
 	m_pRedSphere->GetRigidActor()->is<PxRigidDynamic>()->setLinearVelocity({ .0f, .0f, .0f });
 	m_pRedSphere->GetRigidActor()->is<PxRigidDynamic>()->setAngularVelocity({ .0f, .0f, .0f });
 
@@ -240,4 +294,20 @@ void W2_AssignmentScene::ResetScene()
 	// Reset the rotation of the boxes
 	m_pBlueBox->Rotate(.0f, .0f, .0f);
 	m_pRedBox->Rotate(.0f, .0f, .0f);
+
+	// Reset the hatches
+	m_pBlueHatch->Translate(-9.f, 17.f, .0f);
+	m_pRedHatch->Translate(9.f, 17.f, .0f);
+
+	m_pBlueHatch->Rotate(.0f, .0f, .0f);
+	m_pRedHatch->Rotate(.0f, .0f, .0f);
+
+	m_pRedHatchJoint->setRevoluteJointFlag(PxRevoluteJointFlag::eDRIVE_ENABLED, false);
+	m_pRedHatch->GetRigidActor()->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+	m_pBlueHatchJoint->setRevoluteJointFlag(PxRevoluteJointFlag::eDRIVE_ENABLED, false);
+	m_pBlueHatch->GetRigidActor()->is<PxRigidDynamic>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+	m_IsTriggerRed = false;
+	m_IsTriggerBlue = false;
 }

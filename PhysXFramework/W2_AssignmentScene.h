@@ -26,7 +26,7 @@ private:
 	const float m_BoxSize{ 1.5f };
 	GameObject* m_pBlueBox{ nullptr };
 	GameObject* m_pRedBox{ nullptr };
-	
+
 	// Spheres
 	const float m_SmallSphereRadius{ .75f };
 	const float m_PlayerSphereRadius{ 1.f };
@@ -46,10 +46,13 @@ private:
 	GameObject* m_pBlueTriggerBox{ nullptr };
 	GameObject* m_pRedTriggerBox{ nullptr };
 
+	PxRevoluteJoint* m_pBlueHatchJoint{ nullptr };
+	PxRevoluteJoint* m_pRedHatchJoint{ nullptr };
+
 	// Triggers
 	PxRigidStatic* m_pBlueTrigger{ nullptr };
 	PxRigidStatic* m_pRedTrigger{ nullptr };
-	
+
 	// Level mesh
 	GameObject* m_pLevelTriangle{ nullptr };
 
@@ -60,5 +63,4 @@ private:
 	FMOD::Sound* m_pSound2D{ nullptr };
 
 	void ResetScene();
-
 };
