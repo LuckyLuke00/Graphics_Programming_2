@@ -44,7 +44,6 @@ void PhysXMeshTestScene::Initialize()
 
 	m_pChairTriangle->Translate(10.f, .0f, .0f);
 	m_KinematicPosition = { 10.f, .0f, .0f };
-
 }
 
 void PhysXMeshTestScene::Update()

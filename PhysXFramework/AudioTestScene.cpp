@@ -53,7 +53,6 @@ void AudioTestScene::Initialize()
 	SoundManager::GetInstance()->ErrorCheck(result);
 
 	m_pChannel3D->set3DMinMaxDistance(.0f, 20.f);
-
 }
 
 inline FMOD_VECTOR ToFmod(XMFLOAT3 v)

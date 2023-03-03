@@ -88,7 +88,7 @@ void TriggerTestScene::onTrigger(PxTriggerPair* pairs, PxU32 count)
 			continue;
 
 		const PxTriggerPair& pair{ pairs[i] };
-		
+
 		if (pair.triggerActor == m_pTriggerLeft)
 		{
 			if (pair.status == PxPairFlag::eNOTIFY_TOUCH_FOUND) // ENTERED
