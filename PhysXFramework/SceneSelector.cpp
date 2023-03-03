@@ -41,9 +41,9 @@ namespace dae
 #endif
 
 #ifdef W02
-		//pSceneManager->AddGameScene(new PhysXMeshTestScene());
-		//pSceneManager->AddGameScene(new TriggerTestScene());
-		//pSceneManager->AddGameScene(new AudioTestScene());
+		pSceneManager->AddGameScene(new PhysXMeshTestScene());
+		pSceneManager->AddGameScene(new TriggerTestScene());
+		pSceneManager->AddGameScene(new AudioTestScene());
 		pSceneManager->AddGameScene(new W2_AssignmentScene());
 #endif
 	}

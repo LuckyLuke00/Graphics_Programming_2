@@ -81,22 +81,22 @@ void BoxForceScene::Update()
 	constexpr float speed{ 10.f };
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Up)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ .0f, .0f, speed });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addForce({ .0f, .0f, speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Down)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ .0f, .0f, -speed });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addForce({ .0f, .0f, -speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Left)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ -speed, .0f, .0f });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addForce({ -speed, .0f, .0f });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Right)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addForce(PxVec3{ speed, .0f, .0f });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addForce({ speed, .0f, .0f });
 	}
 
 	//RESET
@@ -121,7 +121,7 @@ void BoxForceScene::Draw() const
 void BoxForceScene::OnSceneActivated()
 {
 	Logger::GetInstance()->LogFormat(LogLevel::Info, L"Scene Activated > \"%ls\"", GetName().c_str());
-	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R' | Apply_Torque='Arrow Keys']");
+	Logger::GetInstance()->LogFormat(LogLevel::Info, L"\t[INPUT > Reset='R' | Apply_Force='Arrow Keys']");
 }
 
 void BoxForceScene::OnSceneDeactivated()

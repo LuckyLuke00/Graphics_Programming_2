@@ -81,22 +81,22 @@ void BoxTorqueScene::Update()
 	constexpr float speed{ 25.f };
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Up)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addTorque(PxVec3{ speed, .0f, .0f });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ speed, .0f, .0f });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Down)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addTorque(PxVec3{ -speed, .0f, .0f });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ -speed, .0f, .0f });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Left)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addTorque(PxVec3{ .0f, .0f, speed });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ .0f, .0f, speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Right)))
 	{
-		static_cast<PxRigidBody*>(m_pBox->GetRigidActor())->addTorque(PxVec3{ .0f, .0f, -speed });
+		m_pBox->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ .0f, .0f, -speed });
 	}
 
 	//RESET

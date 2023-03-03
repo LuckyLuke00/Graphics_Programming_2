@@ -34,7 +34,7 @@ void W1_AssignmentScene::Initialize()
 	//FLOOR
 	m_pFloor = new CubePosColorNorm(m_FloorSize, .0f, m_FloorSize, XMFLOAT4{ Colors::LightGray });
 	PxRigidStatic* pFloorActor{ pPhysX->createRigidStatic(PxTransform{ PxIdentity }) };
-	PxBoxGeometry floorGeometry{ PxBoxGeometry{ m_FloorSize * .5f, .0f, m_FloorSize * .5f } };
+	PxBoxGeometry floorGeometry{ PxBoxGeometry{ m_FloorSize * .5f, .01f, m_FloorSize * .5f } };
 	PxRigidActorExt::createExclusiveShape(*pFloorActor, floorGeometry, *pFloorMaterial);
 	m_pFloor->AttachRigidActor(pFloorActor);
 	AddGameObject(m_pFloor);
@@ -119,27 +119,27 @@ void W1_AssignmentScene::Update()
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Up)))
 	{
 		// Use ForwardVec
-		static_cast<PxRigidBody*>(m_pBall->GetRigidActor())->addTorque(PxVec3{ rightVec * speed });
+		m_pBall->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ rightVec * speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Down)))
 	{
-		static_cast<PxRigidBody*>(m_pBall->GetRigidActor())->addTorque(PxVec3{ rightVec * -speed });
+		m_pBall->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ rightVec * -speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Left)))
 	{
-		static_cast<PxRigidBody*>(m_pBall->GetRigidActor())->addTorque(PxVec3{ forwardVec * speed });
+		m_pBall->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ forwardVec * speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Right)))
 	{
-		static_cast<PxRigidBody*>(m_pBall->GetRigidActor())->addTorque(PxVec3{ forwardVec * -speed });
+		m_pBall->GetRigidActor()->is<PxRigidDynamic>()->addTorque({ forwardVec * -speed });
 	}
 
 	if (m_SceneContext.GetInput()->IsActionTriggered(static_cast<int>(InputIds::Jump)))
 	{
-		static_cast<PxRigidBody*>(m_pBall->GetRigidActor())->addForce(PxVec3{ .0f, speed * m_BallMass, .0f });
+		m_pBall->GetRigidActor()->is<PxRigidDynamic>()->addForce({ .0f, speed * m_BallMass, .0f });
 	}
 
 	// Reset
