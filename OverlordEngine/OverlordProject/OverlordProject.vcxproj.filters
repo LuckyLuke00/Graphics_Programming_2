@@ -9,6 +9,7 @@
     <ClCompile Include="Prefabs\SpherePrefab.cpp" />
     <ClCompile Include="Prefabs\TorusPrefab.cpp" />
     <ClCompile Include="Prefabs\CubePrefab.cpp" />
+    <ClCompile Include="Scenes\Week 3\ComponentTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -18,5 +19,6 @@
     <ClInclude Include="Prefabs\SpherePrefab.h" />
     <ClInclude Include="Prefabs\TorusPrefab.h" />
     <ClInclude Include="Prefabs\CubePrefab.h" />
+    <ClInclude Include="Scenes\Week 3\ComponentTestScene.h" />
   </ItemGroup>
 </Project>

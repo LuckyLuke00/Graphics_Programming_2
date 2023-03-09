@@ -97,6 +97,7 @@
     <ClCompile Include="Prefabs\SpherePrefab.cpp" />
     <ClCompile Include="Prefabs\TorusPrefab.cpp" />
     <ClCompile Include="Materials\ColorMaterial.cpp" />
+    <ClCompile Include="Scenes\Week 3\ComponentTestScene.cpp" />
     <ClCompile Include="Scenes\Week 3\MinionScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -124,6 +125,7 @@
     <ClInclude Include="Prefabs\SpherePrefab.h" />
     <ClInclude Include="Prefabs\TorusPrefab.h" />
     <ClInclude Include="Materials\ColorMaterial.h" />
+    <ClInclude Include="Scenes\Week 3\ComponentTestScene.h" />
     <ClInclude Include="Scenes\Week 3\MinionScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="MainGame.h" />
