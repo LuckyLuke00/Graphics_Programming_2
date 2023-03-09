@@ -6,10 +6,10 @@
 void ComponentTestScene::Initialize()
 {
 	auto& pPhysX{ PxGetPhysics() };
-	auto pBounceyMat{ pPhysX.createMaterial(0.5f, 0.5f, 1.f) };
+	auto pBouncyMat{ pPhysX.createMaterial(.5f, .5f, 1.f) };
 
 	// Ground Plane
-	GameSceneExt::CreatePhysXGroundPlane(*this, pBounceyMat);
+	GameSceneExt::CreatePhysXGroundPlane(*this, pBouncyMat);
 
 	// Sphere Red (Group 0)
 	auto pSphere{ new SpherePrefab(1, 10, XMFLOAT4(Colors::Red)) };
@@ -18,7 +18,7 @@ void ComponentTestScene::Initialize()
 	pSphere->GetTransform()->Translate(0.f, 30.f, 0.f);
 
 	auto pRigidBody{ pSphere->AddComponent(new RigidBodyComponent(false)) };
-	pRigidBody->AddCollider(PxSphereGeometry(1.f), *pBounceyMat);
+	pRigidBody->AddCollider(PxSphereGeometry(1.f), *pBouncyMat);
 	pRigidBody->SetCollisionGroup(CollisionGroup::Group0);
 	pRigidBody->SetCollisionIgnoreGroups(CollisionGroup::Group1 | CollisionGroup::Group2);
 
@@ -29,7 +29,7 @@ void ComponentTestScene::Initialize()
 	pSphere->GetTransform()->Translate(0.5f, 20.f, 0.f);
 
 	pRigidBody = pSphere->AddComponent(new RigidBodyComponent(false));
-	pRigidBody->AddCollider(PxSphereGeometry(1.f), *pBounceyMat);
+	pRigidBody->AddCollider(PxSphereGeometry(1.f), *pBouncyMat);
 	pRigidBody->SetCollisionGroup(CollisionGroup::Group1);
 	pRigidBody->SetConstraint(RigidBodyConstraint::TransX | RigidBodyConstraint::TransZ, false);
 
@@ -40,6 +40,6 @@ void ComponentTestScene::Initialize()
 	pSphere->GetTransform()->Translate(0.f, 10.f, 0.f);
 
 	pRigidBody = pSphere->AddComponent(new RigidBodyComponent(false));
-	pRigidBody->AddCollider(PxSphereGeometry(1.f), *pBounceyMat);
+	pRigidBody->AddCollider(PxSphereGeometry(1.f), *pBouncyMat);
 	pRigidBody->SetCollisionGroup(CollisionGroup::Group2);
 }

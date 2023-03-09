@@ -93,8 +93,8 @@ void MainGame::OnGamePreparing(GameContext& /*gameContext*/)
 void MainGame::Initialize()
 {
 #ifdef W3
-	SceneManager::Get()->AddGameScene(new MinionScene());
-	SceneManager::Get()->AddGameScene(new ComponentTestScene());
+	//SceneManager::Get()->AddGameScene(new MinionScene());
+	//SceneManager::Get()->AddGameScene(new ComponentTestScene());
 	SceneManager::Get()->AddGameScene(new PongScene());
 #endif
 
