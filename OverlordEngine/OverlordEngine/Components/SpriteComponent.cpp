@@ -18,15 +18,23 @@ void SpriteComponent::SetTexture(const std::wstring& spriteAsset)
 	m_pTexture = ContentManager::Load<TextureData>(m_SpriteAsset);
 }
 
-void SpriteComponent::Draw(const SceneContext& /*sceneContext*/)
+void SpriteComponent::Draw(const SceneContext& sceneContext)
 {
-	if (!m_pTexture)
-		return;
+	if (!m_pTexture) return;
 
-	TODO_W4(L"Draw the sprite with SpriteRenderer::Draw")
+	auto* spriteRenderer{ SpriteRenderer::Get() };
+	const auto* transform{ m_pGameObject->GetTransform() };
 
-		// Here you need to draw the SpriteComponent using the Draw of the sprite renderer
-		// The sprite renderer is a singleton
-		// you will need to position (X&Y should be in screenspace, Z contains the depth between [0,1]), the rotation and the scale from the owning GameObject
-		// You can use the MathHelper::QuaternionToEuler function to help you with the z rotation
+	spriteRenderer->AppendSprite
+	(
+		m_pTexture,
+		DirectX::XMFLOAT2{ transform->GetWorldPosition().x, transform->GetWorldPosition().y },
+		m_Color,
+		m_Pivot,
+		DirectX::XMFLOAT2{ transform->GetScale().x, transform->GetScale().y },
+		MathHelper::QuaternionToEuler(transform->GetWorldRotation()).z,
+		transform->GetPosition().z
+	);
+
+	spriteRenderer->Draw(sceneContext);
 }
