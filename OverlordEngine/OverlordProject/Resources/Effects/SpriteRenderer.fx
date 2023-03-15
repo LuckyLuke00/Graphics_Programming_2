@@ -1,5 +1,3 @@
-//INCOMPLETE!
-
 float4x4 gTransform : WorldViewProjection;
 Texture2D gSpriteTexture;
 float2 gTextureSize;
@@ -32,7 +30,7 @@ RasterizerState BackCulling
 //**************
 struct VS_DATA
 {
-    uint TextureId : TEXCOORD0;
+    uint TextureId : TEXCOORD0; //Can be ignored
     float4 TransformData : POSITION; //PosX, PosY, Depth (PosZ), Rotation
     float4 TransformData2 : POSITION1; //PivotX, PivotY, ScaleX, ScaleY
     float4 Color : COLOR;
@@ -116,7 +114,6 @@ void MainGS(point VS_DATA vertex[1], inout TriangleStream<GS_DATA> triStream)
 //************
 float4 MainPS(GS_DATA input) : SV_TARGET
 {
-
     return gSpriteTexture.Sample(samPoint, input.TexCoord) * input.Color;
 }
 

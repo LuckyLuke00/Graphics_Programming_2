@@ -11,6 +11,9 @@
     <ClCompile Include="Prefabs\CubePrefab.cpp" />
     <ClCompile Include="Scenes\Week 3\ComponentTestScene.cpp" />
     <ClCompile Include="Scenes\Week 3\PongScene.cpp" />
+    <ClCompile Include="Scenes\Week 4\ModelTestScene.cpp" />
+    <ClCompile Include="Materials\DiffuseMaterial.cpp" />
+    <ClCompile Include="Scenes\Week 4\SpriteTestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -22,5 +25,8 @@
     <ClInclude Include="Prefabs\CubePrefab.h" />
     <ClInclude Include="Scenes\Week 3\ComponentTestScene.h" />
     <ClInclude Include="Scenes\Week 3\PongScene.h" />
+    <ClInclude Include="Scenes\Week 4\ModelTestScene.h" />
+    <ClInclude Include="Materials\DiffuseMaterial.h" />
+    <ClInclude Include="Scenes\Week 4\SpriteTestScene.h" />
   </ItemGroup>
 </Project>

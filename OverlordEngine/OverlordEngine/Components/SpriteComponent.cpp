@@ -25,7 +25,7 @@ void SpriteComponent::Draw(const SceneContext& /*sceneContext*/)
 
 	TODO_W4(L"Draw the sprite with SpriteRenderer::Draw")
 
-		//Here you need to draw the SpriteComponent using the Draw of the sprite renderer
+		// Here you need to draw the SpriteComponent using the Draw of the sprite renderer
 		// The sprite renderer is a singleton
 		// you will need to position (X&Y should be in screenspace, Z contains the depth between [0,1]), the rotation and the scale from the owning GameObject
 		// You can use the MathHelper::QuaternionToEuler function to help you with the z rotation
