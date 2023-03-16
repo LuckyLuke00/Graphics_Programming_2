@@ -12,7 +12,6 @@ void SpikyScene::Initialize()
 	AddChild(m_pSphere);
 
 	m_pMaterial = MaterialManager::Get()->CreateMaterial<SpikyMaterial>();
-
 	m_pSphere->AddComponent(new ModelComponent(L"Meshes/OctaSphere.ovm"))->SetMaterial(m_pMaterial);
 }
 

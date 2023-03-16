@@ -1,4 +1,6 @@
 #pragma once
+class UberMaterial;
+
 class UberMaterialScene : public GameScene
 {
 public:
@@ -17,4 +19,5 @@ protected:
 
 private:
 	GameObject* m_pSphere{ nullptr };
+	UberMaterial* m_pMaterial = nullptr;
 };

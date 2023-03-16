@@ -85,7 +85,6 @@ void MainGS(point VS_DATA vertex[1], inout TriangleStream<GS_DATA> triStream)
 //PIXEL SHADER
 //************
 float4 MainPS(GS_DATA input) : SV_TARGET{
-
 	//Sample the texture and return the correct channel [Vertex.Channel]
 	//You can iterate a float4 just like an array, using the index operator
 	//Also, don't forget to colorize ;) [Vertex.Color]
@@ -95,7 +94,6 @@ float4 MainPS(GS_DATA input) : SV_TARGET{
 
 // Default Technique
 technique10 Default {
-
 	pass p0 {
 		SetRasterizerState(BackCulling);
 		SetBlendState(EnableBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
