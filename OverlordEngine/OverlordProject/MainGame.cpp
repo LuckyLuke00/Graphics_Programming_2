@@ -93,16 +93,16 @@ void MainGame::OnGamePreparing(GameContext& /*gameContext*/)
 void MainGame::Initialize()
 {
 #ifdef W3
-	//SceneManager::Get()->AddGameScene(new MinionScene());
-	//SceneManager::Get()->AddGameScene(new ComponentTestScene());
+	SceneManager::Get()->AddGameScene(new MinionScene());
+	SceneManager::Get()->AddGameScene(new ComponentTestScene());
 	SceneManager::Get()->AddGameScene(new PongScene());
 #endif
 
 #ifdef W4
-	//SceneManager::Get()->AddGameScene(new ModelTestScene());
+	SceneManager::Get()->AddGameScene(new ModelTestScene());
 	SceneManager::Get()->AddGameScene(new UberMaterialScene());
-	//SceneManager::Get()->AddGameScene(new SpikyScene());
-	//SceneManager::Get()->AddGameScene(new SpriteTestScene());
+	SceneManager::Get()->AddGameScene(new SpikyScene());
+	SceneManager::Get()->AddGameScene(new SpriteTestScene());
 #endif
 
 #ifdef W5

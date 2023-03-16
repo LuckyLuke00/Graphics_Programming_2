@@ -3,8 +3,6 @@
 
 #include "Materials/UberMaterial.h"
 
-
-
 void UberMaterialScene::Initialize()
 {
 	m_SceneContext.settings.drawGrid = false;

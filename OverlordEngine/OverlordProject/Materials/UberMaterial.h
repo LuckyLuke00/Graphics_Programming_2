@@ -16,7 +16,6 @@ public:
 	void SetOpacityTexture(const std::wstring& assetFile);
 	void SetEnvironmentTexture(const std::wstring& assetFile);
 
-
 protected:
 	void InitializeEffectVariables() override;
 };
