@@ -16,6 +16,8 @@
     <ClCompile Include="Scenes\Week 4\SpriteTestScene.cpp" />
     <ClCompile Include="Scenes\Week 4\SpikyScene.cpp" />
     <ClCompile Include="Materials\SpikyMaterial.cpp" />
+    <ClCompile Include="Scenes\Week 4\UberMaterialScene.cpp" />
+    <ClCompile Include="Materials\UberMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -32,5 +34,7 @@
     <ClInclude Include="Scenes\Week 4\SpriteTestScene.h" />
     <ClInclude Include="Scenes\Week 4\SpikyScene.h" />
     <ClInclude Include="Materials\SpikyMaterial.h" />
+    <ClInclude Include="Scenes\Week 4\UberMaterialScene.h" />
+    <ClInclude Include="Materials\UberMaterial.h" />
   </ItemGroup>
 </Project>

@@ -120,6 +120,8 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scenes\Week 4\UberMaterialScene.cpp" />
+    <ClCompile Include="Materials\UberMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OverlordEngine\OverlordEngine.vcxproj">
@@ -141,6 +143,8 @@
     <ClInclude Include="Materials\SpikyMaterial.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="Scenes\Week 4\UberMaterialScene.h" />
+    <ClInclude Include="Materials\UberMaterial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,5 +24,7 @@ void SpikyScene::Update()
 
 void SpikyScene::OnGUI()
 {
-	m_pMaterial->DrawImGui();
+	ImGui::ColorEdit3("Color", &m_pMaterial->m_ColorDiffuse.x);
+	ImGui::SliderFloat("Spike Length", &(m_pMaterial->m_SpikeLength), 0.f, 1.f);
+	m_pMaterial->UpdateEffectVariables();
 }

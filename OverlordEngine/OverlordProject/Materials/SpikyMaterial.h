@@ -10,6 +10,11 @@ public:
 	SpikyMaterial& operator=(const SpikyMaterial& other) = delete;
 	SpikyMaterial& operator=(SpikyMaterial&& other) noexcept = delete;
 
+	void UpdateEffectVariables() const;
+
+	float m_SpikeLength{ .2f };
+	XMFLOAT3 m_ColorDiffuse{ Colors::Red };
+
 protected:
 	void InitializeEffectVariables() override;
 };
