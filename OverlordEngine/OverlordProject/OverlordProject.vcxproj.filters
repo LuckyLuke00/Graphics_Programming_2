@@ -18,6 +18,8 @@
     <ClCompile Include="Materials\SpikyMaterial.cpp" />
     <ClCompile Include="Scenes\Week 4\UberMaterialScene.cpp" />
     <ClCompile Include="Materials\UberMaterial.cpp" />
+    <ClCompile Include="Scenes\Week 5\SoftwareSkinningScene_1.cpp" />
+    <ClCompile Include="Prefabs\BoneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -36,5 +38,7 @@
     <ClInclude Include="Materials\SpikyMaterial.h" />
     <ClInclude Include="Scenes\Week 4\UberMaterialScene.h" />
     <ClInclude Include="Materials\UberMaterial.h" />
+    <ClInclude Include="Scenes\Week 5\SoftwareSkinningScene_1.h" />
+    <ClInclude Include="Prefabs\BoneObject.h" />
   </ItemGroup>
 </Project>
