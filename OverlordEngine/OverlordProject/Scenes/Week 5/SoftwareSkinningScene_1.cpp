@@ -31,8 +31,26 @@ void SoftwareSkinningScene_1::Initialize()
 
 void SoftwareSkinningScene_1::Update()
 {
+	if (m_AutoRotate)
+	{
+		constexpr float rotationSpeed{ 45.f };
+		m_BoneRotation += rotationSpeed * static_cast<float>(m_RotationSign) * GetSceneContext().pGameTime->GetElapsed();
+		m_RotationSign *= (m_BoneRotation > 45.f || m_BoneRotation < -45.f) ? -1 : 1;
+
+		m_RotBone0.z = m_BoneRotation;
+		m_RotBone1.z = -m_BoneRotation * 2.f;
+	}
+
+	m_pBone0->GetTransform()->Rotate(m_RotBone0);
+	m_pBone1->GetTransform()->Rotate(m_RotBone1);
 }
 
 void SoftwareSkinningScene_1::OnGUI()
 {
+	ImGui::BeginDisabled(m_AutoRotate);
+	ImGui::DragFloat3("Bone 0 - ROT", &m_RotBone0.x);
+	ImGui::DragFloat3("Bone 1 - ROT", &m_RotBone1.x);
+	ImGui::EndDisabled();
+
+	ImGui::Checkbox("Auto Rotate", &m_AutoRotate);
 }

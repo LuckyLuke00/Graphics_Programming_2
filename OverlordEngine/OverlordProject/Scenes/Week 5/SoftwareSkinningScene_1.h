@@ -18,9 +18,13 @@ protected:
 	void OnGUI() override;
 
 private:
+	bool m_AutoRotate{ true };
+	float m_BoneRotation{ .0f };
+	int m_RotationSign{ 1 };
+
 	BoneObject* m_pBone0{ nullptr };
 	BoneObject* m_pBone1{ nullptr };
 
-	float m_BoneRotation{ .0f };
-	int m_RotationSign{ 1 };
+	XMFLOAT3 m_RotBone0{ .0f, .0f, .0f };
+	XMFLOAT3 m_RotBone1{ .0f, .0f, .0f };
 };
