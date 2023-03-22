@@ -107,6 +107,7 @@
     <ClCompile Include="Scenes\Week 4\SpikyScene.cpp" />
     <ClCompile Include="Materials\SpikyMaterial.cpp" />
     <ClCompile Include="Scenes\Week 5\SoftwareSkinningScene_1.cpp" />
+    <ClCompile Include="Scenes\Week 5\SoftwareSkinningScene_2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
@@ -145,6 +146,7 @@
     <ClInclude Include="Scenes\Week 4\SpikyScene.h" />
     <ClInclude Include="Materials\SpikyMaterial.h" />
     <ClInclude Include="Scenes\Week 5\SoftwareSkinningScene_1.h" />
+    <ClInclude Include="Scenes\Week 5\SoftwareSkinningScene_2.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Scenes\Week 4\UberMaterialScene.h" />

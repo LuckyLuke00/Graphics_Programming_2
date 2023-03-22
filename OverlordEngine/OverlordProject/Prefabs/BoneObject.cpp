@@ -18,6 +18,21 @@ void BoneObject::AddBone(BoneObject* pBone)
 	AddChild(pBone);
 }
 
+void BoneObject::CalculateBindPose()
+{
+	// Here we want to calculate the BindPose of the bone and all its children. The
+	// BindPose is simply the inverse of its World Matrix, store this in
+	// m_BindPose.This function will be called once, for every root bone – it’s important that the bone is
+	// aligned correctly with the mesh before the BindPose is calculated and set.
+	XMStoreFloat4x4(&m_BindPose, XMMatrixInverse(nullptr, XMLoadFloat4x4(&GetTransform()->GetWorld())));
+
+	// Loop through all children of the BoneObject(this)
+	for (const auto& pChild : GetChildren<BoneObject>())
+	{
+		pChild->CalculateBindPose();
+	}
+}
+
 void BoneObject::Initialize(const SceneContext&)
 {
 	// Create an empty GameObject
