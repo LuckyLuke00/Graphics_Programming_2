@@ -23,7 +23,6 @@
 #include "TriggerTestScene.h"
 #include "AudioTestScene.h"
 #include "W2_AssignmentScene.h"
-
 #endif
 
 namespace dae

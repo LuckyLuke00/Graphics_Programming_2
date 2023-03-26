@@ -79,13 +79,13 @@
 #pragma endregion
 
 //Game is preparing
-void MainGame::OnGamePreparing(GameContext& /*gameContext*/)
+void MainGame::OnGamePreparing(GameContext& gameContext)
 {
 	//Here you can change some game settings before engine initialize
 	//gameContext.windowWidth=... (default is 1280)
 	//gameContext.windowHeight=... (default is 720)
 
-	//gameContext.windowTitle = L"GP2 - Milestone 1 (2023) | (2DAE13) Doe John";
+	gameContext.windowTitle = L"GP2 - Milestone 1 (2023) | (2DAE15) Kinoo Lucas";
 	//gameContext.windowTitle = L"GP2 - Milestone 2 (2023) | (2DAE13) Doe John";
 	//gameContext.windowTitle = L"GP2 - Exam Project (2023) | (2DAE13) Doe John";
 }
