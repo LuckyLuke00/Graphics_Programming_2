@@ -5,7 +5,7 @@
 // #define W3
 // #define W4
 #define W5
-// #define W6
+//#define W6
 // #define W7
 // #define W8
 // #define W9
@@ -32,7 +32,7 @@
 #ifdef W5
 #include "Scenes/Week 5/SoftwareSkinningScene_1.h"
 #include "Scenes/Week 5/SoftwareSkinningScene_2.h"
-//#include "Scenes/Week 5/SoftwareSkinningScene_3.h"
+#include "Scenes/Week 5/SoftwareSkinningScene_3.h"
 #endif
 
 #ifdef W6
@@ -106,9 +106,9 @@ void MainGame::Initialize()
 #endif
 
 #ifdef W5
-	//SceneManager::Get()->AddGameScene(new SoftwareSkinningScene_1());
+	SceneManager::Get()->AddGameScene(new SoftwareSkinningScene_1());
 	SceneManager::Get()->AddGameScene(new SoftwareSkinningScene_2());
-	//SceneManager::Get()->AddGameScene(new SoftwareSkinningScene_3());
+	SceneManager::Get()->AddGameScene(new SoftwareSkinningScene_3());
 #endif
 
 #ifdef W6

@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Materials\DiffuseMaterial_Skinned.cpp" />
     <ClCompile Include="Prefabs\BoneObject.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial.cpp" />
     <ClCompile Include="Scenes\Week 3\PongScene.cpp" />
@@ -108,6 +109,8 @@
     <ClCompile Include="Materials\SpikyMaterial.cpp" />
     <ClCompile Include="Scenes\Week 5\SoftwareSkinningScene_1.cpp" />
     <ClCompile Include="Scenes\Week 5\SoftwareSkinningScene_2.cpp" />
+    <ClCompile Include="Scenes\Week 6\HardwareSkinningScene.cpp" />
+    <ClCompile Include="Scenes\Week 5\SoftwareSkinningScene_3.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
@@ -132,6 +135,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Materials\DiffuseMaterial_Skinned.h" />
     <ClInclude Include="Prefabs\BoneObject.h" />
     <ClInclude Include="Materials\DiffuseMaterial.h" />
     <ClInclude Include="Scenes\Week 3\PongScene.h" />
@@ -147,6 +151,8 @@
     <ClInclude Include="Materials\SpikyMaterial.h" />
     <ClInclude Include="Scenes\Week 5\SoftwareSkinningScene_1.h" />
     <ClInclude Include="Scenes\Week 5\SoftwareSkinningScene_2.h" />
+    <ClInclude Include="Scenes\Week 6\HardwareSkinningScene.h" />
+    <ClInclude Include="Scenes\Week 5\SoftwareSkinningScene_3.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Scenes\Week 4\UberMaterialScene.h" />
