@@ -50,10 +50,13 @@ void SoftwareSkinningScene_3::Update()
 
 	for (auto& vertex : m_SkinnedVertices)
 	{
-		XMVECTOR transformedPosition0{ XMVector3TransformCoord(XMLoadFloat3(&vertex.originalVertex.Position), boneTransform0) };
-		XMVECTOR transformedPosition1{ XMVector3TransformCoord(XMLoadFloat3(&vertex.originalVertex.Position), boneTransform1) };
+		if (vertex.blendWeight0 < 1.0f || vertex.blendWeight1 < 1.0f)
+		{
+			XMVECTOR transformedPosition0{ XMVector3TransformCoord(XMLoadFloat3(&vertex.originalVertex.Position), boneTransform0) };
+			XMVECTOR transformedPosition1{ XMVector3TransformCoord(XMLoadFloat3(&vertex.originalVertex.Position), boneTransform1) };
 
-		XMStoreFloat3(&vertex.transformedVertex.Position, XMVectorLerp(transformedPosition0, transformedPosition1, vertex.blendWeight1));
+			XMStoreFloat3(&vertex.transformedVertex.Position, XMVectorLerp(transformedPosition0, transformedPosition1, vertex.blendWeight1));
+		}
 	}
 
 	m_pMeshDrawer->RemoveTriangles();
