@@ -336,7 +336,7 @@ float3 CalculateDiffuse(float3 normal, float2 texCoord)
 {
 	float NdotL = saturate(dot(normal, -gLightDirection));
 	float NL = NdotL * 0.5 + 0.5;
-	return gUseTextureDiffuse ? gColorDiffuse * gTextureDiffuse.Sample(gTextureSampler, texCoord).rgb * NL : gColorDiffuse.rgb * NL;
+	return gUseTextureDiffuse ? gColorDiffuse.rgb * gTextureDiffuse.Sample(gTextureSampler, texCoord).rgb * NL : gColorDiffuse.rgb * NL;
 }
 
 float3 CalculateFresnelFalloff(float3 normal, float3 viewDirection, float3 environmentColor)
