@@ -22,6 +22,8 @@ public:
 	PxControllerCollisionFlags GetCollisionFlags() const { return m_CollisionFlag; }
 	PxController* GetPxController() const { return m_pController; }
 
+	bool IsGrounded() const { return GetCollisionFlags().isSet(PxControllerCollisionFlag::eCOLLISION_DOWN); }
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 	void OnSceneDetach(GameScene*) override;
