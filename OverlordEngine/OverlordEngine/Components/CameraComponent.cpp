@@ -63,8 +63,40 @@ void CameraComponent::SetActive(bool active)
 	pScene->SetActiveCamera(active ? this : nullptr); //Switch to default camera if active==false
 }
 
-GameObject* CameraComponent::Pick(CollisionGroup /*ignoreGroups*/) const
+GameObject* CameraComponent::Pick(CollisionGroup ignoreGroups) const
 {
-	TODO_W7(L"Implement Picking Logic")
-		return nullptr;
+	const auto pScene{ GetScene() };
+	const auto& sceneContext{ pScene->GetSceneContext() };
+
+	const auto halfWidth{ sceneContext.windowWidth * .5f };
+	const auto halfHeight{ sceneContext.windowHeight * .5f };
+
+	const auto mousePos{ InputManager::GetMousePosition() };
+
+	const auto ndcX{ (mousePos.x - halfWidth) / halfWidth };
+	const auto ndcY{ (halfHeight - mousePos.y) / halfHeight };
+
+	// Calculate near point and far point (and as such, the ray start and the direction)
+	// The inverse of the ViewProjection matrix makes sure that the NearPoint and FarPoint are defined in world space
+	const auto viewProjectionInv{ XMLoadFloat4x4(&GetViewProjectionInverse()) };
+
+	const auto nearPoint{ XMVector3TransformCoord(XMVectorSet(ndcX, ndcY, .0f, .0f), viewProjectionInv) };
+	const auto farPoint{ XMVector3TransformCoord(XMVectorSet(ndcX, ndcY, 1.f, .0f), viewProjectionInv) };
+
+	const PxVec3 rayStart{ XMVectorGetX(nearPoint), XMVectorGetY(nearPoint), XMVectorGetZ(nearPoint) };
+	const PxVec3 rayDir{ PxVec3{ XMVectorGetX(farPoint - nearPoint), XMVectorGetY(farPoint - nearPoint), XMVectorGetZ(farPoint - nearPoint) }.getNormalized() };
+
+	// Use PhysX to do a raycast
+	// The PhysxProxy already contains code to do a raycast.
+	PxQueryFilterData filterData{};
+	filterData.data.word0 = ~UINT(ignoreGroups);
+
+	if (PxRaycastBuffer hit{}; pScene->GetPhysxProxy()->Raycast(rayStart, rayDir, PX_MAX_F32, hit, PxHitFlag::eDEFAULT, filterData))
+	{
+		// If the raycast hits something, return the GameObject that was hit
+		// return reinterpret_cast<BaseComponent*>(hit.block.actor->userData)->GetGameObject();
+		return static_cast<BaseComponent*>(hit.getAnyHit(0).actor->userData)->GetGameObject();
+	}
+
+	return nullptr;
 }

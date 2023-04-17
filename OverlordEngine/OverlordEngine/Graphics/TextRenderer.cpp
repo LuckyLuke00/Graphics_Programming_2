@@ -9,10 +9,8 @@ TextRenderer::~TextRenderer()
 
 void TextRenderer::Initialize()
 {
-	TODO_W7(L"Complete TextRenderer.fx")
-
-		//Effect
-		m_pEffect = ContentManager::Load<ID3DX11Effect>(L"Effects/TextRenderer.fx");
+	//Effect
+	m_pEffect = ContentManager::Load<ID3DX11Effect>(L"Effects/TextRenderer.fx");
 	m_pTechnique = m_pEffect->GetTechniqueByIndex(0);
 	EffectHelper::BuildInputLayout(m_GameContext.d3dContext.pDevice, m_pTechnique, &m_pInputLayout);
 
