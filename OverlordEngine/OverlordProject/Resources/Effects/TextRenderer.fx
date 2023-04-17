@@ -1,5 +1,3 @@
-//INCOMPLETE!
-
 float4x4 gTransform : WORLDVIEWPROJECTION;
 Texture2D gSpriteTexture;
 float2 gTextureSize;
@@ -54,46 +52,54 @@ VS_DATA MainVS(VS_DATA input)
 void CreateVertex(inout TriangleStream<GS_DATA> triStream, float3 pos, float4 col, float2 texCoord, int channel)
 {
 	//Create a new GS_DATA object
+	GS_DATA vertex = (GS_DATA)0;
+
 	//Fill in all the fields
+	vertex.Position = mul(float4(pos, 1.0f), gTransform);
+	vertex.Color = col;
+	vertex.TexCoord = texCoord;
+	vertex.Channel = channel;
+
 	//Append it to the TriangleStream
+	triStream.Append(vertex);
 }
 
 [maxvertexcount(4)]
 void MainGS(point VS_DATA vertex[1], inout TriangleStream<GS_DATA> triStream)
 {
-	//REMOVE THIS >
-	GS_DATA dummyData = (GS_DATA)0; //Just some dummy data
-	triStream.Append(dummyData); //The geometry shader needs to emit something, see what happens if it doesn't emit anything.
-	//< STOP REMOVING
-
 	//Create a Quad using the character information of the given vertex
 	//Note that the Vertex.CharSize is in screenspace, TextureCoordinates aren't ;) [Range 0 > 1]
+	float2 texCoord = vertex[0].TexCoord;
+	float2 texSize = vertex[0].CharSize / gTextureSize;
+	float3 pos = vertex[0].Position;
 
 	//1. Vertex Left-Top
-	//CreateVertex(...);
+	CreateVertex(triStream, pos, vertex[0].Color, texCoord, vertex[0].Channel);
 
 	//2. Vertex Right-Top
-	//...
+	CreateVertex(triStream, pos + float3(vertex[0].CharSize.x, 0, 0), vertex[0].Color, texCoord + float2 (texSize.x, 0), vertex[0].Channel);
 
 	//3. Vertex Left-Bottom
-	//...
+	CreateVertex(triStream, pos + float3(0, vertex[0].CharSize.y, 0), vertex[0].Color, texCoord + float2 (0, texSize.y), vertex[0].Channel);
 
 	//4. Vertex Right-Bottom
-	//...
+	CreateVertex(triStream, pos + float3(vertex[0].CharSize, 0), vertex[0].Color, texCoord + texSize, vertex[0].Channel);
 }
 
 //PIXEL SHADER
 //************
 float4 MainPS(GS_DATA input) : SV_TARGET{
+
 	//Sample the texture and return the correct channel [Vertex.Channel]
 	//You can iterate a float4 just like an array, using the index operator
 	//Also, don't forget to colorize ;) [Vertex.Color]
 
-	return input.Color; //TEMP
+	return gSpriteTexture.Sample(samPoint, input.TexCoord)[input.Channel] * input.Color;
 }
 
 // Default Technique
 technique10 Default {
+
 	pass p0 {
 		SetRasterizerState(BackCulling);
 		SetBlendState(EnableBlending, float4(0.0f, 0.0f, 0.0f, 0.0f), 0xFFFFFFFF);
