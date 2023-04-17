@@ -10,7 +10,27 @@ void ControllerComponent::Initialize(const SceneContext& /*sceneContext*/)
 {
 	if (!m_IsInitialized)
 	{
-		TODO_W7(L"Complete the ControllerComponent Intialization")
+		// Set position using the TransformComponent
+		const auto pos{ GetTransform()->GetPosition() };
+		m_ControllerDesc.position = physx::PxExtendedVec3(pos.x, pos.y, pos.z);
+
+		// Store pointer to ControllerComponent in userData
+		m_ControllerDesc.userData = this;
+
+		// Retrieve PxControllerManager from PhysxProxy
+		physx::PxControllerManager* pControllerManager{ GetScene()->GetPhysxProxy()->GetControllerManager() };
+
+		// Create PxController
+		m_pController = pControllerManager->createController(m_ControllerDesc);
+		ASSERT_NULL(m_pController, L"Failed to create PxController!");
+
+		// Store pointer of ControllerComponent in userData field of the underlying PxActor
+		physx::PxActor* pActor = m_pController->getActor();
+		pActor->userData = this;
+
+		// Set Collision Group and Collision Ignore Group
+		SetCollisionGroup(static_cast<CollisionGroup>(m_CollisionGroups.word0));
+		SetCollisionIgnoreGroup(static_cast<CollisionGroup>(m_CollisionGroups.word1));
 	}
 }
 
