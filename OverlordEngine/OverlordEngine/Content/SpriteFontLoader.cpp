@@ -25,8 +25,8 @@ SpriteFont* SpriteFontLoader::LoadContent(const ContentLoadInfo& loadInfo)
 	}
 
 	//Parse the version (version 3 required)
-	const int version{ pReader->Read<int>() };
-	if (version < 3)
+	const int version{ pReader->Read<char>() };
+	if (version != 3)
 	{
 		Logger::LogError(L"SpriteFontLoader::LoadContent > Only .fnt version 3 is supported");
 		return nullptr;
@@ -41,7 +41,7 @@ SpriteFont* SpriteFontLoader::LoadContent(const ContentLoadInfo& loadInfo)
 	//**********
 	{
 		//Retrieve the blockId and blockSize
-		pReader->MoveBufferPosition(4);
+		pReader->MoveBufferPosition(7);
 
 		//Retrieve the FontSize [fontDesc.fontSize]
 		fontDesc.fontSize = pReader->Read<short>();
