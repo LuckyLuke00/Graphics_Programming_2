@@ -42,11 +42,11 @@ void ModelComponent::Initialize(const SceneContext& sceneContext)
 
 	if (m_CastShadows) //Only if we cast a shadow of course..
 	{
-		TODO_W8(L"Update MeshFilter for ShadowMapGenerator")
-			//1. Use ShadowMapRenderer::UpdateMeshFilter to update this MeshFilter for ShadowMap Rendering
+		//1. Use ShadowMapRenderer::UpdateMeshFilter to update this MeshFilter for ShadowMap Rendering
+		ShadowMapRenderer::Get()->UpdateMeshFilter(sceneContext, m_pMeshFilter);
 
-			TODO_W8(L"Enable ShadowMapDraw function call (m_enableShadowMapDraw = true)")
-			//2. Make sure to set m_enableShadowMapDraw to true, otherwise BaseComponent::ShadowMapDraw is not called
+		//2. Make sure to set m_enableShadowMapDraw to true, otherwise BaseComponent::ShadowMapDraw is not called
+		m_enableShadowMapDraw = true;
 	}
 }
 
@@ -102,16 +102,23 @@ void ModelComponent::Draw(const SceneContext& sceneContext)
 	}
 }
 
-void ModelComponent::ShadowMapDraw(const SceneContext& /*sceneContext*/)
+void ModelComponent::ShadowMapDraw(const SceneContext& sceneContext)
 {
 	//We only draw this Mesh to the ShadowMap if it casts shadows
-	if (!m_CastShadows)return;
+	if (!m_CastShadows) return;
 
-	TODO_W8(L"Draw Mesh to ShadowMapRenderer (Static/Skinned)")
-		//This function is only called during the ShadowPass (and if m_enableShadowMapDraw is true)
-		//Here we want to Draw this Mesh to the ShadowMap, using the ShadowMapRenderer::DrawMesh function
+	//This function is only called during the ShadowPass (and if m_enableShadowMapDraw is true)
+	//Here we want to Draw this Mesh to the ShadowMap, using the ShadowMapRenderer::DrawMesh function
 
-		//1. Call ShadowMapRenderer::DrawMesh with the required function arguments BUT boneTransforms are only required for skinned meshes of course..
+	//1. Call ShadowMapRenderer::DrawMesh with the required function arguments BUT boneTransforms are only required for skinned meshes of course..
+	if (m_pMeshFilter->HasAnimations())
+	{
+		ShadowMapRenderer::Get()->DrawMesh(sceneContext, m_pMeshFilter, GetTransform()->GetWorld(), m_pAnimator->GetBoneTransforms());
+	}
+	else
+	{
+		ShadowMapRenderer::Get()->DrawMesh(sceneContext, m_pMeshFilter, GetTransform()->GetWorld());
+	}
 }
 
 void ModelComponent::SetMaterial(BaseMaterial* pMaterial, UINT8 submeshId)
