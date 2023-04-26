@@ -106,25 +106,44 @@ void PostProcessingMaterial::UpdateBaseEffectVariables(const SceneContext& /*sce
 	//In case we want to use pSource as a RTV (RenderTargetView, render to) we have to unbind it first as an SRV
 }
 
-void PostProcessingMaterial::DrawPass(const SceneContext& /*sceneContext*/, ID3DX11EffectTechnique* /*pTechnique*/, RenderTarget* /*pDestination*/)
+void PostProcessingMaterial::DrawPass(const SceneContext& sceneContext, ID3DX11EffectTechnique* pTechnique, RenderTarget* pDestination)
 {
-	TODO_W10(L"Implement PostProcessingMaterial Draw function")
-		//This function invokes a Draw Call for our full screen quad
-		//The draw call uses pTechnique for rendering and renders to the given destination RenderTarget (pDestination)
+	//This function invokes a Draw Call for our full screen quad
+	//The draw call uses pTechnique for rendering and renders to the given destination RenderTarget (pDestination)
 
-		//In case you have a PP effect with multiple passes, you can easily reuse this function and call it with different Techniques from different Effects.
-		//The logic of drawing the passes, and updating the relevant variables for each pass can be coded in the overloaded Draw function of your derived post processing effect.
+	//In case you have a PP effect with multiple passes, you can easily reuse this function and call it with different Techniques from different Effects.
+	//The logic of drawing the passes, and updating the relevant variables for each pass can be coded in the overloaded Draw function of your derived post processing effect.
 
-		//1. Bind the Destination RenderTarget (pDestination) to the pipeline
-		//		- Easily achieved by calling OverlordGame::SetRenderTarget (m_GameContext has a reference to OverlordGame)
-		//2. Clear the destination RT with a Purple color
-		//		- Using purple will make debugging easier, when the screen is purple you'll know something is wrong with your post-processing effects
+	//1. Bind the Destination RenderTarget (pDestination) to the pipeline
+	//		- Easily achieved by calling OverlordGame::SetRenderTarget (m_GameContext has a reference to OverlordGame
+	m_GameContext.pGame->SetRenderTarget(pDestination);
 
-		//3. Set The Pipeline!
-		//		- Set Inputlayout > m_pDefaultInputLayout (The inputlayout for all post-processing effects should 'normally' be the same POSITION/TEXCOORD)
-		//		- Set PrimitiveTopology (check the VertexBuffer for the correct topology)
-		//		- Set VertexBuffer > m_pDefaultVertexBuffer (Represents a full screen quad, already defined in clipping space)
-		//		- Iterate the technique passes (same as usual)
-		//			- apply the pass
-		//			- DRAW! (use the m_VertexCount constant for the number of vertices)
+	//2. Clear the destination RT with a Purple color
+	//		- Using purple will make debugging easier, when the screen is purple you'll know something is wrong with your post-processing effects
+	pDestination->Clear(DirectX::XMFLOAT4{ Colors::Purple });
+
+	//3. Set The Pipeline!
+	// - Set Inputlayout > m_pDefaultInputLayout (The inputlayout for all post-processing effects should 'normally' be the same POSITION/TEXCOORD)
+	const auto pDeviceContext{ sceneContext.d3dContext.pDeviceContext };
+	pDeviceContext->IASetInputLayout(m_pDefaultInputLayout);
+
+	// - Set PrimitiveTopology (check the VertexBuffer for the correct topology)
+	pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	// - Set VertexBuffer > m_pDefaultVertexBuffer (Represents a full screen quad, already defined in clipping space)
+	UINT stride{ sizeof(VertexPosTex) };
+	UINT offset{ 0 };
+	pDeviceContext->IASetVertexBuffers(0, 1, &m_pDefaultVertexBuffer, &stride, &offset);
+
+	// - Iterate the technique passes (same as usual)
+	D3DX11_TECHNIQUE_DESC techniqueDesc{};
+	pTechnique->GetDesc(&techniqueDesc);
+	for (uint32_t pass{ 0 }; pass < techniqueDesc.Passes; ++pass)
+	{
+		// - Apply the pass
+		pTechnique->GetPassByIndex(pass)->Apply(0, pDeviceContext);
+
+		// - DRAW! (use the m_VertexCount constant for the number of vertices)
+		pDeviceContext->Draw(m_VertexCount, 0);
+	}
 }

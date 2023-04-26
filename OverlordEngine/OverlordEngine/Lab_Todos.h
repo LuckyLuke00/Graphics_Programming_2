@@ -5,7 +5,7 @@
 #define LAB_W7
 #define LAB_W8
 #define LAB_W9
-//#define LAB_W10
+#define LAB_W10
 
 #ifdef LAB_W4
 #define TODO_W4(msg) Logger::LogTodo(L"[LAB W4] " msg);

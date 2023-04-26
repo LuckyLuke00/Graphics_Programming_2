@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "PostProcessingScene.h"
 
-//Uncomment for shadow variants
-//#include "Materials/Shadow/DiffuseMaterial_Shadow.h"
-//#include "Materials/Shadow/DiffuseMaterial_Shadow_Skinned.h"
+#include "Materials/Shadow/DiffuseMaterial_Shadow.h"
+#include "Materials/Shadow/DiffuseMaterial_Shadow_Skinned.h"
 
 #include "Materials/DiffuseMaterial.h"
 #include "Materials/DiffuseMaterial_Skinned.h"
 
 #include "Materials/Post/PostGrayscale.h"
-//#include "Materials/Post/PostBlur.h"
+#include "Materials/Post/PostBlur.h"
 
 void PostProcessingScene::Initialize()
 {
@@ -20,12 +19,10 @@ void PostProcessingScene::Initialize()
 
 	//Materials
 	//*********
-	//const auto pPeasantMaterial = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow_Skinned>(); //Shadow variant
-	const auto pPeasantMaterial = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	const auto pPeasantMaterial = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow_Skinned>(); //Shadow variant
 	pPeasantMaterial->SetDiffuseTexture(L"Textures/PeasantGirl_Diffuse.png");
 
-	//const auto pGroundMaterial = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>(); //Shadow variant
-	const auto pGroundMaterial = MaterialManager::Get()->CreateMaterial<DiffuseMaterial>();
+	const auto pGroundMaterial = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>(); //Shadow variant
 	pGroundMaterial->SetDiffuseTexture(L"Textures/GroundBrick.jpg");
 
 	//Ground Mesh
@@ -56,14 +53,10 @@ void PostProcessingScene::Initialize()
 	//Post Processing Stack
 	//=====================
 	m_pPostGrayscale = MaterialManager::Get()->CreateMaterial<PostGrayscale>();
-	//m_pPostBlur = ...
+	m_pPostBlur = MaterialManager::Get()->CreateMaterial<PostBlur>();
 
 	AddPostProcessingEffect(m_pPostGrayscale);
-
-	//TODO_W10
-	//Create and add a PostBlur material class (using Blur.fx)
-	//Add the material to the PostProcessing Stack + Uncomment the corresponding ImGui code below
-	//If you already have shadow mapping working you can change the code above to use the shadow variant shaders
+	AddPostProcessingEffect(m_pPostBlur);
 }
 
 void PostProcessingScene::OnGUI()
@@ -72,7 +65,7 @@ void PostProcessingScene::OnGUI()
 	ImGui::Checkbox("Grayscale PP", &isEnabled);
 	m_pPostGrayscale->SetIsEnabled(isEnabled);
 
-	//isEnabled = m_pPostBlur->IsEnabled();
-	//ImGui::Checkbox("Blur PP", &isEnabled);
-	//m_pPostBlur->SetIsEnabled(isEnabled);
+	isEnabled = m_pPostBlur->IsEnabled();
+	ImGui::Checkbox("Blur PP", &isEnabled);
+	m_pPostBlur->SetIsEnabled(isEnabled);
 }
