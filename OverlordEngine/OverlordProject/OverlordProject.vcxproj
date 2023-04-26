@@ -93,9 +93,11 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Materials\Post\PostGrayscale.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\Shadow\DiffuseMaterial_Shadow_Skinned.cpp" />
     <ClCompile Include="Prefabs\Character.cpp" />
+    <ClCompile Include="Scenes\Week 10\PostProcessingScene.cpp" />
     <ClCompile Include="Scenes\Week 7\CharacterScene.cpp" />
     <ClCompile Include="Scenes\Week 7\FontTestScene.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Skinned.cpp" />
@@ -143,9 +145,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Materials\Post\PostGrayscale.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\Shadow\DiffuseMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Prefabs\Character.h" />
+    <ClInclude Include="Scenes\Week 10\PostProcessingScene.h" />
     <ClInclude Include="Scenes\Week 7\CharacterScene.h" />
     <ClInclude Include="Scenes\Week 7\FontTestScene.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Skinned.h" />
