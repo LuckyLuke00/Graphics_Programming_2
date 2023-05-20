@@ -36,6 +36,8 @@
     <ClCompile Include="Materials\Post\PostGrayscale.cpp" />
     <ClCompile Include="Materials\Post\PostBlur.cpp" />
     <ClCompile Include="Scenes\Exam\ExamScene.cpp" />
+    <ClCompile Include="Prefabs\Exam\UI\UIManager.cpp" />
+    <ClCompile Include="Prefabs\Exam\UI\Buttons\UIButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -72,5 +74,7 @@
     <ClInclude Include="Materials\Post\PostGrayscale.h" />
     <ClInclude Include="Materials\Post\PostBlur.h" />
     <ClInclude Include="Scenes\Exam\ExamScene.h" />
+    <ClInclude Include="Prefabs\Exam\UI\UIManager.h" />
+    <ClInclude Include="Prefabs\Exam\UI\Buttons\UIButton.h" />
   </ItemGroup>
 </Project>

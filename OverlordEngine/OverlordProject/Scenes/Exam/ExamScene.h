@@ -1,5 +1,7 @@
 #pragma once
 
+class UIManager;
+
 class ExamScene final : public GameScene
 {
 public:
@@ -31,4 +33,9 @@ private:
 
 	// Variable that stores the current menu
 	Menus m_CurrentMenu{ Menus::None };
+	UIManager* m_pUIManager{ };
+
+	// OnClick functions for the buttons
+	void ExitGame();
+	void StartGame();
 };

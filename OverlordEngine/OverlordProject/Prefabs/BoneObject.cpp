@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BoneObject.h"
+#include "BoneObject.h"
 
 BoneObject::BoneObject(BaseMaterial* pMaterial, float length) :
 	m_Length{ length },

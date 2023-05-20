@@ -31,7 +31,7 @@ struct SpriteFontDesc
 class SpriteFont final
 {
 public:
-	SpriteFont(const SpriteFontDesc& fontDesc);
+	explicit SpriteFont(const SpriteFontDesc& fontDesc);
 	~SpriteFont() = default;
 	SpriteFont(const SpriteFont& other) = delete;
 	SpriteFont(SpriteFont&& other) noexcept = delete;
@@ -44,6 +44,9 @@ public:
 	short GetSize() const { return m_FontDesc.fontSize; }
 	bool HasMetric(const wchar_t& character) const { return m_FontDesc.metrics.contains(character); };
 	const FontMetric& GetMetric(const wchar_t& character) const { return m_FontDesc.metrics.at(character); };
+
+	// Function that calculates the width and height of a string
+	static XMFLOAT2 MeasureString(const std::wstring_view& text, const SpriteFont* pFont);
 
 private:
 	SpriteFontDesc m_FontDesc;

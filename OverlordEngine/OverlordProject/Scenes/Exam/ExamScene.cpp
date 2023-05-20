@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ExamScene.h"
+#include "Prefabs/Exam/UI/Buttons/UIButton.h"
+#include "Prefabs/Exam/UI/UIManager.h"
 
 void ExamScene::Initialize()
 {
@@ -11,8 +13,28 @@ void ExamScene::Initialize()
 	AddChild(pCameraObject);
 	SetActiveCamera(pCameraObject->GetComponent<CameraComponent>());
 
+	m_pUIManager = new UIManager{};
+	AddChild(m_pUIManager);
+
 	LoadSprites();
 	LoadMenu(Menus::MainMenu);
+
+	// Create a button
+	auto pFont{ ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt") };
+	auto pButtonOne{ new UIButton{ pFont, L"Start Game", { 100, 100 } } };
+	auto pButtonTwo{ new UIButton{ pFont, L"Exit Game", { 100, 200 } } };
+
+	pButtonOne->SetOnClickFunction(std::bind_front(&ExamScene::StartGame, this));
+	pButtonTwo->SetOnClickFunction(std::bind_front(&ExamScene::ExitGame, this));
+
+	AddChild(pButtonOne);
+	AddChild(pButtonTwo);
+
+	m_pUIManager->AddButton(pButtonOne);
+	m_pUIManager->AddButton(pButtonTwo);
+
+	// Enable input
+	m_pUIManager->EnableInput();
 }
 
 void ExamScene::LoadMenu(const Menus& menu)
@@ -39,4 +61,14 @@ void ExamScene::LoadSprites()
 	// Load all menu sprites
 	m_pMenuBackgroundSprites[Menus::MainMenu] = new GameObject();
 	m_pMenuBackgroundSprites[Menus::MainMenu]->AddComponent(new SpriteComponent(L"Textures/Menus/MainMenu_Background.png"));
+}
+
+void ExamScene::ExitGame()
+{
+	std::cout << "Exit Game" << std::endl;
+}
+
+void ExamScene::StartGame()
+{
+	std::cout << "Start Game" << std::endl;
 }
