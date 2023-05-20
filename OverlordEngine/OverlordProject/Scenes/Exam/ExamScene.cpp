@@ -27,11 +27,16 @@ void ExamScene::Initialize()
 	pButtonOne->SetOnClickFunction(std::bind_front(&ExamScene::StartGame, this));
 	pButtonTwo->SetOnClickFunction(std::bind_front(&ExamScene::ExitGame, this));
 
+	pButtonOne->SetNavigationButtons(pButtonTwo, pButtonTwo, nullptr, nullptr);
+	pButtonTwo->SetNavigationButtons(pButtonOne, pButtonOne, nullptr, nullptr);
+
 	AddChild(pButtonOne);
 	AddChild(pButtonTwo);
 
 	m_pUIManager->AddButton(pButtonOne);
 	m_pUIManager->AddButton(pButtonTwo);
+
+	m_pUIManager->SetFirstSelectedButton(pButtonOne);
 
 	// Enable input
 	m_pUIManager->EnableInput();

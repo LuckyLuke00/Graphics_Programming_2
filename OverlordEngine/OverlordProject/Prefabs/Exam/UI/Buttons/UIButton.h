@@ -11,8 +11,8 @@ public:
 	UIButton& operator=(UIButton&& other) noexcept = delete;
 
 	bool IsSelected() const { return m_IsSelected; }
-	void Select() { m_IsSelected = true; }
-	void Deselect() { m_IsSelected = false; }
+	void Select() { m_IsSelected = true; m_IsUsingNavigation = true; }
+	void Deselect() { m_IsSelected = false; m_IsUsingNavigation = true; }
 
 	void OnClick() const;
 
@@ -22,10 +22,26 @@ public:
 	void SetSelectedColor(const DirectX::XMFLOAT4& color) { m_SelectedColor = color; }
 	void SetText(const std::wstring_view& text) { m_Text = text; }
 
+	// Set the navigation buttons for the button
+	void SetNavigationButtons(UIButton* pUp, UIButton* pDown, UIButton* pLeft, UIButton* pRight);
+	bool IsMouseHovering() const;
+
+	// Getter for the navigation buttons
+	UIButton* GetUpButton() const { return m_pNavigationButtons[0]; }
+	UIButton* GetDownButton() const { return m_pNavigationButtons[1]; }
+	UIButton* GetLeftButton() const { return m_pNavigationButtons[2]; }
+	UIButton* GetRightButton() const { return m_pNavigationButtons[3]; }
+
+	static void SetIsUsingNavigation(bool isUsingNavigation) { m_IsUsingNavigation = isUsingNavigation; }
+
 protected:
 	void Update(const SceneContext&) override;
 
 private:
+	static bool m_IsUsingNavigation;
+
+	std::vector<UIButton*> m_pNavigationButtons;
+
 	SpriteFont* m_pFont{ nullptr };
 	std::wstring m_Text{ L"Button Text" };
 	DirectX::XMFLOAT2 m_Position{ .0f, .0f };

@@ -15,6 +15,7 @@ public:
 	void AddButton(UIButton* pButton);
 	void SetFirstSelectedButton(UIButton* pButton);
 	void SetSelectedButton(size_t index);
+	void SetSelectedButton(UIButton* pButton);
 
 	void EnableInput() const;
 	void DisableInput();
@@ -33,7 +34,10 @@ private:
 	};
 
 	// Container for all the buttons
+	bool m_UsingButtonNavigation{ false };
 	size_t m_FirstSelectedButtonIndex{ 0 };
 	size_t m_SelectedButtonIndex{ 0 };
 	std::vector<UIButton*> m_pButtons;
+
+	void UpdateInput();
 };

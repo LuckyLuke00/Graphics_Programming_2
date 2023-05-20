@@ -7,27 +7,23 @@ void UIManager::Update(const SceneContext&)
 	// If there are no buttons, or none of the buttons are selected, return
 	if (m_pButtons.empty()) return;
 
-	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
-
 	// For every button, check if it's selected
-	for (size_t i{}; i < m_pButtons.size(); ++i)
+	if (!m_UsingButtonNavigation)
 	{
-		// If the button is selected, break out of the loop
-		if (m_pButtons[i]->IsSelected())
+		for (size_t i{}; i < m_pButtons.size(); ++i)
 		{
-			m_SelectedButtonIndex = i;
-			break;
+			// If the button is selected, break out of the loop
+			if (m_pButtons[i]->IsSelected())
+			{
+				m_SelectedButtonIndex = i;
+				break;
+			}
 		}
 	}
 
-	// If the selectect button index is out of range, or not selected at all return
-	if (m_SelectedButtonIndex >= m_pButtons.size() || !m_pButtons[m_SelectedButtonIndex]->IsSelected()) return;
+	if (m_SelectedButtonIndex >= m_pButtons.size()) return;
 
-	// If the submit button is pressed, call the OnClick function of the selected button
-	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Submit)))
-	{
-		m_pButtons[m_SelectedButtonIndex]->OnClick();
-	}
+	UpdateInput();
 }
 
 void UIManager::SetFirstSelectedButton(UIButton* pButton)
@@ -53,7 +49,7 @@ void UIManager::AddButton(UIButton* pButton)
 void UIManager::SetSelectedButton(size_t index)
 {
 	// If the index is out of range, or the index is the same as the current index, return
-	if (index >= m_pButtons.size() || m_SelectedButtonIndex == index) return;
+	if (index >= m_pButtons.size()) return;
 
 	// Deselect the current button
 	m_pButtons[m_SelectedButtonIndex]->Deselect();
@@ -61,6 +57,23 @@ void UIManager::SetSelectedButton(size_t index)
 	// Set the index of the selected button
 	m_SelectedButtonIndex = index;
 	m_pButtons[m_SelectedButtonIndex]->Select();
+}
+
+void UIManager::SetSelectedButton(UIButton* pButton)
+{
+	if (!pButton) return;
+
+	// Find the index of the button
+	const auto it{ std::ranges::find(m_pButtons, pButton) };
+	if (it != m_pButtons.end())
+	{
+		// De-select the current button
+		m_pButtons[m_SelectedButtonIndex]->Deselect();
+
+		// Set the index of the selected button
+		m_SelectedButtonIndex = std::distance(m_pButtons.begin(), it);
+		m_pButtons[m_SelectedButtonIndex]->Select();
+	}
 }
 
 void UIManager::EnableInput() const
@@ -88,4 +101,80 @@ void UIManager::EnableInput() const
 
 void UIManager::DisableInput()
 {
+}
+
+void UIManager::UpdateInput()
+{
+	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
+
+	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Submit)))
+	{
+		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected()) return;
+
+		// Prevents the button from being clicked when the mouse is not hovering over the button
+		if (InputManager::IsMouseButton(InputState::pressed, VK_LBUTTON) && !m_pButtons[m_SelectedButtonIndex]->IsMouseHovering())
+		{
+			UIButton::SetIsUsingNavigation(false);
+			return;
+		}
+
+		m_pButtons[m_SelectedButtonIndex]->OnClick();
+		return;
+	}
+
+	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Up)))
+	{
+		m_UsingButtonNavigation = true;
+		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		{
+			SetSelectedButton(m_FirstSelectedButtonIndex);
+			return;
+		}
+
+		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetUpButton());
+
+		return;
+	}
+
+	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Down)))
+	{
+		m_UsingButtonNavigation = true;
+		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		{
+			SetSelectedButton(m_FirstSelectedButtonIndex);
+			return;
+		}
+
+		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetDownButton());
+
+		return;
+	}
+
+	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Left)))
+	{
+		m_UsingButtonNavigation = true;
+		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		{
+			SetSelectedButton(m_FirstSelectedButtonIndex);
+			return;
+		}
+
+		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetLeftButton());
+
+		return;
+	}
+
+	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Right)))
+	{
+		m_UsingButtonNavigation = true;
+		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		{
+			SetSelectedButton(m_FirstSelectedButtonIndex);
+			return;
+		}
+
+		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetRightButton());
+
+		return;
+	}
 }
