@@ -35,9 +35,10 @@
     <ClCompile Include="Scenes\Week 10\PostProcessingScene.cpp" />
     <ClCompile Include="Materials\Post\PostGrayscale.cpp" />
     <ClCompile Include="Materials\Post\PostBlur.cpp" />
-    <ClCompile Include="Scenes\Exam\ExamScene.cpp" />
+    <ClCompile Include="Scenes\Exam\MainMenuScene.cpp" />
     <ClCompile Include="Prefabs\Exam\UI\UIManager.cpp" />
     <ClCompile Include="Prefabs\Exam\UI\Buttons\UIButton.cpp" />
+    <ClCompile Include="Scenes\Exam\LevelScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -73,8 +74,9 @@
     <ClInclude Include="Scenes\Week 10\PostProcessingScene.h" />
     <ClInclude Include="Materials\Post\PostGrayscale.h" />
     <ClInclude Include="Materials\Post\PostBlur.h" />
-    <ClInclude Include="Scenes\Exam\ExamScene.h" />
+    <ClInclude Include="Scenes\Exam\MainMenuScene.h" />
     <ClInclude Include="Prefabs\Exam\UI\UIManager.h" />
     <ClInclude Include="Prefabs\Exam\UI\Buttons\UIButton.h" />
+    <ClInclude Include="Scenes\Exam\LevelScene.h" />
   </ItemGroup>
 </Project>

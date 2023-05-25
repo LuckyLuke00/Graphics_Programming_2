@@ -2,16 +2,16 @@
 
 class UIManager;
 
-class ExamScene final : public GameScene
+class MainMenuScene final : public GameScene
 {
 public:
-	ExamScene() : GameScene(L"ExamScene Test Scene") {}
-	~ExamScene() override = default;
+	MainMenuScene() : GameScene(L"MainMenuScene") {}
+	~MainMenuScene() override = default;
 
-	ExamScene(const ExamScene& other) = delete;
-	ExamScene(ExamScene&& other) noexcept = delete;
-	ExamScene& operator=(const ExamScene& other) = delete;
-	ExamScene& operator=(ExamScene&& other) noexcept = delete;
+	MainMenuScene(const MainMenuScene& other) = delete;
+	MainMenuScene(MainMenuScene&& other) noexcept = delete;
+	MainMenuScene& operator=(const MainMenuScene& other) = delete;
+	MainMenuScene& operator=(MainMenuScene&& other) noexcept = delete;
 
 protected:
 	void Initialize() override;

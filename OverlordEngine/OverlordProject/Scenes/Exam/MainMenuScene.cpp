@@ -1,13 +1,10 @@
 #include "stdafx.h"
-#include "ExamScene.h"
+#include "MainMenuScene.h"
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
 #include "Prefabs/Exam/UI/UIManager.h"
 
-void ExamScene::Initialize()
+void MainMenuScene::Initialize()
 {
-	//auto& pPhysX{ PxGetPhysics() };
-	//auto pDefaultMaterial{ pPhysX.createMaterial(.5f, .5f, .5f) };
-
 	// Set-up a fixed camera
 	auto pCameraObject = new FixedCamera{};
 	AddChild(pCameraObject);
@@ -24,8 +21,8 @@ void ExamScene::Initialize()
 	auto pButtonOne{ new UIButton{ pFont, L"Start Game", { 100, 100 } } };
 	auto pButtonTwo{ new UIButton{ pFont, L"Exit Game", { 100, 200 } } };
 
-	pButtonOne->SetOnClickFunction(std::bind_front(&ExamScene::StartGame, this));
-	pButtonTwo->SetOnClickFunction(std::bind_front(&ExamScene::ExitGame, this));
+	pButtonOne->SetOnClickFunction(std::bind_front(&MainMenuScene::StartGame, this));
+	pButtonTwo->SetOnClickFunction(std::bind_front(&MainMenuScene::ExitGame, this));
 
 	pButtonOne->SetNavigationButtons(pButtonTwo, pButtonTwo, nullptr, nullptr);
 	pButtonTwo->SetNavigationButtons(pButtonOne, pButtonOne, nullptr, nullptr);
@@ -42,7 +39,7 @@ void ExamScene::Initialize()
 	m_pUIManager->EnableInput();
 }
 
-void ExamScene::LoadMenu(const Menus& menu)
+void MainMenuScene::LoadMenu(const Menus& menu)
 {
 	// If the menu is already loaded, return
 	if (m_CurrentMenu == menu) return;
@@ -61,19 +58,21 @@ void ExamScene::LoadMenu(const Menus& menu)
 	}
 }
 
-void ExamScene::LoadSprites()
+void MainMenuScene::LoadSprites()
 {
 	// Load all menu sprites
 	m_pMenuBackgroundSprites[Menus::MainMenu] = new GameObject();
 	m_pMenuBackgroundSprites[Menus::MainMenu]->AddComponent(new SpriteComponent(L"Textures/Menus/MainMenu_Background.png"));
 }
 
-void ExamScene::ExitGame()
+void MainMenuScene::ExitGame()
 {
 	std::cout << "Exit Game" << std::endl;
+	PostQuitMessage(0);
 }
 
-void ExamScene::StartGame()
+void MainMenuScene::StartGame()
 {
 	std::cout << "Start Game" << std::endl;
+	SceneManager::Get()->SetActiveGameScene(L"LevelScene");
 }

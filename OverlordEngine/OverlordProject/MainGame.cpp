@@ -80,7 +80,8 @@
 #endif
 
 #ifdef EXAM
-#include "Scenes/Exam/ExamScene.h"
+#include "Scenes/Exam/MainMenuScene.h"
+#include "Scenes/Exam/LevelScene.h"
 #endif
 
 #pragma endregion
@@ -160,7 +161,8 @@ void MainGame::Initialize()
 #endif
 
 #ifdef EXAM
-	SceneManager::Get()->AddGameScene(new ExamScene());
+	SceneManager::Get()->AddGameScene(new MainMenuScene());
+	SceneManager::Get()->AddGameScene(new LevelScene());
 #endif
 }
 
