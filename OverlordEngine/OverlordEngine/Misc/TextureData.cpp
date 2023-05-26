@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TextureData.h"
 
-UUID TextureData::GUID_TextureData{ 0,0,0,0 };
+UUID TextureData::GUID_TextureData{ 0, 0, 0, 0 };
 
 TextureData::TextureData(ID3D11Resource* pTexture, ID3D11ShaderResourceView* pTextureShaderResourceView, const std::wstring& assetSubPath) :
 	m_pTexture(pTexture),

@@ -39,6 +39,9 @@
     <ClCompile Include="Prefabs\Exam\UI\UIManager.cpp" />
     <ClCompile Include="Prefabs\Exam\UI\Buttons\UIButton.cpp" />
     <ClCompile Include="Scenes\Exam\LevelScene.cpp" />
+    <ClCompile Include="Prefabs\Exam\Level\GridMap.cpp" />
+    <ClCompile Include="Prefabs\Exam\Level\GridObject.cpp" />
+    <ClCompile Include="Prefabs\Exam\Level\Block.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -78,5 +81,8 @@
     <ClInclude Include="Prefabs\Exam\UI\UIManager.h" />
     <ClInclude Include="Prefabs\Exam\UI\Buttons\UIButton.h" />
     <ClInclude Include="Scenes\Exam\LevelScene.h" />
+    <ClInclude Include="Prefabs\Exam\Level\GridMap.h" />
+    <ClInclude Include="Prefabs\Exam\Level\GridObject.h" />
+    <ClInclude Include="Prefabs\Exam\Level\Block.h" />
   </ItemGroup>
 </Project>

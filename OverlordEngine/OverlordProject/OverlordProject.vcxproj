@@ -93,6 +93,9 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Prefabs\Exam\Level\Block.cpp" />
+    <ClCompile Include="Prefabs\Exam\Level\GridMap.cpp" />
+    <ClCompile Include="Prefabs\Exam\Level\GridObject.cpp" />
     <ClCompile Include="Scenes\Exam\LevelScene.cpp" />
     <ClCompile Include="Scenes\Exam\MainMenuScene.cpp" />
     <ClCompile Include="Materials\Post\PostGrayscale.cpp" />
@@ -150,6 +153,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Prefabs\Exam\Level\Block.h" />
+    <ClInclude Include="Prefabs\Exam\Level\GridObject.h" />
+    <ClInclude Include="Prefabs\Exam\Level\GridMap.h" />
     <ClInclude Include="Scenes\Exam\LevelScene.h" />
     <ClInclude Include="Scenes\Exam\MainMenuScene.h" />
     <ClInclude Include="Materials\Post\PostGrayscale.h" />
