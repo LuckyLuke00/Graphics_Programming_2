@@ -12,4 +12,5 @@ public:
 
 protected:
 	void Initialize() override;
+	void OnSceneActivated() override;
 };

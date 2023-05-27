@@ -24,7 +24,7 @@ protected:
 	void Update(const SceneContext&) override;
 
 private:
-	enum class UIInputActions
+	enum class InputActions
 	{
 		Up,
 		Down,

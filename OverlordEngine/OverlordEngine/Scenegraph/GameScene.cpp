@@ -408,3 +408,24 @@ void GameScene::SetActiveCamera(CameraComponent* pCameraComponent)
 	m_pActiveCamera->SetActive(true);
 	m_SceneContext.pCamera = m_pActiveCamera; //Change SceneContext
 }
+
+GameObject* GameScene::GetGameObjectWithTag(const std::wstring& tag) const
+{
+	for (GameObject* pGameObject : m_pChildren)
+	{
+		if (pGameObject->GetTag() == tag)
+			return pGameObject;
+
+		if (!pGameObject->GetChildren<GameObject>().empty())
+		{
+			const auto& children{ pGameObject->GetChildren<GameObject>() };
+			for (GameObject* pChild : children)
+			{
+				if (pChild->GetTag() == tag)
+					return pChild;
+			}
+		}
+	}
+
+	return nullptr;
+}

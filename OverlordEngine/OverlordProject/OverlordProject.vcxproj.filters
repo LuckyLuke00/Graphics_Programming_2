@@ -42,6 +42,8 @@
     <ClCompile Include="Prefabs\Exam\Level\GridMap.cpp" />
     <ClCompile Include="Prefabs\Exam\Level\GridObject.cpp" />
     <ClCompile Include="Prefabs\Exam\Level\Block.cpp" />
+    <ClCompile Include="Components\GridMovementComponent.cpp" />
+    <ClCompile Include="Prefabs\Exam\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -84,5 +86,7 @@
     <ClInclude Include="Prefabs\Exam\Level\GridMap.h" />
     <ClInclude Include="Prefabs\Exam\Level\GridObject.h" />
     <ClInclude Include="Prefabs\Exam\Level\Block.h" />
+    <ClInclude Include="Components\GridMovementComponent.h" />
+    <ClInclude Include="Prefabs\Exam\Player\Player.h" />
   </ItemGroup>
 </Project>

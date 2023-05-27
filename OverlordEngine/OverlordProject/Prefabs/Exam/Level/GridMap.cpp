@@ -2,14 +2,40 @@
 #include "GridMap.h"
 #include <Prefabs/Exam/Level/Block.h>
 
-GridMap::GridMap(int rows, int cols, int cellSize) :
+const std::wstring GridMap::m_Tag{ L"GridMap" };
+
+GridMap::GridMap(int rows, int cols) :
 	m_Rows{ rows },
-	m_Cols{ cols },
-	m_CellSize{ cellSize }
+	m_Cols{ cols }
 {}
+
+bool GridMap::IsOccupied(const XMINT2& gridIndex) const
+{
+	// Check if the grid index is out of bounds
+	if (gridIndex.x < 0 || gridIndex.x >= m_Rows || gridIndex.y < 0 || gridIndex.y >= m_Cols)
+		return true;
+
+	// Check if the grid index is occupied by a wall
+	// Use ranges::any_of to check if any of the grid objects is a wall
+	return std::ranges::any_of(m_pGridObjects, [gridIndex](const GridObject* pGridObject)
+		{
+			return pGridObject->GetPosition().x == gridIndex.x && pGridObject->GetPosition().y == gridIndex.y;
+		});
+}
+
+XMINT2 GridMap::GetGridIndex(const XMFLOAT3& position) const
+{
+	// Calculate the grid index based on the position
+	const int row{ static_cast<int>(position.x) };
+	const int col{ static_cast<int>(position.z) };
+
+	return XMINT2{ row, col };
+}
 
 void GridMap::Initialize(const SceneContext&)
 {
+	SetTag(m_Tag);
+
 	SetUpFloor();
 	SetUpWalls();
 	SetUpPillars();
@@ -26,11 +52,11 @@ void GridMap::SetUpFloor()
 		{
 			// For every cell that is not below a wall, create a floor plane
 			const std::wstring texturePath = useLightGreen ? L"Textures/BoxLightGreen.png" : L"Textures/BoxDarkGreen.png";
-			m_pGridObjects.emplace_back(new Block{ L"Meshes/UnitPlane.ovm", texturePath, false });
-			m_pGridObjects.back()->SetScale(.1f, .1f);
-			m_pGridObjects.back()->SetPosition(row, col);
-			m_pGridObjects.back()->SetDimensions(1, 0);
-			GetScene()->AddChild(m_pGridObjects.back());
+			auto pBlock = new Block{ L"Meshes/UnitPlane.ovm", texturePath, false };
+			pBlock->SetScale(.1f, .1f);
+			pBlock->SetPosition(row, col);
+			pBlock->SetDimensions(1, 0);
+			GetScene()->AddChild(pBlock);
 
 			useLightGreen = !useLightGreen; // Toggle the texture index
 		}

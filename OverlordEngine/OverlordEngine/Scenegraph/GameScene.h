@@ -38,6 +38,17 @@ public:
 	PhysxProxy* GetPhysxProxy() const { return m_pPhysxProxy; }
 	void SetActiveCamera(CameraComponent* pCameraComponent);
 
+	GameObject* GetGameObjectWithTag(const std::wstring& tag) const;
+
+	// Template for GetObjectOfType
+	// GameObject* GetObjectOfType(bool(*pPredicate)(GameObject*));
+
+	template <class T>
+	bool HasObjectOfType(bool searchChildren = false)
+	{
+		return GetObjectOfType<T>(searchChildren) != nullptr;
+	}
+
 protected:
 	virtual void Initialize() = 0;
 	virtual void PostInitialize() {};

@@ -6,7 +6,7 @@
 void MainMenuScene::Initialize()
 {
 	// Set-up a fixed camera
-	auto pCameraObject = new FixedCamera{};
+	auto pCameraObject{ new FixedCamera{} };
 	AddChild(pCameraObject);
 	SetActiveCamera(pCameraObject->GetComponent<CameraComponent>());
 

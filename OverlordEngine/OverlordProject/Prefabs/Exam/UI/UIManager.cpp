@@ -78,7 +78,7 @@ void UIManager::SetSelectedButton(UIButton* pButton)
 
 void UIManager::EnableInput() const
 {
-	using enum UIManager::UIInputActions;
+	using enum UIManager::InputActions;
 
 	// Store the pInput
 	InputManager* pInput{ GetScene()->GetSceneContext().pInput };
@@ -107,7 +107,7 @@ void UIManager::UpdateInput()
 {
 	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
 
-	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Submit)))
+	if (pInput->IsActionTriggered(static_cast<int>(InputActions::Submit)))
 	{
 		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected()) return;
 
@@ -122,7 +122,7 @@ void UIManager::UpdateInput()
 		return;
 	}
 
-	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Up)))
+	if (pInput->IsActionTriggered(static_cast<int>(InputActions::Up)))
 	{
 		m_UsingButtonNavigation = true;
 		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
@@ -136,7 +136,7 @@ void UIManager::UpdateInput()
 		return;
 	}
 
-	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Down)))
+	if (pInput->IsActionTriggered(static_cast<int>(InputActions::Down)))
 	{
 		m_UsingButtonNavigation = true;
 		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
@@ -150,7 +150,7 @@ void UIManager::UpdateInput()
 		return;
 	}
 
-	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Left)))
+	if (pInput->IsActionTriggered(static_cast<int>(InputActions::Left)))
 	{
 		m_UsingButtonNavigation = true;
 		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
@@ -164,7 +164,7 @@ void UIManager::UpdateInput()
 		return;
 	}
 
-	if (pInput->IsActionTriggered(static_cast<int>(UIInputActions::Right)))
+	if (pInput->IsActionTriggered(static_cast<int>(InputActions::Right)))
 	{
 		m_UsingButtonNavigation = true;
 		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())

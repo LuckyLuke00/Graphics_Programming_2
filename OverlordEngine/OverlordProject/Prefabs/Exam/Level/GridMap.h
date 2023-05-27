@@ -4,7 +4,9 @@
 class GridMap : public GameObject
 {
 public:
-	explicit GridMap(int rows, int cols, int cellSize = 1);
+	static const std::wstring m_Tag;
+
+	explicit GridMap(int rows, int cols);
 	~GridMap() override = default;
 
 	GridMap(const GridMap& other) = delete;
@@ -12,13 +14,15 @@ public:
 	GridMap& operator=(const GridMap& other) = delete;
 	GridMap& operator=(GridMap&& other) noexcept = delete;
 
+	bool IsOccupied(const XMINT2& gridIndex) const;
+	XMINT2 GetGridIndex(const XMFLOAT3& position) const;
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 
 private:
 	const int m_Rows{ 0 };
 	const int m_Cols{ 0 };
-	const int m_CellSize{ 1 };
 
 	std::vector<GridObject*> m_pGridObjects{};
 

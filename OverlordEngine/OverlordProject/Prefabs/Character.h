@@ -34,7 +34,7 @@ struct CharacterDesc
 class Character : public GameObject
 {
 public:
-	Character(const CharacterDesc& characterDesc);
+	explicit Character(const CharacterDesc& characterDesc);
 	~Character() override = default;
 
 	Character(const Character& other) = delete;
