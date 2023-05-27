@@ -18,20 +18,11 @@ public:
 	void SetSelectedButton(UIButton* pButton);
 
 	void EnableInput() const;
-	void DisableInput();
 
 protected:
 	void Update(const SceneContext&) override;
 
 private:
-	enum class InputActions
-	{
-		Up,
-		Down,
-		Left,
-		Right,
-		Submit,
-	};
 
 	// Container for all the buttons
 	bool m_UsingButtonNavigation{ false };

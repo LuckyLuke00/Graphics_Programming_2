@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UIManager.h"
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
+#include "Input/ExamInput.h"
 
 void UIManager::Update(const SceneContext&)
 {
@@ -78,7 +79,7 @@ void UIManager::SetSelectedButton(UIButton* pButton)
 
 void UIManager::EnableInput() const
 {
-	using enum UIManager::InputActions;
+	using enum InputActions;
 
 	// Store the pInput
 	InputManager* pInput{ GetScene()->GetSceneContext().pInput };
@@ -97,10 +98,6 @@ void UIManager::EnableInput() const
 
 	InputAction right{ InputAction{ static_cast<int>(Right), InputState::pressed, 'D', VK_RIGHT, XINPUT_GAMEPAD_DPAD_RIGHT } };
 	pInput->AddInputAction(right);
-}
-
-void UIManager::DisableInput()
-{
 }
 
 void UIManager::UpdateInput()

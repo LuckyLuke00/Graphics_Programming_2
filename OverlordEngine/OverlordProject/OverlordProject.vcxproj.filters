@@ -88,5 +88,6 @@
     <ClInclude Include="Prefabs\Exam\Level\Block.h" />
     <ClInclude Include="Components\GridMovementComponent.h" />
     <ClInclude Include="Prefabs\Exam\Player\Player.h" />
+    <ClInclude Include="Input\ExamInput.h" />
   </ItemGroup>
 </Project>

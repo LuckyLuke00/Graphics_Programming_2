@@ -18,13 +18,6 @@ protected:
 	void Update(const SceneContext& sceneContext) override;
 
 private:
-	enum class InputActions
-	{
-		MoveWest,
-		MoveEast,
-		MoveNorth,
-		MoveSouth,
-	};
 
 	static int m_InputId;
 	GamepadIndex m_GamepadIndex{ GamepadIndex::playerOne };
@@ -32,4 +25,5 @@ private:
 
 	void EnableInput() const;
 	void HandleInput() const;
+	bool HandleThumbstickInput() const;
 };

@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\GridMovementComponent.h" />
+    <ClInclude Include="Input\ExamInput.h" />
     <ClInclude Include="Prefabs\Exam\Player\Player.h" />
     <ClInclude Include="Prefabs\Exam\Level\Block.h" />
     <ClInclude Include="Prefabs\Exam\Level\GridObject.h" />

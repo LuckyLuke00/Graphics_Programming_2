@@ -1,4 +1,5 @@
 #pragma once
+
 class LevelScene final : public GameScene
 {
 public:
