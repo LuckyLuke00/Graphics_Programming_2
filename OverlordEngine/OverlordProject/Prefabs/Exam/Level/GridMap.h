@@ -26,7 +26,7 @@ private:
 
 	std::vector<GridObject*> m_pGridObjects{};
 
-	void SetUpFloor();
+	void SetUpFloor() const;
 	void SetUpWalls();
 	void SetUpPillars();
 };

@@ -41,7 +41,7 @@ void GridMap::Initialize(const SceneContext&)
 	SetUpPillars();
 }
 
-void GridMap::SetUpFloor()
+void GridMap::SetUpFloor() const
 {
 	// Create a floor plane that is m_Rows by m_Cols in size
 	bool useLightGreen = false; // Flag to track the texture index
@@ -51,9 +51,8 @@ void GridMap::SetUpFloor()
 		for (int col{ 1 }; col < m_Cols - 1; ++col)
 		{
 			// For every cell that is not below a wall, create a floor plane
-			const std::wstring texturePath = useLightGreen ? L"Textures/BoxLightGreen.png" : L"Textures/BoxDarkGreen.png";
-			auto pBlock = new Block{ L"Meshes/UnitPlane.ovm", texturePath, false };
-			pBlock->SetScale(.1f, .1f);
+			const std::wstring texturePath{ useLightGreen ? L"Textures/Exam/lime_concrete.png" : L"Textures/Exam/green_concrete.png" };
+			auto pBlock{ new Block{ L"Meshes/Exam/UnitTile.ovm", texturePath, false } };
 			pBlock->SetPosition(row, col);
 			pBlock->SetDimensions(1, 0);
 			GetScene()->AddChild(pBlock);
@@ -74,8 +73,7 @@ void GridMap::SetUpWalls()
 		{
 			if (row == 0 || row == m_Rows - 1 || col == 0 || col == m_Cols - 1)
 			{
-				m_pGridObjects.emplace_back(new Block{ L"Meshes/UnitBox.ovm", L"Textures/BoxMetal.png", false });
-				m_pGridObjects.back()->SetScale(.5f, .5f);
+				m_pGridObjects.emplace_back(new Block{ L"Meshes/Exam/UnitBox.ovm", L"Textures/Exam/hopper_inside.png", false });
 				m_pGridObjects.back()->SetPosition(row, col);
 				m_pGridObjects.back()->SetDimensions(1, 1);
 				GetScene()->AddChild(m_pGridObjects.back());
@@ -90,8 +88,7 @@ void GridMap::SetUpPillars()
 	{
 		for (int col{ 2 }; col < m_Cols - 2; col += 2)
 		{
-			m_pGridObjects.emplace_back(new Block{ L"Meshes/UnitBox.ovm", L"Textures/BoxLightMetal.png", false });
-			m_pGridObjects.back()->SetScale(.5f, .5f);
+			m_pGridObjects.emplace_back(new Block{ L"Meshes/Exam/UnitBoxRounded.ovm", L"Textures/Exam/stone.png", false });
 			m_pGridObjects.back()->SetPosition(row, col);
 			m_pGridObjects.back()->SetDimensions(1, 1);
 			GetScene()->AddChild(m_pGridObjects.back());

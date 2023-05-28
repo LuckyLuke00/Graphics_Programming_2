@@ -61,7 +61,7 @@ void MainMenuScene::LoadSprites()
 {
 	// Load all menu sprites
 	m_pMenuBackgroundSprites[Menus::MainMenu] = new GameObject();
-	m_pMenuBackgroundSprites[Menus::MainMenu]->AddComponent(new SpriteComponent(L"Textures/Menus/MainMenu_Background.png"));
+	m_pMenuBackgroundSprites[Menus::MainMenu]->AddComponent(new SpriteComponent(L"Textures/Exam/Menus/MainMenu_Background.png"));
 }
 
 void MainMenuScene::ExitGame()

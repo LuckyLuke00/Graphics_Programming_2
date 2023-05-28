@@ -14,4 +14,7 @@ public:
 protected:
 	void Initialize() override;
 	void OnSceneActivated() override;
+private:
+	void SetUpCamera();
+	void CreateGroundPlane();
 };
