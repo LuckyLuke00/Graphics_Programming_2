@@ -5,6 +5,9 @@
 
 void MainMenuScene::Initialize()
 {
+	GetSceneSettings().drawGrid = false;
+	GetSceneSettings().drawPhysXDebug = false;
+
 	// Set-up a fixed camera
 	auto pCameraObject{ new FixedCamera{} };
 	AddChild(pCameraObject);

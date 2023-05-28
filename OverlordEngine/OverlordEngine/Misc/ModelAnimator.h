@@ -27,6 +27,9 @@ public:
 	const std::wstring& GetClipName() const { ASSERT_IF_(!m_ClipSet) return m_CurrentClip.name; }
 	const std::vector<XMFLOAT4X4>& GetBoneTransforms() const { return m_Transforms; }
 
+	// Getter for the current animation clip
+	const AnimationClip& GetCurrentClip() const { return m_CurrentClip; }
+
 private:
 	AnimationClip m_CurrentClip{};
 	MeshFilter* m_pMeshFilter{};

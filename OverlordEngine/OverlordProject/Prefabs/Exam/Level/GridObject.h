@@ -16,6 +16,7 @@ public:
 
 	XMINT2 GetPosition() const { return m_Position; }
 	XMINT2 GetDimensions() const { return m_Dimensions; }
+	void OffsetPosition(float x = 0, float y = 0, float z = 0);
 
 private:
 	XMINT2 m_Dimensions{ 1, 1 };

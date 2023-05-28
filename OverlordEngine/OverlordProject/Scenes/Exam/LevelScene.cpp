@@ -19,9 +19,11 @@ void LevelScene::Initialize()
 
 void LevelScene::OnSceneActivated()
 {
-	auto* pPlayer{ new Player{ L"Meshes/Exam/UnitBox.ovm", L"" } };
+	auto* pPlayer{ new Player{ L"Meshes/Exam/Player.ovm" } };
+	pPlayer->SetScale(.01f, .01f);
 	pPlayer->SetPosition(1, 1);
 	pPlayer->SetDimensions(1, 1);
+	pPlayer->OffsetPosition(.0f, -.5f, .0f);
 
 	AddChild(pPlayer);
 }

@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.cpp" />
     <ClCompile Include="Components\GridMovementComponent.cpp" />
     <ClCompile Include="Prefabs\Exam\Player\Player.cpp" />
     <ClCompile Include="Prefabs\Exam\Level\Block.cpp" />
@@ -155,6 +156,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Components\GridMovementComponent.h" />
     <ClInclude Include="Input\ExamInput.h" />
     <ClInclude Include="Prefabs\Exam\Player\Player.h" />
