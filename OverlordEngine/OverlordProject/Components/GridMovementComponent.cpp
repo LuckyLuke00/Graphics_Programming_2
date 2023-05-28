@@ -12,6 +12,7 @@ void GridMovementComponent::MoveNorth()
 	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z + 1 }))) return;
 	m_TargetPosition.z += 1;
 	m_MoveTimer = m_MoveSpeed;
+	GetTransform()->Rotate(.0f, XM_PI, .0f, false);
 }
 
 void GridMovementComponent::MoveSouth()
@@ -20,6 +21,7 @@ void GridMovementComponent::MoveSouth()
 	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z - 1 }))) return;
 	m_TargetPosition.z -= 1;
 	m_MoveTimer = m_MoveSpeed;
+	GetTransform()->Rotate(.0f, .0f, .0f, false);
 }
 
 void GridMovementComponent::MoveEast()
@@ -28,6 +30,8 @@ void GridMovementComponent::MoveEast()
 	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x + 1, m_TargetPosition.y, m_TargetPosition.z }))) return;
 	m_TargetPosition.x += 1;
 	m_MoveTimer = m_MoveSpeed;
+	// Rotate the player
+	GetTransform()->Rotate(.0f, -XM_PIDIV2, .0f, false);
 }
 
 void GridMovementComponent::MoveWest()
@@ -36,6 +40,7 @@ void GridMovementComponent::MoveWest()
 	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x - 1, m_TargetPosition.y, m_TargetPosition.z }))) return;
 	m_TargetPosition.x -= 1;
 	m_MoveTimer = m_MoveSpeed;
+	GetTransform()->Rotate(.0f, XM_PIDIV2, .0f, false);
 }
 
 void GridMovementComponent::Initialize(const SceneContext&)

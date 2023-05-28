@@ -8,7 +8,21 @@ std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Co
 Player::Player(const std::wstring& model)
 {
 	++m_InputId;
-	m_GamepadIndex = static_cast<GamepadIndex>(m_InputId);
+	switch (m_InputId)
+	{
+	case 0:
+		m_GamepadIndex = GamepadIndex::playerOne;
+		break;
+	case 1:
+		m_GamepadIndex = GamepadIndex::playerTwo;
+		break;
+	case 2:
+		m_GamepadIndex = GamepadIndex::playerThree;
+		break;
+	case 3:
+		m_GamepadIndex = GamepadIndex::playerFour;
+		break;
+	}
 
 	m_pModelComponent = AddComponent(new ModelComponent{ model });
 	SetPlayerMaterials();
@@ -41,16 +55,16 @@ void Player::EnableInput() const
 
 	using enum InputActions;
 
-	InputAction north{ InputAction{ static_cast<int>(MoveNorth), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_UP, m_GamepadIndex } };
+	InputAction north{ InputAction{ static_cast<int>(MoveNorth) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_UP, m_GamepadIndex } };
 	pInput->AddInputAction(north);
 
-	InputAction south{ InputAction{ static_cast<int>(MoveSouth), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_DOWN, m_GamepadIndex } };
+	InputAction south{ InputAction{ static_cast<int>(MoveSouth) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_DOWN, m_GamepadIndex } };
 	pInput->AddInputAction(south);
 
-	InputAction west{ InputAction{ static_cast<int>(MoveWest), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_LEFT, m_GamepadIndex } };
+	InputAction west{ InputAction{ static_cast<int>(MoveWest) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_LEFT, m_GamepadIndex } };
 	pInput->AddInputAction(west);
 
-	InputAction east{ InputAction{ static_cast<int>(MoveEast), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, m_GamepadIndex } };
+	InputAction east{ InputAction{ static_cast<int>(MoveEast) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, m_GamepadIndex } };
 	pInput->AddInputAction(east);
 }
 
@@ -61,19 +75,19 @@ void Player::HandleInput() const
 	using enum InputActions;
 
 	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
-	if (pInput->IsActionTriggered(static_cast<int>(MoveNorth)))
+	if (pInput->IsActionTriggered(static_cast<int>(MoveNorth) + static_cast<int>(m_GamepadIndex) * 4))
 	{
 		m_pGridMovementComponent->MoveNorth();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveSouth)))
+	else if (pInput->IsActionTriggered(static_cast<int>(MoveSouth) + static_cast<int>(m_GamepadIndex) * 4))
 	{
 		m_pGridMovementComponent->MoveSouth();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveWest)))
+	else if (pInput->IsActionTriggered(static_cast<int>(MoveWest) + static_cast<int>(m_GamepadIndex) * 4))
 	{
 		m_pGridMovementComponent->MoveWest();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveEast)))
+	else if (pInput->IsActionTriggered(static_cast<int>(MoveEast) + static_cast<int>(m_GamepadIndex) * 4))
 	{
 		m_pGridMovementComponent->MoveEast();
 	}
@@ -87,10 +101,9 @@ bool Player::HandleThumbstickInput() const
 	if (abs(movement.x) < 0.1f && abs(movement.y) < 0.1f) return false;
 
 	// Calculate the angle between x and y
-	const float angle{ atan2f(movement.y, movement.x) };
 
-	// If the angle is between -45 and 45 degrees, move east
-	if (angle > -XM_PIDIV4 && angle < XM_PIDIV4)
+	if (const float angle{ atan2f(movement.y, movement.x) };
+		angle > -XM_PIDIV4 && angle < XM_PIDIV4)
 	{
 		m_pGridMovementComponent->MoveEast();
 	}

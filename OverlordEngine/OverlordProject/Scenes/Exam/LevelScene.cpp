@@ -10,7 +10,7 @@ void LevelScene::Initialize()
 	GetSceneSettings().drawGrid = false;
 	GetSceneSettings().drawPhysXDebug = false;
 
-	//SetUpCamera();
+	SetUpCamera();
 	CreateGroundPlane();
 
 	auto* pGridMap{ new GridMap{ 19, 13 } };
