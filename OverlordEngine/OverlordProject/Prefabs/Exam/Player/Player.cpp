@@ -8,21 +8,7 @@ std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Co
 Player::Player(const std::wstring& model)
 {
 	++m_InputId;
-	switch (m_InputId)
-	{
-	case 0:
-		m_GamepadIndex = GamepadIndex::playerOne;
-		break;
-	case 1:
-		m_GamepadIndex = GamepadIndex::playerTwo;
-		break;
-	case 2:
-		m_GamepadIndex = GamepadIndex::playerThree;
-		break;
-	case 3:
-		m_GamepadIndex = GamepadIndex::playerFour;
-		break;
-	}
+	m_GamepadIndex = m_InputId;
 
 	m_pModelComponent = AddComponent(new ModelComponent{ model });
 	SetPlayerMaterials();
@@ -55,16 +41,16 @@ void Player::EnableInput() const
 
 	using enum InputActions;
 
-	InputAction north{ InputAction{ static_cast<int>(MoveNorth) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_UP, m_GamepadIndex } };
+	InputAction north{ InputAction{ static_cast<int>(MoveNorth) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_UP, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(north);
 
-	InputAction south{ InputAction{ static_cast<int>(MoveSouth) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_DOWN, m_GamepadIndex } };
+	InputAction south{ InputAction{ static_cast<int>(MoveSouth) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_DOWN, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(south);
 
-	InputAction west{ InputAction{ static_cast<int>(MoveWest) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_LEFT, m_GamepadIndex } };
+	InputAction west{ InputAction{ static_cast<int>(MoveWest) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_LEFT, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(west);
 
-	InputAction east{ InputAction{ static_cast<int>(MoveEast) + static_cast<int>(m_GamepadIndex) * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, m_GamepadIndex } };
+	InputAction east{ InputAction{ static_cast<int>(MoveEast) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(east);
 }
 
@@ -75,19 +61,19 @@ void Player::HandleInput() const
 	using enum InputActions;
 
 	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
-	if (pInput->IsActionTriggered(static_cast<int>(MoveNorth) + static_cast<int>(m_GamepadIndex) * 4))
+	if (pInput->IsActionTriggered(static_cast<int>(MoveNorth) + m_GamepadIndex * 4))
 	{
 		m_pGridMovementComponent->MoveNorth();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveSouth) + static_cast<int>(m_GamepadIndex) * 4))
+	else if (pInput->IsActionTriggered(static_cast<int>(MoveSouth) + m_GamepadIndex * 4))
 	{
 		m_pGridMovementComponent->MoveSouth();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveWest) + static_cast<int>(m_GamepadIndex) * 4))
+	else if (pInput->IsActionTriggered(static_cast<int>(MoveWest) + m_GamepadIndex * 4))
 	{
 		m_pGridMovementComponent->MoveWest();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveEast) + static_cast<int>(m_GamepadIndex) * 4))
+	else if (pInput->IsActionTriggered(static_cast<int>(MoveEast) + m_GamepadIndex * 4))
 	{
 		m_pGridMovementComponent->MoveEast();
 	}
@@ -95,7 +81,7 @@ void Player::HandleInput() const
 
 bool Player::HandleThumbstickInput() const
 {
-	auto movement{ InputManager::GetThumbstickPosition(true, m_GamepadIndex) };
+	auto movement{ InputManager::GetThumbstickPosition(true, static_cast<GamepadIndex>(m_GamepadIndex)) };
 
 	// If movement is nearly zero, do nothing
 	if (abs(movement.x) < 0.1f && abs(movement.y) < 0.1f) return false;
@@ -176,6 +162,15 @@ void Player::SetPlayerMaterials()
 
 void Player::HandleAnimations()
 {
+	if (m_pGridMovementComponent->IsMoving())
+	{
+		m_AnimationState = AnimationState::Run;
+	}
+	else
+	{
+		m_AnimationState = AnimationState::Idle;
+	}
+
 	if (!m_pModelAnimator->IsPlaying())
 	{
 		m_pModelAnimator->SetAnimation(static_cast<UINT>(m_AnimationState));

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "LevelScene.h"
-#include <Prefabs/Exam/Level/GridMap.h>
 #include <Components/GridMovementComponent.h>
 #include <Materials/DiffuseMaterial.h>
 #include <Prefabs/Exam/Player/Player.h>
@@ -13,8 +12,8 @@ void LevelScene::Initialize()
 	SetUpCamera();
 	CreateGroundPlane();
 
-	auto* pGridMap{ new GridMap{ 19, 13 } };
-	AddChild(pGridMap);
+	m_pGridMap = new GridMap{ 19, 13 };
+	AddChild(m_pGridMap);
 }
 
 void LevelScene::OnSceneActivated()
@@ -25,6 +24,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer->SetDimensions(1, 1);
 	pPlayer->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer);
+	m_pGridMap->AddGridObject(pPlayer);
 
 	auto* pPlayer2{ new Player{ L"Meshes/Exam/Player.ovm" } };
 	pPlayer2->SetScale(.01f, .01f);
@@ -32,6 +32,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer2->SetDimensions(1, 1);
 	pPlayer2->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer2);
+	m_pGridMap->AddGridObject(pPlayer2);
 
 	auto* pPlayer3{ new Player{ L"Meshes/Exam/Player.ovm" } };
 	pPlayer3->SetScale(.01f, .01f);
@@ -39,6 +40,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer3->SetDimensions(1, 1);
 	pPlayer3->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer3);
+	m_pGridMap->AddGridObject(pPlayer3);
 
 	auto* pPlayer4{ new Player{ L"Meshes/Exam/Player.ovm" } };
 	pPlayer4->SetScale(.01f, .01f);
@@ -46,6 +48,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer4->SetDimensions(1, 1);
 	pPlayer4->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer4);
+	m_pGridMap->AddGridObject(pPlayer4);
 }
 
 void LevelScene::SetUpCamera()

@@ -6,6 +6,18 @@ GridMovementComponent::GridMovementComponent(float moveSpeed) :
 	m_MoveSpeed{ moveSpeed }
 {}
 
+void GridMovementComponent::Initialize(const SceneContext&)
+{
+	// Find the grid map prefab
+	m_pGridMap = dynamic_cast<GridMap*>(GetGameObject()->GetScene()->GetGameObjectWithTag(L"GridMap"));
+	m_CurrentPosition = GetTransform()->GetPosition();
+
+	m_CurrentGridPosition = m_pGridMap->GetGridIndex(m_CurrentPosition);
+	m_TargetPosition = m_CurrentPosition;
+
+	m_pGridObjectOwner = dynamic_cast<GridObject*>(GetGameObject());
+}
+
 void GridMovementComponent::MoveNorth()
 {
 	if (IsMoving()) return;
@@ -30,7 +42,6 @@ void GridMovementComponent::MoveEast()
 	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x + 1, m_TargetPosition.y, m_TargetPosition.z }))) return;
 	m_TargetPosition.x += 1;
 	m_MoveTimer = m_MoveSpeed;
-	// Rotate the player
 	GetTransform()->Rotate(.0f, -XM_PIDIV2, .0f, false);
 }
 
@@ -41,16 +52,6 @@ void GridMovementComponent::MoveWest()
 	m_TargetPosition.x -= 1;
 	m_MoveTimer = m_MoveSpeed;
 	GetTransform()->Rotate(.0f, XM_PIDIV2, .0f, false);
-}
-
-void GridMovementComponent::Initialize(const SceneContext&)
-{
-	// Find the grid map prefab
-	m_pGridMap = dynamic_cast<GridMap*>(GetGameObject()->GetScene()->GetGameObjectWithTag(L"GridMap"));
-	m_CurrentPosition = GetTransform()->GetPosition();
-
-	m_CurrentGridPosition = m_pGridMap->GetGridIndex(m_CurrentPosition);
-	m_TargetPosition = m_CurrentPosition;
 }
 
 void GridMovementComponent::Update(const SceneContext& sceneContext)
@@ -70,7 +71,6 @@ void GridMovementComponent::Update(const SceneContext& sceneContext)
 
 	// Update the transform
 	GetTransform()->Translate(m_CurrentPosition);
-
 	m_CurrentGridPosition = m_pGridMap->GetGridIndex(m_CurrentPosition);
 
 	// Check if we reached the target position
@@ -81,6 +81,7 @@ void GridMovementComponent::Update(const SceneContext& sceneContext)
 
 		// Update the transform
 		GetTransform()->Translate(m_CurrentPosition);
+		if (m_pGridObjectOwner) m_pGridObjectOwner->SetPosition(m_CurrentGridPosition.x, m_CurrentGridPosition.y);
 	}
 }
 

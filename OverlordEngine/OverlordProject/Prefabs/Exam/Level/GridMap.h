@@ -17,6 +17,8 @@ public:
 	bool IsOccupied(const XMINT2& gridIndex) const;
 	XMINT2 GetGridIndex(const XMFLOAT3& position) const;
 
+	void AddGridObject(GridObject* pGridObject) { m_pGridObjects.emplace_back(pGridObject); }
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 

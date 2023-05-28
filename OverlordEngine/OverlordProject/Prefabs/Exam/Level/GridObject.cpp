@@ -11,7 +11,7 @@ void GridObject::SetPosition(int row, int col)
 	const float posY{ m_Dimensions.y * .5f };
 	const float posZ{ m_Position.y + m_Dimensions.x * .5f };
 
-	GetTransform()->Translate(posX, posY, posZ);
+	GetTransform()->Translate(posX + m_Offset.x, posY + m_Offset.y, posZ + m_Offset.z);
 }
 
 void GridObject::SetDimensions(int width, int height)
@@ -42,10 +42,11 @@ void GridObject::SetScale(float width, float height)
 	SetPosition(m_Position.x, m_Position.y);
 }
 
-void GridObject::OffsetPosition(float x, float y, float z) const
+void GridObject::OffsetPosition(float x, float y, float z)
 {
-	const auto& pos{ GetTransform()->GetPosition() };
+	m_Offset.x = x;
+	m_Offset.y = y;
+	m_Offset.z = z;
 
-	// Translate the object to the correct position
-	GetTransform()->Translate(pos.x + x, pos.y + y, pos.z + z);
+	SetPosition(m_Position.x, m_Position.y);
 }

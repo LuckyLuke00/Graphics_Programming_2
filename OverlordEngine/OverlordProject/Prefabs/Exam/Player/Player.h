@@ -22,17 +22,19 @@ protected:
 private:
 	enum class AnimationState : UINT
 	{
-		Floating,
-		Run,
-		Drop,
+		Dance,
 		Death,
+		Drop,
+		Floating,
 		Idle,
 		Lose,
-		Dance
+		Run,
 	};
 
 	static int m_InputId;
 	static std::vector<XMVECTORF32> m_ColorVariants;
+
+	int m_GamepadIndex{ 0 };
 
 	ColorMaterial_Shadow_Skinned* m_pBlack{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pEyebrow{ nullptr };
@@ -44,7 +46,6 @@ private:
 	ColorMaterial_Shadow_Skinned* m_pBody{ nullptr };
 
 	AnimationState m_AnimationState{ AnimationState::Idle };
-	GamepadIndex m_GamepadIndex{ GamepadIndex::playerOne };
 	GridMovementComponent* m_pGridMovementComponent{ nullptr };
 	ModelAnimator* m_pModelAnimator{ nullptr };
 	ModelComponent* m_pModelComponent{ nullptr };

@@ -1,4 +1,5 @@
 #pragma once
+#include <Prefabs/Exam/Level/GridMap.h>
 
 class LevelScene final : public GameScene
 {
@@ -17,4 +18,6 @@ protected:
 private:
 	void SetUpCamera();
 	void CreateGroundPlane();
+
+	GridMap* m_pGridMap{ nullptr };
 };
