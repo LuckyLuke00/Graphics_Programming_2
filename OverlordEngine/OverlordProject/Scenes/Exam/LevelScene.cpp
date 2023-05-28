@@ -10,7 +10,7 @@ void LevelScene::Initialize()
 	GetSceneSettings().drawGrid = false;
 	GetSceneSettings().drawPhysXDebug = false;
 
-	SetUpCamera();
+	//SetUpCamera();
 	CreateGroundPlane();
 
 	auto* pGridMap{ new GridMap{ 19, 13 } };
@@ -24,8 +24,28 @@ void LevelScene::OnSceneActivated()
 	pPlayer->SetPosition(1, 1);
 	pPlayer->SetDimensions(1, 1);
 	pPlayer->OffsetPosition(.0f, -.5f, .0f);
-
 	AddChild(pPlayer);
+
+	auto* pPlayer2{ new Player{ L"Meshes/Exam/Player.ovm" } };
+	pPlayer2->SetScale(.01f, .01f);
+	pPlayer2->SetPosition(17, 11);
+	pPlayer2->SetDimensions(1, 1);
+	pPlayer2->OffsetPosition(.0f, -.5f, .0f);
+	AddChild(pPlayer2);
+
+	auto* pPlayer3{ new Player{ L"Meshes/Exam/Player.ovm" } };
+	pPlayer3->SetScale(.01f, .01f);
+	pPlayer3->SetPosition(17, 1);
+	pPlayer3->SetDimensions(1, 1);
+	pPlayer3->OffsetPosition(.0f, -.5f, .0f);
+	AddChild(pPlayer3);
+
+	auto* pPlayer4{ new Player{ L"Meshes/Exam/Player.ovm" } };
+	pPlayer4->SetScale(.01f, .01f);
+	pPlayer4->SetPosition(1, 11);
+	pPlayer4->SetDimensions(1, 1);
+	pPlayer4->OffsetPosition(.0f, -.5f, .0f);
+	AddChild(pPlayer4);
 }
 
 void LevelScene::SetUpCamera()

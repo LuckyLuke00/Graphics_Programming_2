@@ -42,7 +42,7 @@ void GridObject::SetScale(float width, float height)
 	SetPosition(m_Position.x, m_Position.y);
 }
 
-void GridObject::OffsetPosition(float x, float y, float z)
+void GridObject::OffsetPosition(float x, float y, float z) const
 {
 	const auto& pos{ GetTransform()->GetPosition() };
 

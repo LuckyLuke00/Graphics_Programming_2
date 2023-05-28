@@ -36,6 +36,14 @@ namespace MathHelper
 		return min + r;
 	}
 
+	inline int randI(int min, int max)
+	{
+		// Prevent a divide by zero
+		if (min == max) return min;
+
+		return min + (rand() % max - min + 1);
+	}
+
 	inline LONG BinaryClamp(LONG x)
 	{
 		if (x > 0) return 1;

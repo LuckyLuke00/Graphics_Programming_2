@@ -32,6 +32,7 @@ private:
 	};
 
 	static int m_InputId;
+	static std::vector<XMVECTORF32> m_ColorVariants;
 
 	ColorMaterial_Shadow_Skinned* m_pBlack{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pEyebrow{ nullptr };
@@ -40,7 +41,7 @@ private:
 	ColorMaterial_Shadow_Skinned* m_pGold{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pPink{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pTShirt{ nullptr };
-	ColorMaterial_Shadow_Skinned* m_pWhite{ nullptr };
+	ColorMaterial_Shadow_Skinned* m_pBody{ nullptr };
 
 	AnimationState m_AnimationState{ AnimationState::Idle };
 	GamepadIndex m_GamepadIndex{ GamepadIndex::playerOne };

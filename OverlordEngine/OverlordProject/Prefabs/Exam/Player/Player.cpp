@@ -3,6 +3,7 @@
 #include "Input/ExamInput.h"
 
 int Player::m_InputId{ -1 };
+std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
 
 Player::Player(const std::wstring& model)
 {
@@ -111,6 +112,11 @@ bool Player::HandleThumbstickInput() const
 
 void Player::SetPlayerMaterials()
 {
+	// Get a random color from the color variants, set it as the body color and remove it from the vector
+	const int colorIndex{ MathHelper::randI(0, static_cast<int>(m_ColorVariants.size()) - 1) };
+	const XMVECTORF32 color{ m_ColorVariants[colorIndex] };
+	m_ColorVariants.erase(m_ColorVariants.begin() + colorIndex);
+
 	m_pBlack = MaterialManager::Get()->CreateMaterial<ColorMaterial_Shadow_Skinned>();
 	m_pBlack->SetColor(Colors::Black);
 
@@ -130,10 +136,10 @@ void Player::SetPlayerMaterials()
 	m_pPink->SetColor(Colors::HotPink);
 
 	m_pTShirt = MaterialManager::Get()->CreateMaterial<ColorMaterial_Shadow_Skinned>();
-	m_pTShirt->SetColor(Colors::LightBlue);
+	m_pTShirt->SetColor(color);
 
-	m_pWhite = MaterialManager::Get()->CreateMaterial<ColorMaterial_Shadow_Skinned>();
-	m_pWhite->SetColor(Colors::White);
+	m_pBody = MaterialManager::Get()->CreateMaterial<ColorMaterial_Shadow_Skinned>();
+	m_pBody->SetColor(color);
 
 	m_pModelComponent->SetMaterial(m_pBlack, 0u); // Eyebrows
 	m_pModelComponent->SetMaterial(m_pBlack, 2u); // Belt
@@ -149,10 +155,10 @@ void Player::SetPlayerMaterials()
 
 	m_pModelComponent->SetMaterial(m_pTShirt, 7u); // T-Shirt
 
-	m_pModelComponent->SetMaterial(m_pWhite, 10u); // Helmet
-	m_pModelComponent->SetMaterial(m_pWhite, 11u); // Legs
-	m_pModelComponent->SetMaterial(m_pWhite, 4u); // Arms
-	m_pModelComponent->SetMaterial(m_pWhite, 9u); // Antenna
+	m_pModelComponent->SetMaterial(m_pBody, 10u); // Helmet
+	m_pModelComponent->SetMaterial(m_pBody, 11u); // Legs
+	m_pModelComponent->SetMaterial(m_pBody, 4u); // Arms
+	m_pModelComponent->SetMaterial(m_pBody, 9u); // Antenna
 }
 
 void Player::HandleAnimations()
