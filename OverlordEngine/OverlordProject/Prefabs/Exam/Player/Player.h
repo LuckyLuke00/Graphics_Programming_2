@@ -1,7 +1,10 @@
 #pragma once
+#include "Components/GridMovementComponent.h"
+#include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
 #include "Prefabs/Exam/Level/GridObject.h"
-#include <Components/GridMovementComponent.h>
-#include <Materials/Shadow/ColorMaterial_Shadow_Skinned.h>
+#include "Components/PlaceBombComponent.h"
+
+class GridMovementComponent;
 
 class Player : public GridObject
 {
@@ -16,7 +19,7 @@ public:
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
-	void OnSceneAttach(GameScene* /*pScene*/) override;
+	void OnSceneAttach(GameScene* pScene) override;
 	void Update(const SceneContext& sceneContext) override;
 
 private:
@@ -49,6 +52,7 @@ private:
 	GridMovementComponent* m_pGridMovementComponent{ nullptr };
 	ModelAnimator* m_pModelAnimator{ nullptr };
 	ModelComponent* m_pModelComponent{ nullptr };
+	PlaceBombComponent* m_pPlaceBombComponent{ nullptr };
 
 	bool HandleThumbstickInput() const;
 	void EnableInput() const;

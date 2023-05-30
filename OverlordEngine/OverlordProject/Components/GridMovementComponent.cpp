@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GridMovementComponent.h"
-#include "Utils/MathHelper.h"
+#include "Prefabs/Exam/Level/GridMap.h"
 
 GridMovementComponent::GridMovementComponent(float moveSpeed) :
 	m_MoveSpeed{ moveSpeed }

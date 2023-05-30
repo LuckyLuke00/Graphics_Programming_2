@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Input/ExamInput.h"
+#include "Prefabs/Exam/Bomb/Bomb.h"
 
 int Player::m_InputId{ -1 };
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
@@ -16,16 +17,18 @@ Player::Player(const std::wstring& model)
 
 void Player::Initialize(const SceneContext&)
 {
+	m_pPlaceBombComponent = AddComponent(new PlaceBombComponent{});
 	// Add a GridMovementComponent
 	m_pGridMovementComponent = AddComponent(new GridMovementComponent{});
-
-	EnableInput();
+	m_pPlaceBombComponent->SetGridMap(GetGridMap());
 }
 
 void Player::OnSceneAttach(GameScene*)
 {
 	m_pModelAnimator = m_pModelComponent->GetAnimator();
 	m_pModelAnimator->SetAnimationSpeed(1.f);
+
+	EnableInput();
 }
 
 void Player::Update(const SceneContext&)
@@ -52,6 +55,9 @@ void Player::EnableInput() const
 
 	InputAction east{ InputAction{ static_cast<int>(MoveEast) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(east);
+
+	InputAction placeBomb{ InputAction{ static_cast<int>(PlaceBomb) + m_GamepadIndex * 4, InputState::pressed, -1, -1, XINPUT_GAMEPAD_A, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	pInput->AddInputAction(placeBomb);
 }
 
 void Player::HandleInput() const
@@ -76,6 +82,11 @@ void Player::HandleInput() const
 	else if (pInput->IsActionTriggered(static_cast<int>(MoveEast) + m_GamepadIndex * 4))
 	{
 		m_pGridMovementComponent->MoveEast();
+	}
+
+	if (pInput->IsActionTriggered(static_cast<int>(PlaceBomb) + m_GamepadIndex * 4))
+	{
+		m_pPlaceBombComponent->PlaceBomb();
 	}
 }
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "GridObject.h"
 
+class Player;
+
 class GridMap : public GameObject
 {
 public:
@@ -15,9 +17,14 @@ public:
 	GridMap& operator=(GridMap&& other) noexcept = delete;
 
 	bool IsOccupied(const XMINT2& gridIndex) const;
+	bool IsOccupied(int row, int col) const;
+	bool IsOccupiedByPlayer(const XMINT2& gridIndex) const;
+	bool IsOccupiedByPlayer(int row, int col) const;
+
 	XMINT2 GetGridIndex(const XMFLOAT3& position) const;
 
 	void AddGridObject(GridObject* pGridObject) { m_pGridObjects.emplace_back(pGridObject); }
+	void AddPlayer(Player* pPlayer) { m_pPlayers.emplace_back(pPlayer); }
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
@@ -27,6 +34,7 @@ private:
 	const int m_Cols{ 0 };
 
 	std::vector<GridObject*> m_pGridObjects{};
+	std::vector<Player*> m_pPlayers{};
 
 	void SetUpFloor() const;
 	void SetUpWalls();

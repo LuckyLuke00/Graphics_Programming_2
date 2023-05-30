@@ -1,5 +1,7 @@
 #pragma once
-#include <Prefabs/Exam/Level/GridMap.h>
+
+class GridMap;
+class GridObject;
 
 class GridMovementComponent : public BaseComponent
 {
@@ -26,6 +28,7 @@ protected:
 private:
 	GridMap* m_pGridMap{ nullptr };
 	GridObject* m_pGridObjectOwner{ nullptr };
+	XMINT3 m_OriginalDimensions{ 0, 0, 0 };
 
 	XMFLOAT3 m_CurrentPosition{ 0, 0, 0 };
 	XMFLOAT3 m_TargetPosition{ 0, 0, 0 };

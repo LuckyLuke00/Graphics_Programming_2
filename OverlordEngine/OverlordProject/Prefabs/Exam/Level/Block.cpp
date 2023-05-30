@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Block.h"
-#include <Materials/DiffuseMaterial.h>
+#include "Materials/DiffuseMaterial.h"
 
 Block::Block(const std::wstring& model, const std::wstring& texture, bool isBreakable) :
 	m_IsBreakable{ isBreakable },

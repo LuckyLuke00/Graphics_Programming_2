@@ -93,6 +93,9 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Prefabs\Exam\Bomb\Explosion.cpp" />
+    <ClCompile Include="Prefabs\Exam\Bomb\Bomb.cpp" />
+    <ClCompile Include="Components\PlaceBombComponent.cpp" />
     <ClCompile Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.cpp" />
     <ClCompile Include="Components\GridMovementComponent.cpp" />
     <ClCompile Include="Prefabs\Exam\Player\Player.cpp" />
@@ -156,6 +159,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Prefabs\Exam\Bomb\Explosion.h" />
+    <ClInclude Include="Prefabs\Exam\Bomb\Bomb.h" />
+    <ClInclude Include="Components\PlaceBombComponent.h" />
     <ClInclude Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Components\GridMovementComponent.h" />
     <ClInclude Include="Input\ExamInput.h" />

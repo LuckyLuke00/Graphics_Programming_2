@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "GridObject.h"
+#include "GridMap.h"
+
+std::vector<GridObject*> GridObject::m_pObjectsToDestroy{};
+std::vector<GridObject*> GridObject::m_pObjectsToAdd{};
 
 void GridObject::SetPosition(int row, int col)
 {
@@ -49,4 +53,15 @@ void GridObject::OffsetPosition(float x, float y, float z)
 	m_Offset.z = z;
 
 	SetPosition(m_Position.x, m_Position.y);
+}
+
+GridMap* GridObject::GetGridMap()
+{
+	if (!m_pGridMap)
+	{
+		// Get the GridMap from the scene
+		m_pGridMap = dynamic_cast<GridMap*>(GetScene()->GetGameObjectWithTag(L"GridMap"));
+	}
+
+	return m_pGridMap;
 }

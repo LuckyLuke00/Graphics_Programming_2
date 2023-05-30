@@ -12,8 +12,28 @@ void LevelScene::Initialize()
 	SetUpCamera();
 	CreateGroundPlane();
 
-	m_pGridMap = new GridMap{ 19, 13 };
-	AddChild(m_pGridMap);
+	m_pGridMap = AddChild(new GridMap{ 19, 13 });
+}
+
+void LevelScene::Update()
+{
+	const auto& toAdd{ GridObject::GetObjectsToAdd() };
+
+	for (auto* pObject : toAdd)
+	{
+		m_pGridMap->AddChild(pObject);
+	}
+
+	GridObject::GetObjectsToAdd().clear();
+
+	const auto& toDestroy{ GridObject::GetObjectsToDestroy() };
+
+	for (auto* pObject : toDestroy)
+	{
+		m_pGridMap->RemoveChild(pObject);
+	}
+
+	GridObject::GetObjectsToDestroy().clear();
 }
 
 void LevelScene::OnSceneActivated()
@@ -23,8 +43,8 @@ void LevelScene::OnSceneActivated()
 	pPlayer->SetPosition(1, 1);
 	pPlayer->SetDimensions(1, 1);
 	pPlayer->OffsetPosition(.0f, -.5f, .0f);
+	m_pGridMap->AddPlayer(pPlayer);
 	AddChild(pPlayer);
-	m_pGridMap->AddGridObject(pPlayer);
 
 	auto* pPlayer2{ new Player{ L"Meshes/Exam/Player.ovm" } };
 	pPlayer2->SetScale(.01f, .01f);
@@ -32,7 +52,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer2->SetDimensions(1, 1);
 	pPlayer2->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer2);
-	m_pGridMap->AddGridObject(pPlayer2);
+	m_pGridMap->AddPlayer(pPlayer2);
 
 	auto* pPlayer3{ new Player{ L"Meshes/Exam/Player.ovm" } };
 	pPlayer3->SetScale(.01f, .01f);
@@ -40,7 +60,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer3->SetDimensions(1, 1);
 	pPlayer3->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer3);
-	m_pGridMap->AddGridObject(pPlayer3);
+	m_pGridMap->AddPlayer(pPlayer3);
 
 	auto* pPlayer4{ new Player{ L"Meshes/Exam/Player.ovm" } };
 	pPlayer4->SetScale(.01f, .01f);
@@ -48,7 +68,7 @@ void LevelScene::OnSceneActivated()
 	pPlayer4->SetDimensions(1, 1);
 	pPlayer4->OffsetPosition(.0f, -.5f, .0f);
 	AddChild(pPlayer4);
-	m_pGridMap->AddGridObject(pPlayer4);
+	m_pGridMap->AddPlayer(pPlayer4);
 }
 
 void LevelScene::SetUpCamera()

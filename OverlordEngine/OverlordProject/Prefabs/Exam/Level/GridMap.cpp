@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GridMap.h"
-#include <Prefabs/Exam/Level/Block.h>
+#include "Prefabs/Exam/Level/Block.h"
+#include "Prefabs/Exam/Player/Player.h"
 
 const std::wstring GridMap::m_Tag{ L"GridMap" };
 
@@ -11,15 +12,37 @@ GridMap::GridMap(int rows, int cols) :
 
 bool GridMap::IsOccupied(const XMINT2& gridIndex) const
 {
+	return IsOccupied(gridIndex.x, gridIndex.y);
+}
+
+bool GridMap::IsOccupied(int row, int col) const
+{
 	// Check if the grid index is out of bounds
-	if (gridIndex.x < 0 || gridIndex.x >= m_Rows || gridIndex.y < 0 || gridIndex.y >= m_Cols)
+	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
 		return true;
 
-	// Check if the grid index is occupied by a wall
-	// Use ranges::any_of to check if any of the grid objects is a wall
-	return std::ranges::any_of(m_pGridObjects, [gridIndex](const GridObject* pGridObject)
+	// Check if the grid index is occupied by a GridObject
+	return std::ranges::any_of(m_pGridObjects, [row, col](const GridObject* pGridObject)
 		{
-			return pGridObject->GetPosition().x == gridIndex.x && pGridObject->GetPosition().y == gridIndex.y;
+			return pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
+		});
+}
+
+bool GridMap::IsOccupiedByPlayer(const XMINT2& gridIndex) const
+{
+	return IsOccupiedByPlayer(gridIndex.x, gridIndex.y);
+}
+
+bool GridMap::IsOccupiedByPlayer(int row, int col) const
+{
+	// Check if the grid index is out of bounds
+	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
+		return false;
+
+	// Check if the grid index is occupied by a wall
+	return std::ranges::any_of(m_pPlayers, [row, col](const Player* pPlayer)
+		{
+			return pPlayer->GetPosition().x == row && pPlayer->GetPosition().y == col;
 		});
 }
 
@@ -73,7 +96,7 @@ void GridMap::SetUpWalls()
 		{
 			if (row == 0 || row == m_Rows - 1 || col == 0 || col == m_Cols - 1)
 			{
-				m_pGridObjects.emplace_back(new Block{ L"Meshes/Exam/UnitBox.ovm", L"Textures/Exam/hopper_inside.png", false });
+				AddGridObject(new Block{ L"Meshes/Exam/UnitBox.ovm", L"Textures/Exam/hopper_inside.png", false });
 				m_pGridObjects.back()->SetPosition(row, col);
 				m_pGridObjects.back()->SetDimensions(1, 1);
 				GetScene()->AddChild(m_pGridObjects.back());
@@ -88,7 +111,7 @@ void GridMap::SetUpPillars()
 	{
 		for (int col{ 2 }; col < m_Cols - 2; col += 2)
 		{
-			m_pGridObjects.emplace_back(new Block{ L"Meshes/Exam/UnitBoxRounded.ovm", L"Textures/Exam/stone.png", false });
+			AddGridObject(new Block{ L"Meshes/Exam/UnitBoxRounded.ovm", L"Textures/Exam/stone.png", false });
 			m_pGridObjects.back()->SetPosition(row, col);
 			m_pGridObjects.back()->SetDimensions(1, 1);
 			GetScene()->AddChild(m_pGridObjects.back());

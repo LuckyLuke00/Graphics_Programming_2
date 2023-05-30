@@ -45,6 +45,9 @@
     <ClCompile Include="Components\GridMovementComponent.cpp" />
     <ClCompile Include="Prefabs\Exam\Player\Player.cpp" />
     <ClCompile Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.cpp" />
+    <ClCompile Include="Components\PlaceBombComponent.cpp" />
+    <ClCompile Include="Prefabs\Exam\Bomb\Bomb.cpp" />
+    <ClCompile Include="Prefabs\Exam\Bomb\Explosion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -91,5 +94,8 @@
     <ClInclude Include="Prefabs\Exam\Player\Player.h" />
     <ClInclude Include="Input\ExamInput.h" />
     <ClInclude Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.h" />
+    <ClInclude Include="Components\PlaceBombComponent.h" />
+    <ClInclude Include="Prefabs\Exam\Bomb\Bomb.h" />
+    <ClInclude Include="Prefabs\Exam\Bomb\Explosion.h" />
   </ItemGroup>
 </Project>
