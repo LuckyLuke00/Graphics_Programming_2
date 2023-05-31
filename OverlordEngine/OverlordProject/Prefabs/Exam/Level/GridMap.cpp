@@ -10,27 +10,13 @@ GridMap::GridMap(int rows, int cols) :
 	m_Cols{ cols }
 {}
 
-bool GridMap::IsOccupied(const XMINT2& gridIndex) const
-{
-	return IsOccupied(gridIndex.x, gridIndex.y);
-}
-
 bool GridMap::IsOccupied(int row, int col) const
 {
 	// Check if the grid index is out of bounds
 	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
 		return true;
 
-	// Check if the grid index is occupied by a GridObject
-	return std::ranges::any_of(m_pGridObjects, [row, col](const GridObject* pGridObject)
-		{
-			return pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
-		});
-}
-
-bool GridMap::IsOccupiedByPlayer(const XMINT2& gridIndex) const
-{
-	return IsOccupiedByPlayer(gridIndex.x, gridIndex.y);
+	return FindGridObjectIndex(row, col) > -1;
 }
 
 bool GridMap::IsOccupiedByPlayer(int row, int col) const
@@ -39,11 +25,7 @@ bool GridMap::IsOccupiedByPlayer(int row, int col) const
 	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
 		return false;
 
-	// Check if the grid index is occupied by a wall
-	return std::ranges::any_of(m_pPlayers, [row, col](const Player* pPlayer)
-		{
-			return pPlayer->GetPosition().x == row && pPlayer->GetPosition().y == col;
-		});
+	return FindPlayerIndex(row, col) > -1;
 }
 
 XMINT2 GridMap::GetGridIndex(const XMFLOAT3& position) const
@@ -53,6 +35,37 @@ XMINT2 GridMap::GetGridIndex(const XMFLOAT3& position) const
 	const int col{ static_cast<int>(position.z) };
 
 	return XMINT2{ row, col };
+}
+
+void GridMap::RemoveGridObject(GridObject* pGridObject)
+{
+	const auto it{ std::ranges::find(m_pGridObjects, pGridObject) };
+	if (it != m_pGridObjects.end())
+		m_pGridObjects.erase(it);
+}
+
+void GridMap::RemovePlayer(Player* pPlayer)
+{
+	const auto it{ std::ranges::find(m_pPlayers, pPlayer) };
+	if (it != m_pPlayers.end())
+		m_pPlayers.erase(it);
+}
+
+GridObject* GridMap::GetGridObjectAt(int row, int col) const
+{
+	// Check if the grid index is out of bounds
+	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
+		return nullptr;
+
+	int index{ FindGridObjectIndex(row, col) };
+	if (index > -1)
+		return m_pGridObjects[index];
+
+	index = FindPlayerIndex(row, col);
+	if (index > -1)
+		return m_pPlayers[index];
+
+	return nullptr;
 }
 
 void GridMap::Initialize(const SceneContext&)
@@ -117,4 +130,28 @@ void GridMap::SetUpPillars()
 			GetScene()->AddChild(m_pGridObjects.back());
 		}
 	}
+}
+
+int GridMap::FindPlayerIndex(int row, int col) const
+{
+	const auto it{ std::ranges::find_if(m_pPlayers, [row, col](const Player* pPlayer)
+				{
+			return pPlayer->GetPosition().x == row && pPlayer->GetPosition().y == col;
+		}) };
+
+	if (it != m_pPlayers.end()) return static_cast<int>(std::distance(m_pPlayers.begin(), it));
+
+	return -1;
+}
+
+int GridMap::FindGridObjectIndex(int row, int col) const
+{
+	const auto it{ std::ranges::find_if(m_pGridObjects, [row, col](const GridObject* pGridObject)
+					{
+			return pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
+		}) };
+
+	if (it != m_pGridObjects.end()) return static_cast<int>(std::distance(m_pGridObjects.begin(), it));
+
+	return -1;
 }

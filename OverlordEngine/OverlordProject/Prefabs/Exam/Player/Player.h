@@ -17,6 +17,11 @@ public:
 	Player& operator=(const Player& other) = delete;
 	Player& operator=(Player&& other) noexcept = delete;
 
+	void SetSpawnPoint(const XMINT2& spawnPoint) { m_SpawnPoint = spawnPoint; }
+	void SetSpawnPoint(int row, int col) { m_SpawnPoint.x = row; m_SpawnPoint.y = col; }
+	void SetLives(int lives) { m_Lives = lives; }
+	void Kill();
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 	void OnSceneAttach(GameScene* pScene) override;
@@ -37,7 +42,12 @@ private:
 	static int m_InputId;
 	static std::vector<XMVECTORF32> m_ColorVariants;
 
+	bool m_IsDead{ false };
+
 	int m_GamepadIndex{ 0 };
+	int m_Lives{ 3 };
+	float m_RespawnTimer{ 0.f };
+	float m_RespawnTime{ 2.f };
 
 	ColorMaterial_Shadow_Skinned* m_pBlack{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pEyebrow{ nullptr };
@@ -54,9 +64,12 @@ private:
 	ModelComponent* m_pModelComponent{ nullptr };
 	PlaceBombComponent* m_pPlaceBombComponent{ nullptr };
 
+	XMINT2 m_SpawnPoint{ 1, 1 };
+
 	bool HandleThumbstickInput() const;
 	void EnableInput() const;
+	void HandleAnimations();
+	void HandleDeath();
 	void HandleInput() const;
 	void SetPlayerMaterials();
-	void HandleAnimations();
 };

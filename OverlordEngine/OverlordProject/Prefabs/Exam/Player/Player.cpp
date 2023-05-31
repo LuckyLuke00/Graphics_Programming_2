@@ -34,8 +34,8 @@ void Player::OnSceneAttach(GameScene*)
 void Player::Update(const SceneContext&)
 {
 	HandleInput();
-
 	HandleAnimations();
+	HandleDeath();
 }
 
 void Player::EnableInput() const
@@ -62,7 +62,7 @@ void Player::EnableInput() const
 
 void Player::HandleInput() const
 {
-	if (HandleThumbstickInput()) return;
+	if (m_IsDead || HandleThumbstickInput()) return;
 
 	using enum InputActions;
 
@@ -173,7 +173,11 @@ void Player::SetPlayerMaterials()
 
 void Player::HandleAnimations()
 {
-	if (m_pGridMovementComponent->IsMoving())
+	if (m_IsDead)
+	{
+		m_AnimationState = AnimationState::Death;
+	}
+	else if (m_pGridMovementComponent->IsMoving())
 	{
 		m_AnimationState = AnimationState::Run;
 	}
@@ -193,5 +197,31 @@ void Player::HandleAnimations()
 	{
 		m_pModelAnimator->SetAnimation(static_cast<UINT>(m_AnimationState));
 		m_pModelAnimator->Play();
+	}
+}
+
+void Player::HandleDeath()
+{
+	if (!m_IsDead) return;
+
+	m_RespawnTimer += GetScene()->GetSceneContext().pGameTime->GetElapsed();
+	if (m_RespawnTimer < m_RespawnTime) return;
+
+	m_IsDead = false;
+	m_RespawnTimer = 0.f;
+
+	SetPosition(m_SpawnPoint.x, m_SpawnPoint.y);
+}
+
+void Player::Kill()
+{
+	if (m_IsDead) return;
+
+	--m_Lives;
+	m_IsDead = true;
+
+	if (m_Lives < 1)
+	{
+		MarkForDelete();
 	}
 }

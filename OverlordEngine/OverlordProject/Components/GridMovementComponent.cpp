@@ -56,7 +56,15 @@ void GridMovementComponent::MoveWest()
 
 void GridMovementComponent::Update(const SceneContext& sceneContext)
 {
-	if (!IsMoving()) return;
+	if (!IsMoving())
+	{
+		// We need to reset, because the transform might have been changed externally
+		// Example: When respawning the player
+		m_CurrentPosition = GetTransform()->GetPosition();
+		m_CurrentGridPosition = m_pGridMap->GetGridIndex(m_CurrentPosition);
+		m_TargetPosition = m_CurrentPosition;
+		return;
+	}
 
 	const float dt{ sceneContext.pGameTime->GetElapsed() };
 	m_MoveTimer -= dt;

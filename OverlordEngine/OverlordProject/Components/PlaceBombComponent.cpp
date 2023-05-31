@@ -27,7 +27,7 @@ void PlaceBombComponent::PlaceBomb()
 
 	Bomb* pBomb{ new Bomb{ L"Meshes/Exam/Bomb.ovm", L"Textures/Exam/Bomb.png", this } };
 	pBomb->SetPosition(position.x, position.y);
-	m_pGridMap->AddChild(pBomb);
+	pBomb->MarkForAdd();
 
 	m_pLiveBombs.emplace_back(pBomb);
 }

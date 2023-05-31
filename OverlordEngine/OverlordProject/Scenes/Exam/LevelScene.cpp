@@ -30,6 +30,7 @@ void LevelScene::Update()
 
 	for (auto* pObject : toDestroy)
 	{
+		m_pGridMap->RemoveGridObject(pObject);
 		m_pGridMap->RemoveChild(pObject);
 	}
 
@@ -38,37 +39,24 @@ void LevelScene::Update()
 
 void LevelScene::OnSceneActivated()
 {
+	// Set-up four players
+	SetupPlayer(1, 1);
+	SetupPlayer(17, 11);
+	SetupPlayer(17, 1);
+	SetupPlayer(1, 11);
+}
+
+void LevelScene::SetupPlayer(int xPos, int yPos)
+{
 	auto* pPlayer{ new Player{ L"Meshes/Exam/Player.ovm" } };
+
 	pPlayer->SetScale(.01f, .01f);
-	pPlayer->SetPosition(1, 1);
+	pPlayer->SetPosition(xPos, yPos);
+	pPlayer->SetSpawnPoint(xPos, yPos);
 	pPlayer->SetDimensions(1, 1);
 	pPlayer->OffsetPosition(.0f, -.5f, .0f);
 	m_pGridMap->AddPlayer(pPlayer);
-	AddChild(pPlayer);
-
-	auto* pPlayer2{ new Player{ L"Meshes/Exam/Player.ovm" } };
-	pPlayer2->SetScale(.01f, .01f);
-	pPlayer2->SetPosition(17, 11);
-	pPlayer2->SetDimensions(1, 1);
-	pPlayer2->OffsetPosition(.0f, -.5f, .0f);
-	AddChild(pPlayer2);
-	m_pGridMap->AddPlayer(pPlayer2);
-
-	auto* pPlayer3{ new Player{ L"Meshes/Exam/Player.ovm" } };
-	pPlayer3->SetScale(.01f, .01f);
-	pPlayer3->SetPosition(17, 1);
-	pPlayer3->SetDimensions(1, 1);
-	pPlayer3->OffsetPosition(.0f, -.5f, .0f);
-	AddChild(pPlayer3);
-	m_pGridMap->AddPlayer(pPlayer3);
-
-	auto* pPlayer4{ new Player{ L"Meshes/Exam/Player.ovm" } };
-	pPlayer4->SetScale(.01f, .01f);
-	pPlayer4->SetPosition(1, 11);
-	pPlayer4->SetDimensions(1, 1);
-	pPlayer4->OffsetPosition(.0f, -.5f, .0f);
-	AddChild(pPlayer4);
-	m_pGridMap->AddPlayer(pPlayer4);
+	pPlayer->MarkForAdd();
 }
 
 void LevelScene::SetUpCamera()

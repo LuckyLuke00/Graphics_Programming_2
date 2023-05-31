@@ -16,7 +16,9 @@ protected:
 	void Initialize() override;
 	void Update() override;
 	void OnSceneActivated() override;
+
 private:
+	void SetupPlayer(int xPos, int yPos);
 	void SetUpCamera();
 	void CreateGroundPlane();
 
