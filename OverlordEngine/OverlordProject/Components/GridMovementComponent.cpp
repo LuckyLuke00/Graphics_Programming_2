@@ -21,7 +21,11 @@ void GridMovementComponent::Initialize(const SceneContext&)
 void GridMovementComponent::MoveNorth()
 {
 	if (IsMoving()) return;
-	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z + 1 }))) return;
+
+	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y + 1, m_TargetPosition.z }) };
+	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
+	if (m_pGridMap->IsOccupied(gridIndex)) return;
+
 	m_TargetPosition.z += 1;
 	m_MoveTimer = m_MoveSpeed;
 	GetTransform()->Rotate(.0f, XM_PI, .0f, false);
@@ -30,7 +34,11 @@ void GridMovementComponent::MoveNorth()
 void GridMovementComponent::MoveSouth()
 {
 	if (IsMoving()) return;
-	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z - 1 }))) return;
+
+	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z - 1 }) };
+	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
+	if (m_pGridMap->IsOccupied(gridIndex)) return;
+
 	m_TargetPosition.z -= 1;
 	m_MoveTimer = m_MoveSpeed;
 	GetTransform()->Rotate(.0f, .0f, .0f, false);
@@ -39,7 +47,11 @@ void GridMovementComponent::MoveSouth()
 void GridMovementComponent::MoveEast()
 {
 	if (IsMoving()) return;
-	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x + 1, m_TargetPosition.y, m_TargetPosition.z }))) return;
+
+	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x + 1, m_TargetPosition.y, m_TargetPosition.z }) };
+	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
+	if (m_pGridMap->IsOccupied(gridIndex)) return;
+
 	m_TargetPosition.x += 1;
 	m_MoveTimer = m_MoveSpeed;
 	GetTransform()->Rotate(.0f, -XM_PIDIV2, .0f, false);
@@ -48,7 +60,11 @@ void GridMovementComponent::MoveEast()
 void GridMovementComponent::MoveWest()
 {
 	if (IsMoving()) return;
-	if (m_pGridMap->IsOccupied(m_pGridMap->GetGridIndex({ m_TargetPosition.x - 1, m_TargetPosition.y, m_TargetPosition.z }))) return;
+
+	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x - 1, m_TargetPosition.y, m_TargetPosition.z }) };
+	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
+	if (m_pGridMap->IsOccupied(gridIndex)) return;
+
 	m_TargetPosition.x -= 1;
 	m_MoveTimer = m_MoveSpeed;
 	GetTransform()->Rotate(.0f, XM_PIDIV2, .0f, false);

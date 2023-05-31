@@ -16,10 +16,9 @@ public:
 	Bomb& operator=(const Bomb& other) = delete;
 	Bomb& operator=(Bomb&& other) noexcept = delete;
 
-	void SetFuseTime(float fuseTime) { m_FuseTime = fuseTime; }
+	void Explode();
 	void SetExplosionRadius(int explosionRadius) { m_ExplosionRadius = explosionRadius; }
-
-	bool ShouldExplode() const { return m_FuseTimer >= m_FuseTime; }
+	void SetFuseTime(float fuseTime) { m_FuseTime = fuseTime; }
 
 protected:
 	void Initialize(const SceneContext&) override;
@@ -29,12 +28,11 @@ private:
 	PlaceBombComponent* m_pPlaceBombComponent{ nullptr };
 	int m_ExplosionRadius{ 1 };
 
-	float m_FuseTime{ 3.f };
+	float m_FuseTime{ 10.f };
 	float m_FuseTimer{ 0.f };
 
 	const std::wstring m_ExplostionModel{ L"Meshes/Exam/Explosion.ovm" };
 	const std::wstring m_ExplosionTexture{ L"Textures/Exam/Explosion.png" };
 
-	void Explode();
-	Explosion* CreateExplosion(int x, int y);
+	void CreateExplosion(int x, int y);
 };

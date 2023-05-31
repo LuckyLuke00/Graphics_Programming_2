@@ -20,8 +20,12 @@ void Explosion::Initialize(const SceneContext&)
 
 void Explosion::Update(const SceneContext& sceneContext)
 {
-	Player* pPlayer{ dynamic_cast<Player*>(GetGridMap()->GetGridObjectAt(GetPosition())) };
+	GridObject* pGridObject{ GetGridMap()->GetGridObjectAt(GetPosition()) };
+	Player* pPlayer{ dynamic_cast<Player*>(pGridObject) };
 	if (pPlayer) pPlayer->Kill();
+
+	Bomb* pBomb{ dynamic_cast<Bomb*>(pGridObject) };
+	if (pBomb) pBomb->Explode();
 
 	m_Timer += sceneContext.pGameTime->GetElapsed();
 	if (m_Timer >= m_LifeTime)

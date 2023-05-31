@@ -11,7 +11,7 @@ PlaceBombComponent::PlaceBombComponent(int maxBombs, int explosionRadius) :
 
 void PlaceBombComponent::PlaceBomb()
 {
-	if (m_MaxBombs <= m_pLiveBombs.size()) return;
+	//if (m_MaxBombs <= m_pLiveBombs.size()) return;
 	// If the current position already has a bomb, don't place another one
 
 	const auto& position{ m_pGridObjectOwner->GetPosition() };
@@ -27,6 +27,7 @@ void PlaceBombComponent::PlaceBomb()
 
 	Bomb* pBomb{ new Bomb{ L"Meshes/Exam/Bomb.ovm", L"Textures/Exam/Bomb.png", this } };
 	pBomb->SetPosition(position.x, position.y);
+	pBomb->OffsetPosition(.0f, -.5f);
 	pBomb->MarkForAdd();
 
 	m_pLiveBombs.emplace_back(pBomb);

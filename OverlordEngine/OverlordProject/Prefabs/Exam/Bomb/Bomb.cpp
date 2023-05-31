@@ -4,6 +4,7 @@
 #include "Materials/DiffuseMaterial.h"
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Components/PlaceBombComponent.h"
+#include "Prefabs/Exam/Player/Player.h"
 
 Bomb::Bomb(const std::wstring& model, const std::wstring& texture, PlaceBombComponent* placeBombComponent, int explosionRadius, float fuseTime) :
 	m_pPlaceBombComponent{ placeBombComponent },
@@ -28,8 +29,6 @@ void Bomb::Update(const SceneContext& sceneContext)
 	{
 		m_FuseTimer = .0f;
 		Explode();
-		if (m_pPlaceBombComponent) m_pPlaceBombComponent->OnBombExploded(this);
-		MarkForDelete();
 	}
 }
 
@@ -37,37 +36,34 @@ void Bomb::Explode()
 {
 	for (int i{ 1 }; i <= m_ExplosionRadius; ++i)
 	{
-		XMINT2 pos{ GetPosition() };
-		{
-			CreateExplosion(pos.x, pos.y);
-		}
+		const XMINT2& pos{ GetPosition() };
 
-		if (!GetGridMap()->IsOccupied(pos.x + 1, pos.y))
-		{
-			CreateExplosion(pos.x + 1, pos.y);
-		}
-
-		if (!GetGridMap()->IsOccupied(pos.x - 1, pos.y))
-		{
-			CreateExplosion(pos.x - 1, pos.y);
-		}
-
-		if (!GetGridMap()->IsOccupied(pos.x, pos.y + 1))
-		{
-			CreateExplosion(pos.x, pos.y + 1);
-		}
-
-		if (!GetGridMap()->IsOccupied(pos.x, pos.y - 1))
-		{
-			CreateExplosion(pos.x, pos.y - 1);
-		}
+		CreateExplosion(pos.x, pos.y);
+		CreateExplosion(pos.x + 1, pos.y);
+		CreateExplosion(pos.x - 1, pos.y);
+		CreateExplosion(pos.x, pos.y + 1);
+		CreateExplosion(pos.x, pos.y - 1);
 	}
+
+	if (m_pPlaceBombComponent) m_pPlaceBombComponent->OnBombExploded(this);
+	MarkForDelete();
 }
 
-Explosion* Bomb::CreateExplosion(int x, int y)
+void Bomb::CreateExplosion(int x, int y)
 {
+	// If the position is the same as the bomb's position, still create an explosion
+	// This is to make sure the bomb itself is destroyed
+	const XMINT2& pos{ GetPosition() };
+	bool isBombPosition{ x == pos.x && y == pos.y };
+	auto pGridObject{ GetGridMap()->GetGridObjectAt(x, y) };
+
+	if (!isBombPosition && pGridObject)
+	{
+		if (!dynamic_cast<Bomb*>(pGridObject) && !dynamic_cast<Player*>(pGridObject)) return;
+	}
+
 	Explosion* pExplositon{ new Explosion{ m_ExplostionModel, m_ExplosionTexture } };
 	pExplositon->SetPosition(x, y);
-	pExplositon->MarkForAdd();
-	return pExplositon;
+	pExplositon->OffsetPosition(.0f, -.5f);
+	pExplositon->MarkForAdd(false);
 }

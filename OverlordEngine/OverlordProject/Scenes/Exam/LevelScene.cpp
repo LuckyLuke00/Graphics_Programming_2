@@ -19,9 +19,18 @@ void LevelScene::Update()
 {
 	const auto& toAdd{ GridObject::GetObjectsToAdd() };
 
-	for (auto* pObject : toAdd)
+	for (auto& pObject : toAdd)
 	{
-		m_pGridMap->AddChild(pObject);
+		if (!pObject.first) continue;
+
+		if (pObject.second)
+		{
+			Player* pPlayer{ dynamic_cast<Player*>(pObject.first) };
+			if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
+			else m_pGridMap->AddGridObject(pObject.first);
+		}
+
+		m_pGridMap->AddChild(pObject.first);
 	}
 
 	GridObject::GetObjectsToAdd().clear();
@@ -30,6 +39,8 @@ void LevelScene::Update()
 
 	for (auto* pObject : toDestroy)
 	{
+		if (!pObject) continue;
+
 		m_pGridMap->RemoveGridObject(pObject);
 		m_pGridMap->RemoveChild(pObject);
 	}
