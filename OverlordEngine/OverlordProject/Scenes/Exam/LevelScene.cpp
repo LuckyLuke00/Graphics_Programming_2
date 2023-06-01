@@ -41,7 +41,10 @@ void LevelScene::Update()
 	{
 		if (!pObject) continue;
 
-		m_pGridMap->RemoveGridObject(pObject);
+		Player* pPlayer{ dynamic_cast<Player*>(pObject) };
+		if (pPlayer) m_pGridMap->RemovePlayer(pPlayer);
+		else m_pGridMap->RemoveGridObject(pObject);
+
 		m_pGridMap->RemoveChild(pObject);
 	}
 
@@ -50,14 +53,13 @@ void LevelScene::Update()
 
 void LevelScene::OnSceneActivated()
 {
-	// Set-up four players
-	SetupPlayer(1, 1);
-	SetupPlayer(17, 11);
-	SetupPlayer(17, 1);
-	SetupPlayer(1, 11);
+	for (int i{ 0 }; i < m_MaxPlayers; ++i)
+	{
+		SetupPlayer(m_PlayerSpawnPoints[i].x, m_PlayerSpawnPoints[i].y);
+	}
 }
 
-void LevelScene::SetupPlayer(int xPos, int yPos)
+void LevelScene::SetupPlayer(int xPos, int yPos) const
 {
 	auto* pPlayer{ new Player{ L"Meshes/Exam/Player.ovm" } };
 
@@ -66,7 +68,6 @@ void LevelScene::SetupPlayer(int xPos, int yPos)
 	pPlayer->SetSpawnPoint(xPos, yPos);
 	pPlayer->SetDimensions(1, 1);
 	pPlayer->OffsetPosition(.0f, -.5f, .0f);
-	m_pGridMap->AddPlayer(pPlayer);
 	pPlayer->MarkForAdd();
 }
 

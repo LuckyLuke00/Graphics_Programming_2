@@ -18,7 +18,6 @@ Player::Player(const std::wstring& model)
 void Player::Initialize(const SceneContext&)
 {
 	m_pPlaceBombComponent = AddComponent(new PlaceBombComponent{});
-	// Add a GridMovementComponent
 	m_pGridMovementComponent = AddComponent(new GridMovementComponent{});
 	m_pPlaceBombComponent->SetGridMap(GetGridMap());
 }
@@ -210,6 +209,12 @@ void Player::HandleDeath()
 	m_IsDead = false;
 	m_RespawnTimer = 0.f;
 
+	if (m_Lives < 1)
+	{
+		MarkForDelete();
+		return;
+	}
+
 	SetPosition(m_SpawnPoint.x, m_SpawnPoint.y);
 }
 
@@ -219,9 +224,4 @@ void Player::Kill()
 
 	--m_Lives;
 	m_IsDead = true;
-
-	if (m_Lives < 1)
-	{
-		MarkForDelete();
-	}
 }

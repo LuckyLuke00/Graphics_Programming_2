@@ -22,7 +22,7 @@ void GridMovementComponent::MoveNorth()
 {
 	if (IsMoving()) return;
 
-	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y + 1, m_TargetPosition.z }) };
+	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z + 1 }) };
 	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
 	if (m_pGridMap->IsOccupied(gridIndex)) return;
 
