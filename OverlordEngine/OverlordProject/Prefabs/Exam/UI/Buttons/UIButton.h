@@ -1,6 +1,6 @@
 #pragma once
 
-class UIButton : public GameObject
+class UIButton final : public GameObject
 {
 public:
 	UIButton(SpriteFont* pFont, const std::wstring& text, DirectX::XMFLOAT2 position = { .0f, .0f });

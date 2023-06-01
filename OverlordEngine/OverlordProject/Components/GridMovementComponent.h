@@ -3,7 +3,7 @@
 class GridMap;
 class GridObject;
 
-class GridMovementComponent : public BaseComponent
+class GridMovementComponent final : public BaseComponent
 {
 public:
 	explicit GridMovementComponent(float moveSpeed = 1.f);

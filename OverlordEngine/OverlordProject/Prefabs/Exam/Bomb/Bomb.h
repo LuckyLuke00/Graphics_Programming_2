@@ -5,7 +5,7 @@ class GridMap;
 class PlaceBombComponent;
 class Explosion;
 
-class Bomb : public GridObject
+class Bomb final : public GridObject
 {
 public:
 	explicit Bomb(const std::wstring& model, const std::wstring& texture, PlaceBombComponent* placeBombComponent, int explosionRadius = 1, float fuseTime = 3.f);
@@ -22,9 +22,12 @@ public:
 
 protected:
 	void Initialize(const SceneContext&) override;
+	void OnSceneAttach(GameScene* pScene) override;
 	void Update(const SceneContext& sceneContext) override;
 
 private:
+	ModelComponent* m_pModelComponent{ nullptr };
+	ModelAnimator* m_pModelAnimator{ nullptr };
 	PlaceBombComponent* m_pPlaceBombComponent{ nullptr };
 	int m_ExplosionRadius{ 1 };
 

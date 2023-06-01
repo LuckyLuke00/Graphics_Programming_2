@@ -48,6 +48,9 @@
     <ClCompile Include="Components\PlaceBombComponent.cpp" />
     <ClCompile Include="Prefabs\Exam\Bomb\Bomb.cpp" />
     <ClCompile Include="Prefabs\Exam\Bomb\Explosion.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\PowerUp.cpp" />
+    <ClCompile Include="Components\PowerUpSpawnerComponent.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\FirePowerUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -97,5 +100,8 @@
     <ClInclude Include="Components\PlaceBombComponent.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\Bomb.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\Explosion.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\PowerUp.h" />
+    <ClInclude Include="Components\PowerUpSpawnerComponent.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\FirePowerUp.h" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Prefabs/Exam/Bomb/Bomb.h"
 
-class PlaceBombComponent : public BaseComponent
+class PlaceBombComponent final : public BaseComponent
 {
 public:
 	explicit PlaceBombComponent(int maxBombs = 1, int explosionRadius = 1);
@@ -37,6 +37,4 @@ private:
 	GridObject* m_pGridObjectOwner{ nullptr };
 
 	std::vector<Bomb*> m_pLiveBombs;
-
-	Explosion* CreateExplosion(int x, int y);
 };

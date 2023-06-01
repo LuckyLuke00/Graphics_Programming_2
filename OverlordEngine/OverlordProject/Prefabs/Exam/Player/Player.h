@@ -7,7 +7,7 @@
 
 class GridMovementComponent;
 
-class Player : public GridObject
+class Player final : public GridObject
 {
 public:
 	explicit Player(const std::wstring& model);

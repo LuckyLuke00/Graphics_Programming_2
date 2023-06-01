@@ -1,6 +1,8 @@
 #pragma once
 #include "GridObject.h"
 
+class PowerUpSpawnerComponent;
+
 class Block : public GridObject
 {
 public:
@@ -18,4 +20,5 @@ public:
 private:
 	bool m_IsBreakable{ false };
 	std::wstring m_TexturePath{};
+	PowerUpSpawnerComponent* m_pSpawner{ nullptr };
 };

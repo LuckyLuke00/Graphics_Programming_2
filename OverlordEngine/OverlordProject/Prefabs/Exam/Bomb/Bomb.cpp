@@ -15,7 +15,8 @@ Bomb::Bomb(const std::wstring& model, const std::wstring& texture, PlaceBombComp
 	DiffuseMaterial* pMaterial{ MaterialManager::Get()->CreateMaterial<DiffuseMaterial>() };
 	if (!texture.empty()) pMaterial->SetDiffuseTexture(texture);
 
-	AddComponent(new ModelComponent{ model })->SetMaterial(pMaterial);
+	m_pModelComponent = AddComponent(new ModelComponent{ model });
+	m_pModelComponent->SetMaterial(pMaterial);
 }
 
 void Bomb::Initialize(const SceneContext&)
@@ -23,8 +24,20 @@ void Bomb::Initialize(const SceneContext&)
 	SetScale(.01f, .01f);
 }
 
+void Bomb::OnSceneAttach(GameScene*)
+{
+	m_pModelAnimator = m_pModelComponent->GetAnimator();
+	m_pModelAnimator->SetAnimationSpeed(1.f);
+	m_pModelAnimator->SetAnimation(0);
+}
+
 void Bomb::Update(const SceneContext& sceneContext)
 {
+	if (!m_pModelAnimator->IsPlaying())
+	{
+		m_pModelAnimator->Play();
+	}
+
 	m_FuseTimer += sceneContext.pGameTime->GetElapsed();
 	if (m_FuseTimer >= m_FuseTime)
 	{

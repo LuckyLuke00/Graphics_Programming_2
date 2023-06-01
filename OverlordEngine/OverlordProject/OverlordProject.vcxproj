@@ -93,6 +93,9 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\PowerUpSpawnerComponent.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\FirePowerUp.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\PowerUp.cpp" />
     <ClCompile Include="Prefabs\Exam\Bomb\Explosion.cpp" />
     <ClCompile Include="Prefabs\Exam\Bomb\Bomb.cpp" />
     <ClCompile Include="Components\PlaceBombComponent.cpp" />
@@ -159,6 +162,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\PowerUpSpawnerComponent.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\FirePowerUp.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\PowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\Explosion.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\Bomb.h" />
     <ClInclude Include="Components\PlaceBombComponent.h" />

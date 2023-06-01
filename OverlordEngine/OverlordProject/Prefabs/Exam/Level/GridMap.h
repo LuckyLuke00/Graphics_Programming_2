@@ -3,7 +3,7 @@
 
 class Player;
 
-class GridMap : public GameObject
+class GridMap final : public GameObject
 {
 public:
 	static const std::wstring m_Tag;

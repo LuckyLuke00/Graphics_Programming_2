@@ -171,6 +171,7 @@ void GridMap::SetUpBreakableBlocks()
 			Block* pBlock{ new Block{ L"Meshes/Exam/BreakableBox.ovm", L"Textures/Exam/BreakableBlock.png", true } };
 			pBlock->SetPosition(row, col);
 			pBlock->SetDimensions(1, 1);
+			pBlock->OffsetPosition(.0f, -.5f, .0f);
 			pBlock->SetScale(.01f, .01f);
 			pBlock->MarkForAdd();
 		}

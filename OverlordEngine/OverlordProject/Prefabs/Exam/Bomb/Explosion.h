@@ -1,7 +1,7 @@
 #pragma once
 #include "Prefabs/Exam/Level/GridObject.h"
 
-class Explosion : public GridObject
+class Explosion final : public GridObject
 {
 public:
 	explicit Explosion(const std::wstring& model, const std::wstring& texture, float lifeTime = 1.f);
