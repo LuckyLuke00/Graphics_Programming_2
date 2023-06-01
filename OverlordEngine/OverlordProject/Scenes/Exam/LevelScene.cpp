@@ -55,17 +55,30 @@ void LevelScene::OnSceneActivated()
 {
 	for (int i{ 0 }; i < m_MaxPlayers; ++i)
 	{
-		SetupPlayer(m_PlayerSpawnPoints[i].x, m_PlayerSpawnPoints[i].y);
+		SetupPlayer(i);
 	}
 }
 
-void LevelScene::SetupPlayer(int xPos, int yPos) const
+void LevelScene::SetupPlayer(int playerIndex) const
 {
+	if (playerIndex < 0 || playerIndex >= m_MaxPlayers) return;
+
+	// Calculate the corner of the grid where the player should spawn
+	// If playerindex is 0, spawn in the bottom left corner, bottom left is (1, 1)
+	// If playerindex is 1, spawn in the top right corner
+	// If playerindex is 2, spawn in the bottom right corner
+	// If playerindex is 3, spawn in the top left corner
+
+	// Use m_pGridMap->GetCols and m_pGridMap->GetRows to calculate the spawn point
+	// PlayerIndex goes from 0 to 3
+	const int x{ playerIndex % 2 == 0 ? 1 : m_pGridMap->GetRows() - 2 };
+	const int y{ playerIndex < 2 ? 1 : m_pGridMap->GetCols() - 2 };
+
 	auto* pPlayer{ new Player{ L"Meshes/Exam/Player.ovm" } };
 
 	pPlayer->SetScale(.01f, .01f);
-	pPlayer->SetPosition(xPos, yPos);
-	pPlayer->SetSpawnPoint(xPos, yPos);
+	pPlayer->SetPosition(x, y);
+	pPlayer->SetSpawnPoint(x, y);
 	pPlayer->SetDimensions(1, 1);
 	pPlayer->OffsetPosition(.0f, -.5f, .0f);
 	pPlayer->MarkForAdd();

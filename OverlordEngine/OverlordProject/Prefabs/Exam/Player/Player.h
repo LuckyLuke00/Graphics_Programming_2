@@ -1,8 +1,9 @@
 #pragma once
 #include "Components/GridMovementComponent.h"
+#include "Components/PlaceBombComponent.h"
+#include "Input/ExamInput.h"
 #include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
 #include "Prefabs/Exam/Level/GridObject.h"
-#include "Components/PlaceBombComponent.h"
 
 class GridMovementComponent;
 
@@ -72,4 +73,6 @@ private:
 	void HandleDeath();
 	void HandleInput() const;
 	void SetPlayerMaterials();
+
+	int GetActionID(ExamInput::InputActions action) const;
 };

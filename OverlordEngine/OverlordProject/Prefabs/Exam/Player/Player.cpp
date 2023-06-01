@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "Input/ExamInput.h"
 #include "Prefabs/Exam/Bomb/Bomb.h"
 
 int Player::m_InputId{ -1 };
@@ -41,21 +40,22 @@ void Player::EnableInput() const
 {
 	InputManager* pInput{ GetScene()->GetSceneContext().pInput };
 
+	using namespace ExamInput;
 	using enum InputActions;
 
-	InputAction north{ InputAction{ static_cast<int>(MoveNorth) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_UP, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	InputAction north{ InputAction{ GetActionID(MoveNorth), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_UP, static_cast<GamepadIndex>(m_GamepadIndex)} };
 	pInput->AddInputAction(north);
 
-	InputAction south{ InputAction{ static_cast<int>(MoveSouth) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_DOWN, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	InputAction south{ InputAction{ GetActionID(MoveSouth), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_DOWN, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(south);
 
-	InputAction west{ InputAction{ static_cast<int>(MoveWest) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_LEFT, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	InputAction west{ InputAction{ GetActionID(MoveWest), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_LEFT, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(west);
 
-	InputAction east{ InputAction{ static_cast<int>(MoveEast) + m_GamepadIndex * 4, InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	InputAction east{ InputAction{ GetActionID(MoveEast), InputState::down, -1, -1, XINPUT_GAMEPAD_DPAD_RIGHT, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(east);
 
-	InputAction placeBomb{ InputAction{ static_cast<int>(PlaceBomb) + m_GamepadIndex * 4, InputState::pressed, -1, -1, XINPUT_GAMEPAD_A, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	InputAction placeBomb{ InputAction{GetActionID(PlaceBomb), InputState::pressed, -1, -1, XINPUT_GAMEPAD_A, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(placeBomb);
 }
 
@@ -63,27 +63,28 @@ void Player::HandleInput() const
 {
 	if (m_IsDead || HandleThumbstickInput()) return;
 
+	using namespace ExamInput;
 	using enum InputActions;
 
 	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
-	if (pInput->IsActionTriggered(static_cast<int>(MoveNorth) + m_GamepadIndex * 4))
+	if (pInput->IsActionTriggered(GetActionID(MoveNorth)))
 	{
 		m_pGridMovementComponent->MoveNorth();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveSouth) + m_GamepadIndex * 4))
+	else if (pInput->IsActionTriggered(GetActionID(MoveSouth)))
 	{
 		m_pGridMovementComponent->MoveSouth();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveWest) + m_GamepadIndex * 4))
+	else if (pInput->IsActionTriggered(GetActionID(MoveWest)))
 	{
 		m_pGridMovementComponent->MoveWest();
 	}
-	else if (pInput->IsActionTriggered(static_cast<int>(MoveEast) + m_GamepadIndex * 4))
+	else if (pInput->IsActionTriggered(GetActionID(MoveEast)))
 	{
 		m_pGridMovementComponent->MoveEast();
 	}
 
-	if (pInput->IsActionTriggered(static_cast<int>(PlaceBomb) + m_GamepadIndex * 4))
+	if (pInput->IsActionTriggered(GetActionID(PlaceBomb)))
 	{
 		m_pPlaceBombComponent->PlaceBomb();
 	}
@@ -168,6 +169,11 @@ void Player::SetPlayerMaterials()
 	m_pModelComponent->SetMaterial(m_pBody, 11u); // Legs
 	m_pModelComponent->SetMaterial(m_pBody, 4u); // Arms
 	m_pModelComponent->SetMaterial(m_pBody, 9u); // Antenna
+}
+
+int Player::GetActionID(ExamInput::InputActions action) const
+{
+	return static_cast<int>(action) + m_GamepadIndex * ExamInput::PlayerActionCount;
 }
 
 void Player::HandleAnimations()

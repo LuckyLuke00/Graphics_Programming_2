@@ -33,6 +33,9 @@ public:
 
 	XMINT2 GetGridIndex(const XMFLOAT3& position) const;
 
+	int GetRows() const { return m_Rows; }
+	int GetCols() const { return m_Cols; }
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 
@@ -46,6 +49,7 @@ private:
 	void SetUpFloor() const;
 	void SetUpWalls();
 	void SetUpPillars();
+	void SetUpBreakableBlocks();
 
 	int FindPlayerIndex(int row, int col) const;
 	int FindGridObjectIndex(int row, int col) const;

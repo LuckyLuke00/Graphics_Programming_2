@@ -1,17 +1,22 @@
 #pragma once
-enum class InputActions
+namespace ExamInput
 {
-	// UI Actions
-	Up,
-	Down,
-	Left,
-	Right,
-	Submit,
+	enum class InputActions
+	{
+		// UI Actions
+		Up,
+		Down,
+		Left,
+		Right,
+		Submit,
 
-	// Player Actions
-	MoveNorth,
-	MoveEast,
-	MoveSouth,
-	MoveWest,
-	PlaceBomb,
-};
+		// Player Actions
+		MoveNorth,
+		MoveEast,
+		MoveSouth,
+		MoveWest,
+		PlaceBomb,
+	};
+
+	constexpr int PlayerActionCount{ 5 };
+}

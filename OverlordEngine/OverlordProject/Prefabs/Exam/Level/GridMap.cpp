@@ -75,6 +75,7 @@ void GridMap::Initialize(const SceneContext&)
 	SetUpFloor();
 	SetUpWalls();
 	SetUpPillars();
+	//SetUpBreakableBlocks();
 }
 
 void GridMap::SetUpFloor() const
@@ -127,6 +128,50 @@ void GridMap::SetUpPillars()
 			AddGridObject(new Block{ L"Meshes/Exam/UnitBoxRounded.ovm", L"Textures/Exam/stone.png", false });
 			m_pGridObjects.back()->SetPosition(row, col);
 			m_pGridObjects.back()->SetDimensions(1, 1);
+			GetScene()->AddChild(m_pGridObjects.back());
+		}
+	}
+}
+
+void GridMap::SetUpBreakableBlocks()
+{
+	const int cornerPadding{ 1 };
+
+	for (int row = 1; row < m_Rows - 1; ++row)
+	{
+		for (int col = 1; col < m_Cols - 1; ++col)
+		{
+			if (IsOccupied(row, col)) continue;
+
+			bool isCorner
+			{
+				// Bottom left corner
+				(row == cornerPadding && col == cornerPadding) ||
+				(row == cornerPadding + cornerPadding && col == cornerPadding) ||
+				(row == cornerPadding && col == cornerPadding + cornerPadding) ||
+
+				// Top left corner
+				(row == cornerPadding && col == m_Cols - cornerPadding - 1) ||
+				(row == cornerPadding + cornerPadding && col == m_Cols - cornerPadding - 1) ||
+				(row == cornerPadding && col == m_Cols - cornerPadding - cornerPadding - 1) ||
+
+				// Bottom right corner
+				(row == m_Rows - cornerPadding - 1 && col == cornerPadding) ||
+				(row == m_Rows - cornerPadding - cornerPadding - 1 && col == cornerPadding) ||
+				(row == m_Rows - cornerPadding - 1 && col == cornerPadding + cornerPadding) ||
+
+				// Top right corner
+				(row == m_Rows - cornerPadding - 1 && col == m_Cols - cornerPadding - 1) ||
+				(row == m_Rows - cornerPadding - cornerPadding - 1 && col == m_Cols - cornerPadding - 1) ||
+				(row == m_Rows - cornerPadding - 1 && col == m_Cols - cornerPadding - cornerPadding - 1)
+			};
+
+			if (isCorner) continue;
+
+			AddGridObject(new Block{ L"Meshes/Exam/BreakableBox.ovm", L"Textures/Exam/BreakableBlock.png", true });
+			m_pGridObjects.back()->SetPosition(row, col);
+			m_pGridObjects.back()->SetDimensions(1, 1);
+			m_pGridObjects.back()->SetScale(.01f, .01f);
 			GetScene()->AddChild(m_pGridObjects.back());
 		}
 	}
