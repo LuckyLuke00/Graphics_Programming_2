@@ -2,8 +2,8 @@
 #include "GridMovementComponent.h"
 #include "Prefabs/Exam/Level/GridMap.h"
 
-GridMovementComponent::GridMovementComponent(float moveSpeed) :
-	m_MoveSpeed{ moveSpeed }
+GridMovementComponent::GridMovementComponent(float moveTime) :
+	m_MoveTime{ moveTime }
 {}
 
 void GridMovementComponent::Initialize(const SceneContext&)
@@ -27,7 +27,7 @@ void GridMovementComponent::MoveNorth()
 	if (m_pGridMap->IsOccupied(gridIndex)) return;
 
 	m_TargetPosition.z += 1;
-	m_MoveTimer = m_MoveSpeed;
+	m_MoveTimer = m_MoveTime;
 	GetTransform()->Rotate(.0f, XM_PI, .0f, false);
 }
 
@@ -40,7 +40,7 @@ void GridMovementComponent::MoveSouth()
 	if (m_pGridMap->IsOccupied(gridIndex)) return;
 
 	m_TargetPosition.z -= 1;
-	m_MoveTimer = m_MoveSpeed;
+	m_MoveTimer = m_MoveTime;
 	GetTransform()->Rotate(.0f, .0f, .0f, false);
 }
 
@@ -53,7 +53,7 @@ void GridMovementComponent::MoveEast()
 	if (m_pGridMap->IsOccupied(gridIndex)) return;
 
 	m_TargetPosition.x += 1;
-	m_MoveTimer = m_MoveSpeed;
+	m_MoveTimer = m_MoveTime;
 	GetTransform()->Rotate(.0f, -XM_PIDIV2, .0f, false);
 }
 
@@ -66,7 +66,7 @@ void GridMovementComponent::MoveWest()
 	if (m_pGridMap->IsOccupied(gridIndex)) return;
 
 	m_TargetPosition.x -= 1;
-	m_MoveTimer = m_MoveSpeed;
+	m_MoveTimer = m_MoveTime;
 	GetTransform()->Rotate(.0f, XM_PIDIV2, .0f, false);
 }
 
@@ -82,26 +82,24 @@ void GridMovementComponent::Update(const SceneContext& sceneContext)
 		return;
 	}
 
+	// when the m_MoveTime is 5f, it should take exactly 5 seconds to reach m_TargetPosition
 	const float dt{ sceneContext.pGameTime->GetElapsed() };
 	m_MoveTimer -= dt;
-	const float lerp{ 1 - m_MoveTimer / m_MoveSpeed };
 
 	// Calculate the new position
-	const float x{ MathHelper::Lerp(m_CurrentPosition.x, m_TargetPosition.x, lerp) };
-	const float z{ MathHelper::Lerp(m_CurrentPosition.z, m_TargetPosition.z, lerp) };
-
-	// Update the position
-	m_CurrentPosition = { x, m_CurrentPosition.y, z };
+	const float t{ 1.f - (m_MoveTimer / m_MoveTime) };
+	const float x{ m_CurrentPosition.x + ((m_TargetPosition.x - m_CurrentPosition.x) * t) };
+	const float z{ m_CurrentPosition.z + ((m_TargetPosition.z - m_CurrentPosition.z) * t) };
 
 	// Update the transform
-	GetTransform()->Translate(m_CurrentPosition);
-	m_CurrentGridPosition = m_pGridMap->GetGridIndex(m_CurrentPosition);
+	GetTransform()->Translate(x, m_CurrentPosition.y, z);
 
 	// Check if we reached the target position
-	if (abs(m_CurrentPosition.x - m_TargetPosition.x) < 0.01f && abs(m_CurrentPosition.z - m_TargetPosition.z) < 0.01f)
+	if (m_MoveTimer <= .0f)
 	{
 		m_CurrentPosition = m_TargetPosition;
-		m_TargetPosition = m_CurrentPosition;
+		m_CurrentGridPosition = m_pGridMap->GetGridIndex(m_CurrentPosition);
+		m_MoveTimer = .0f;
 
 		// Update the transform
 		GetTransform()->Translate(m_CurrentPosition);
@@ -111,5 +109,5 @@ void GridMovementComponent::Update(const SceneContext& sceneContext)
 
 bool GridMovementComponent::IsMoving() const
 {
-	return m_CurrentPosition.x != m_TargetPosition.x || m_CurrentPosition.z != m_TargetPosition.z;
+	return m_MoveTimer > .0f;
 }

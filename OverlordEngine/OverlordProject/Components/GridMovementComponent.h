@@ -34,6 +34,6 @@ private:
 	XMFLOAT3 m_TargetPosition{ 0, 0, 0 };
 	XMINT2 m_CurrentGridPosition{ 0, 0 };
 
-	float m_MoveSpeed{ 1.f };
+	float m_MoveTime{ 1.f };
 	float m_MoveTimer{ .0f };
 };

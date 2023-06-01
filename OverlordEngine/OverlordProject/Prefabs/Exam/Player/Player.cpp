@@ -17,7 +17,7 @@ Player::Player(const std::wstring& model)
 void Player::Initialize(const SceneContext&)
 {
 	m_pPlaceBombComponent = AddComponent(new PlaceBombComponent{});
-	m_pGridMovementComponent = AddComponent(new GridMovementComponent{});
+	m_pGridMovementComponent = AddComponent(new GridMovementComponent{ .5f });
 	m_pPlaceBombComponent->SetGridMap(GetGridMap());
 }
 
