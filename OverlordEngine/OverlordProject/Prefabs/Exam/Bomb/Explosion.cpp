@@ -3,6 +3,7 @@
 #include "Materials/DiffuseMaterial.h"
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Prefabs/Exam/Player/Player.h"
+#include "Prefabs/Exam/Level/Block.h"
 
 Explosion::Explosion(const std::wstring& model, const std::wstring& texture, float lifeTime) :
 	m_LifeTime{ lifeTime }
@@ -21,6 +22,10 @@ void Explosion::Initialize(const SceneContext&)
 void Explosion::Update(const SceneContext& sceneContext)
 {
 	GridObject* pGridObject{ GetGridMap()->GetGridObjectAt(GetPosition()) };
+
+	Block* pBlock{ dynamic_cast<Block*>(pGridObject) };
+	if (pBlock && pBlock->IsBreakable()) pBlock->Break();
+
 	Player* pPlayer{ dynamic_cast<Player*>(pGridObject) };
 	if (pPlayer) pPlayer->Kill();
 

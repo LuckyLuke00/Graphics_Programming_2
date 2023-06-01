@@ -12,3 +12,8 @@ Block::Block(const std::wstring& model, const std::wstring& texture, bool isBrea
 	auto* pModel{ AddComponent(new ModelComponent{ model }) };
 	pModel->SetMaterial(pMaterial);
 }
+
+void Block::Break()
+{
+	MarkForDelete();
+}

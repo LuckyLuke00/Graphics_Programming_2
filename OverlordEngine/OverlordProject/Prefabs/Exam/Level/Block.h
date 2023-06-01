@@ -13,6 +13,7 @@ public:
 	Block& operator=(Block&& other) noexcept = delete;
 
 	bool IsBreakable() const { return m_IsBreakable; }
+	void Break();
 
 private:
 	bool m_IsBreakable{ false };

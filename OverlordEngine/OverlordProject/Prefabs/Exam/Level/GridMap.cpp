@@ -75,7 +75,7 @@ void GridMap::Initialize(const SceneContext&)
 	SetUpFloor();
 	SetUpWalls();
 	SetUpPillars();
-	//SetUpBreakableBlocks();
+	SetUpBreakableBlocks();
 }
 
 void GridMap::SetUpFloor() const
@@ -168,11 +168,11 @@ void GridMap::SetUpBreakableBlocks()
 
 			if (isCorner) continue;
 
-			AddGridObject(new Block{ L"Meshes/Exam/BreakableBox.ovm", L"Textures/Exam/BreakableBlock.png", true });
-			m_pGridObjects.back()->SetPosition(row, col);
-			m_pGridObjects.back()->SetDimensions(1, 1);
-			m_pGridObjects.back()->SetScale(.01f, .01f);
-			GetScene()->AddChild(m_pGridObjects.back());
+			Block* pBlock{ new Block{ L"Meshes/Exam/BreakableBox.ovm", L"Textures/Exam/BreakableBlock.png", true } };
+			pBlock->SetPosition(row, col);
+			pBlock->SetDimensions(1, 1);
+			pBlock->SetScale(.01f, .01f);
+			pBlock->MarkForAdd();
 		}
 	}
 }

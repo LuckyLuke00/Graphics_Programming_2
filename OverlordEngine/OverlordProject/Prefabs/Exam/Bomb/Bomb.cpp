@@ -5,6 +5,7 @@
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Components/PlaceBombComponent.h"
 #include "Prefabs/Exam/Player/Player.h"
+#include <Prefabs/Exam/Level/Block.h>
 
 Bomb::Bomb(const std::wstring& model, const std::wstring& texture, PlaceBombComponent* placeBombComponent, int explosionRadius, float fuseTime) :
 	m_pPlaceBombComponent{ placeBombComponent },
@@ -59,7 +60,13 @@ void Bomb::CreateExplosion(int x, int y)
 
 	if (!isBombPosition && pGridObject)
 	{
-		if (!dynamic_cast<Bomb*>(pGridObject) && !dynamic_cast<Player*>(pGridObject)) return;
+		const Block* pBlock{ dynamic_cast<Block*>(pGridObject) };
+		const Bomb* pBomb{ dynamic_cast<Bomb*>(pGridObject) };
+		const Player* pPlayer{ dynamic_cast<Player*>(pGridObject) };
+
+		if (!pBlock && !pBomb && !pPlayer) return;
+
+		if (pBlock && !pBlock->IsBreakable()) return;
 	}
 
 	Explosion* pExplositon{ new Explosion{ m_ExplostionModel, m_ExplosionTexture } };
