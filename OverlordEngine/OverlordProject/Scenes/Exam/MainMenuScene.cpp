@@ -73,14 +73,10 @@ void MainMenuScene::LoadSprites()
 
 void MainMenuScene::ExitGame()
 {
-	std::cout << "Exit Game\n";
-
 	PostQuitMessage(0);
 }
 
 void MainMenuScene::StartGame()
 {
-	std::cout << "Start Game\n";
-
 	SceneManager::Get()->SetActiveGameScene(L"LevelScene");
 }
