@@ -12,5 +12,5 @@ public:
 	FirePowerUp& operator=(const FirePowerUp& other) = delete;
 	FirePowerUp& operator=(FirePowerUp&& other) noexcept = delete;
 
-	void Use() override;
+	void Use(Player* pPlayer) override;
 };

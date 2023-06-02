@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "FirePowerUp.h"
 #include "Materials/DiffuseMaterial.h"
+#include "Prefabs/Exam/Player/Player.h"
+#include "Components/PlaceBombComponent.h"
 
 FirePowerUp::FirePowerUp(const std::wstring& model, const std::wstring& texture)
 {
@@ -11,6 +13,12 @@ FirePowerUp::FirePowerUp(const std::wstring& model, const std::wstring& texture)
 	pModel->SetMaterial(pMaterial);
 }
 
-void FirePowerUp::Use()
+void FirePowerUp::Use(Player* pPlayer)
 {
+	if (!pPlayer) return;
+
+	auto pPlaceBombComponent{ pPlayer->GetComponent<PlaceBombComponent>() };
+	if (!pPlaceBombComponent) return;
+
+	pPlaceBombComponent->IncreaseExplosionRadius();
 }

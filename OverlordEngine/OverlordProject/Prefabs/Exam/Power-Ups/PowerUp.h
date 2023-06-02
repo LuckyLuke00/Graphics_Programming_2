@@ -1,6 +1,8 @@
 #pragma once
 #include "Prefabs/Exam/Level/GridObject.h"
 
+class Player;
+
 class PowerUp : public GridObject
 {
 public:
@@ -12,6 +14,6 @@ public:
 	PowerUp& operator=(const PowerUp& other) = delete;
 	PowerUp& operator=(PowerUp&& other) noexcept = delete;
 
-	void PickUp();
-	virtual void Use() = 0;
+	void PickUp(Player* pPlayer);
+	virtual void Use(Player* pPlayer) = 0;
 };

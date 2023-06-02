@@ -36,4 +36,6 @@ private:
 
 	float m_MoveTime{ 1.f };
 	float m_MoveTimer{ .0f };
+
+	bool CanMoveTo(const XMINT2& gridIndex) const;
 };

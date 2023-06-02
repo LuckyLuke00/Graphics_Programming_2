@@ -13,13 +13,15 @@ public:
 	GridObject& operator=(const GridObject& other) = delete;
 	GridObject& operator=(GridObject&& other) noexcept = delete;
 
-	virtual void SetPosition(int row, int col);
-	virtual void SetDimensions(int width, int height);
-	virtual void SetScale(float width, float height);
+	void SetPosition(int row, int col);
+	void SetDimensions(int width, int height);
+	void SetScale(float width, float height);
+	void SetCollision(bool hasCollision) { m_HasCollision = hasCollision; }
 
 	XMINT2 GetPosition() const { return m_Position; }
 	XMINT2 GetDimensions() const { return m_Dimensions; }
 	void OffsetPosition(float x = 0, float y = 0, float z = 0);
+	bool HasCollision() const { return m_HasCollision; }
 
 	void MarkForAdd(bool addToGridobject = true) { m_pObjectsToAdd.emplace_back(std::make_pair(this, addToGridobject)); }
 	void MarkForDelete() { m_pObjectsToDestroy.emplace_back(this); }
@@ -34,6 +36,8 @@ protected:
 private:
 	static std::vector<GridObject*> m_pObjectsToDestroy;
 	static std::vector<std::pair<GridObject*, bool>> m_pObjectsToAdd;
+
+	bool m_HasCollision{ true };
 
 	GridMap* m_pGridMap{ nullptr };
 	XMFLOAT3 m_Offset{ .0f, .0f, .0f };

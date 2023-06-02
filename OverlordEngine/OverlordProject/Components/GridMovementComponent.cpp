@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GridMovementComponent.h"
 #include "Prefabs/Exam/Level/GridMap.h"
+#include "Prefabs/Exam/Power-Ups/PowerUp.h"
+#include "Prefabs/Exam/Player/Player.h"
 
 GridMovementComponent::GridMovementComponent(float moveTime) :
 	m_MoveTime{ moveTime }
@@ -23,8 +25,7 @@ void GridMovementComponent::MoveNorth()
 	if (IsMoving()) return;
 
 	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z + 1 }) };
-	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
-	if (m_pGridMap->IsOccupied(gridIndex)) return;
+	if (!CanMoveTo(gridIndex)) return;
 
 	m_TargetPosition.z += 1;
 	m_MoveTimer = m_MoveTime;
@@ -36,8 +37,7 @@ void GridMovementComponent::MoveSouth()
 	if (IsMoving()) return;
 
 	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x, m_TargetPosition.y, m_TargetPosition.z - 1 }) };
-	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
-	if (m_pGridMap->IsOccupied(gridIndex)) return;
+	if (!CanMoveTo(gridIndex)) return;
 
 	m_TargetPosition.z -= 1;
 	m_MoveTimer = m_MoveTime;
@@ -49,8 +49,7 @@ void GridMovementComponent::MoveEast()
 	if (IsMoving()) return;
 
 	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x + 1, m_TargetPosition.y, m_TargetPosition.z }) };
-	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
-	if (m_pGridMap->IsOccupied(gridIndex)) return;
+	if (!CanMoveTo(gridIndex)) return;
 
 	m_TargetPosition.x += 1;
 	m_MoveTimer = m_MoveTime;
@@ -62,8 +61,7 @@ void GridMovementComponent::MoveWest()
 	if (IsMoving()) return;
 
 	const XMINT2 gridIndex{ m_pGridMap->GetGridIndex({ m_TargetPosition.x - 1, m_TargetPosition.y, m_TargetPosition.z }) };
-	if (m_pGridMap->IsOccupiedByPlayer(gridIndex)) return;
-	if (m_pGridMap->IsOccupied(gridIndex)) return;
+	if (!CanMoveTo(gridIndex)) return;
 
 	m_TargetPosition.x -= 1;
 	m_MoveTimer = m_MoveTime;
@@ -104,7 +102,19 @@ void GridMovementComponent::Update(const SceneContext& sceneContext)
 		// Update the transform
 		GetTransform()->Translate(m_CurrentPosition);
 		if (m_pGridObjectOwner) m_pGridObjectOwner->SetPosition(m_CurrentGridPosition.x, m_CurrentGridPosition.y);
+
+		// Check if there is a powerup on the current position
+		PowerUp* pPowerUp{ dynamic_cast<PowerUp*>(m_pGridMap->GetGridObjectAt(m_CurrentGridPosition)) };
+		if (pPowerUp) pPowerUp->PickUp(dynamic_cast<Player*>(m_pGridObjectOwner));
 	}
+}
+
+bool GridMovementComponent::CanMoveTo(const XMINT2& gridIndex) const
+{
+	const GridObject* pGridObject{ m_pGridMap->GetGridObjectAt(gridIndex) };
+	if (pGridObject && pGridObject->HasCollision()) return false;
+
+	return true;
 }
 
 bool GridMovementComponent::IsMoving() const

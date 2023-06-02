@@ -12,7 +12,8 @@ void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chance
 
 	// Spawn the power-up on the grid
 	pPowerUp->SetPosition(gridIndex.x, gridIndex.y);
-	pPowerUp->MarkForAdd(false);
+	pPowerUp->SetCollision(false);
+	pPowerUp->MarkForAdd();
 }
 
 void PowerUpSpawnerComponent::Initialize(const SceneContext&)
