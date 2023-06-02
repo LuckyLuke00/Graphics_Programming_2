@@ -53,6 +53,9 @@
     <ClCompile Include="Prefabs\Exam\Power-Ups\FirePowerUp.cpp" />
     <ClCompile Include="Prefabs\Exam\Power-Ups\BombUpPowerUp.cpp" />
     <ClCompile Include="Prefabs\Exam\Power-Ups\SkatePowerUp.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\BombDownPowerUp.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\FireDownPowerUp.cpp" />
+    <ClCompile Include="Prefabs\Exam\Power-Ups\GetaPowerUp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -108,5 +111,8 @@
     <ClInclude Include="Exam\ExamAssets.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\BombUpPowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\SkatePowerUp.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\BombDownPowerUp.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\FireDownPowerUp.h" />
+    <ClInclude Include="Prefabs\Exam\Power-Ups\GetaPowerUp.h" />
   </ItemGroup>
 </Project>

@@ -18,7 +18,9 @@ public:
 	void SetBombTimer(float bombTimer) { m_BombTimerMax = bombTimer; }
 	void SetExplosionRadius(int explosionRadius) { m_ExplosionRadius = explosionRadius; }
 	void IncreaseExplosionRadius() { m_ExplosionRadius = std::min(m_ExplosionRadius + 1, m_ExplosionRadiusMax); }
+	void DecreaseExplosionRadius() { m_ExplosionRadius = std::max(1, m_ExplosionRadius - 1); }
 	void IncreaseBombs() { m_Bombs = std::min(m_Bombs + 1, m_BombsMax); }
+	void DecreaseBombs() { m_Bombs = std::max(1, m_Bombs - 1); }
 	void SetMaxBombs(int maxBombs) { m_Bombs = maxBombs; m_pLiveBombs.reserve(m_Bombs); }
 
 	void SetGridMap(GridMap* pGridMap) { m_pGridMap = pGridMap; }

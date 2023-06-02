@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "PowerUpSpawnerComponent.h"
-#include "Prefabs/Exam/Power-Ups/FirePowerUp.h"
-#include "Prefabs/Exam/Power-Ups/BombUpPowerUp.h"
-#include "Prefabs/Exam/Power-Ups/SkatePowerUp.h"
 #include "Exam/ExamAssets.h"
+#include "Prefabs/Exam/Power-Ups/BombDownPowerUp.h"
+#include "Prefabs/Exam/Power-Ups/BombUpPowerUp.h"
+#include "Prefabs/Exam/Power-Ups/FireDownPowerUp.h"
+#include "Prefabs/Exam/Power-Ups/FirePowerUp.h"
+#include "Prefabs/Exam/Power-Ups/GetaPowerUp.h"
+#include "Prefabs/Exam/Power-Ups/SkatePowerUp.h"
 
 void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage)
 {
@@ -24,11 +27,23 @@ void PowerUpSpawnerComponent::Initialize(const SceneContext&)
 	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
 	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
 
+	m_pAvailablePowerUps.emplace_back(new FireDownPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::FireDownPowerUpTexture });
+	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
+	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+
 	m_pAvailablePowerUps.emplace_back(new BombUpPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::BombUpPowerUpTexture });
 	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
 	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
 
+	m_pAvailablePowerUps.emplace_back(new BombDownPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::BombDownPowerUpTexture });
+	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
+	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+
 	m_pAvailablePowerUps.emplace_back(new SkatePowerUp{ ExamAssets::PowerUpMesh, ExamAssets::SkatePowerUpTexture });
+	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
+	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+
+	m_pAvailablePowerUps.emplace_back(new GetaPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::GetaPowerUpTexture });
 	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
 	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
 }
