@@ -100,7 +100,8 @@ bool Bomb::CreateExplosion(int x, int y)
 	Explosion* pExplositon{ new Explosion{ ExamAssets::ExplosionMesh, ExamAssets::ExplosionTexture } };
 	pExplositon->SetPosition(x, y);
 	pExplositon->OffsetPosition(.0f, -.5f);
-	pExplositon->MarkForAdd(false);
+	pExplositon->SetCollision(false);
+	pExplositon->MarkForAdd();
 
 	return true; // Succesfully created an explosion
 }

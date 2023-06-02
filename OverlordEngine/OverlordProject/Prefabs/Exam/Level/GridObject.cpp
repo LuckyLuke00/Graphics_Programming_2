@@ -4,7 +4,7 @@
 
 bool GridObject::m_IsPaused{ false };
 std::vector<GridObject*> GridObject::m_pObjectsToDestroy{};
-std::vector<std::pair<GridObject*, bool>> GridObject::m_pObjectsToAdd{};
+std::vector<GridObject*> GridObject::m_pObjectsToAdd{};
 
 void GridObject::SetPosition(int row, int col)
 {

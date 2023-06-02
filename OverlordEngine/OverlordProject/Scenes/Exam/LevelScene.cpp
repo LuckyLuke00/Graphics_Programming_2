@@ -6,6 +6,11 @@
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Prefabs/Exam/UI/CountdownTimer.h"
 
+LevelScene::~LevelScene()
+{
+	RemoveGridObjects();
+}
+
 void LevelScene::TogglePause()
 {
 	m_Paused = !m_Paused;
@@ -45,7 +50,7 @@ void LevelScene::Update()
 		m_pGridMap->Reset();
 		m_pCountdownTimer->StopTimer();
 
-		SceneManager::Get()->SetActiveGameScene(L"MainMenuScene");
+		SceneManager::Get()->SetActiveGameScene(L"EndScene");
 	}
 }
 
@@ -56,7 +61,7 @@ void LevelScene::OnSceneActivated()
 	// Middle of the screen at the top
 	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
 	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(180.f);
+	m_pCountdownTimer->SetCountdownTime(5.f);
 	m_pCountdownTimer->StartTimer();
 	AddChild(m_pCountdownTimer);
 
@@ -124,7 +129,7 @@ void LevelScene::RemoveGridObjects()
 		if (pPlayer) m_pGridMap->RemovePlayer(pPlayer);
 		else m_pGridMap->RemoveGridObject(pObject);
 
-		m_pGridMap->RemoveChild(pObject);
+		m_pGridMap->RemoveChild(pObject, true);
 	}
 
 	GridObject::GetObjectsToDestroy().clear();
@@ -136,16 +141,13 @@ void LevelScene::AddGridObjects()
 
 	for (auto& pObject : toAdd)
 	{
-		if (!pObject.first) continue;
+		if (!pObject) continue;
 
-		if (pObject.second)
-		{
-			Player* pPlayer{ dynamic_cast<Player*>(pObject.first) };
-			if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
-			else m_pGridMap->AddGridObject(pObject.first);
-		}
+		Player* pPlayer{ dynamic_cast<Player*>(pObject) };
+		if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
+		else m_pGridMap->AddGridObject(pObject);
 
-		m_pGridMap->AddChild(pObject.first);
+		m_pGridMap->AddChild(pObject);
 	}
 
 	GridObject::GetObjectsToAdd().clear();

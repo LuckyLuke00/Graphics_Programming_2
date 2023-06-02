@@ -8,7 +8,7 @@ class PowerUpSpawnerComponent final : public BaseComponent
 {
 public:
 	explicit PowerUpSpawnerComponent() = default;
-	~PowerUpSpawnerComponent() override = default;
+	~PowerUpSpawnerComponent() override;
 
 	PowerUpSpawnerComponent(const PowerUpSpawnerComponent& other) = delete;
 	PowerUpSpawnerComponent(PowerUpSpawnerComponent&& other) noexcept = delete;
@@ -19,7 +19,7 @@ public:
 	void SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage);
 
 protected:
-	void Initialize(const SceneContext& sceneContext);
+	void Initialize(const SceneContext& sceneContext) override;
 
 private:
 	GridMap* m_pGridMap{ nullptr };

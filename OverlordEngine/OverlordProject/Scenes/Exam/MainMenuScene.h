@@ -17,7 +17,6 @@ protected:
 	void Initialize() override;
 
 private:
-	void LoadSprites();
 	UIManager* m_pUIManager{};
 
 	// OnClick functions for the buttons

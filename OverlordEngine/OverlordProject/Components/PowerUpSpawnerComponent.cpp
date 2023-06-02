@@ -8,6 +8,14 @@
 #include "Prefabs/Exam/Power-Ups/GetaPowerUp.h"
 #include "Prefabs/Exam/Power-Ups/SkatePowerUp.h"
 
+PowerUpSpawnerComponent::~PowerUpSpawnerComponent()
+{
+	for (PowerUp* pPowerUp : m_pAvailablePowerUps)
+	{
+		SafeDelete(pPowerUp);
+	}
+}
+
 void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage)
 {
 	if (MathHelper::randF(0.f, 1.f) > chancePercentage) return;

@@ -7,7 +7,7 @@ class LevelScene final : public GameScene
 {
 public:
 	LevelScene() : GameScene(L"LevelScene") {}
-	~LevelScene() override = default;
+	~LevelScene() override;
 
 	LevelScene(const LevelScene& other) = delete;
 	LevelScene(LevelScene&& other) noexcept = delete;

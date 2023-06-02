@@ -24,7 +24,7 @@ public:
 	void OffsetPosition(float x = 0, float y = 0, float z = 0);
 	bool HasCollision() const { return m_HasCollision; }
 
-	void MarkForAdd(bool addToGridobject = true) { m_pObjectsToAdd.emplace_back(std::make_pair(this, addToGridobject)); }
+	void MarkForAdd() { m_pObjectsToAdd.emplace_back(this); }
 	void MarkForDelete() { m_pObjectsToDestroy.emplace_back(this); }
 
 	static void Pause() { m_IsPaused = true; };
@@ -34,14 +34,14 @@ public:
 
 	// Getter for the objects to destroy
 	static std::vector<GridObject*>& GetObjectsToDestroy() { return m_pObjectsToDestroy; }
-	static std::vector<std::pair<GridObject*, bool>>& GetObjectsToAdd() { return m_pObjectsToAdd; }
+	static std::vector<GridObject*>& GetObjectsToAdd() { return m_pObjectsToAdd; }
 
 protected:
 	GridMap* GetGridMap();
 
 private:
 	static std::vector<GridObject*> m_pObjectsToDestroy;
-	static std::vector<std::pair<GridObject*, bool>> m_pObjectsToAdd;
+	static std::vector<GridObject*> m_pObjectsToAdd;
 
 	bool m_HasCollision{ true };
 	static bool m_IsPaused;

@@ -18,7 +18,8 @@ Explosion::Explosion(const std::wstring& model, const std::wstring& texture, flo
 
 	m_pExplosionParticleEffect = new ExplosionParticleEffect{ ExamAssets::ExplosionParticleTexture };
 	m_pExplosionParticleEffect->SetDimensions(1, 1);
-	m_pExplosionParticleEffect->MarkForAdd(false);
+	m_pExplosionParticleEffect->SetCollision(false);
+	m_pExplosionParticleEffect->MarkForAdd();
 }
 
 void Explosion::Initialize(const SceneContext&)
