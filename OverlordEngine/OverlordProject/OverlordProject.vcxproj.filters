@@ -57,6 +57,7 @@
     <ClCompile Include="Prefabs\Exam\Power-Ups\FireDownPowerUp.cpp" />
     <ClCompile Include="Prefabs\Exam\Power-Ups\GetaPowerUp.cpp" />
     <ClCompile Include="Prefabs\Exam\Bomb\ExplosionParticleEffect.cpp" />
+    <ClCompile Include="Prefabs\Exam\UI\CountdownTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -116,5 +117,6 @@
     <ClInclude Include="Prefabs\Exam\Power-Ups\FireDownPowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\GetaPowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\ExplosionParticleEffect.h" />
+    <ClInclude Include="Prefabs\Exam\UI\CountdownTimer.h" />
   </ItemGroup>
 </Project>

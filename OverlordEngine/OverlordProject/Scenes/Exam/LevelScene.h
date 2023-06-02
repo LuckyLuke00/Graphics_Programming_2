@@ -1,5 +1,7 @@
 #pragma once
-#include "Prefabs/Exam/Level/GridMap.h"
+
+class GridMap;
+class CountdownTimer;
 
 class LevelScene final : public GameScene
 {
@@ -19,6 +21,8 @@ protected:
 
 private:
 	GridMap* m_pGridMap{ nullptr };
+	CountdownTimer* m_pCountdownTimer{ nullptr };
+
 	int m_MaxPlayers{ 4 };
 
 	void SetupPlayer(int playerIndex) const;

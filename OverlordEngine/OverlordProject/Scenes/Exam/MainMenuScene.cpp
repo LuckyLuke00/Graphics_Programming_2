@@ -2,6 +2,7 @@
 #include "MainMenuScene.h"
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
 #include "Prefabs/Exam/UI/UIManager.h"
+#include "Exam/ExamAssets.h"
 
 void MainMenuScene::Initialize()
 {
@@ -20,7 +21,7 @@ void MainMenuScene::Initialize()
 	LoadMenu(Menus::MainMenu);
 
 	// Create a button
-	auto pFont{ ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt") };
+	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
 	auto pButtonOne{ new UIButton{ pFont, L"Start Game", { 100, 100 } } };
 	auto pButtonTwo{ new UIButton{ pFont, L"Exit Game", { 100, 200 } } };
 

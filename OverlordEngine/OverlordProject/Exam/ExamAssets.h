@@ -38,5 +38,7 @@ namespace ExamAssets
 
 	const std::wstring ExplosionParticleTexture{ L"Textures/Exam/ExplosionEffect.png" };
 
+	const std::wstring Font{ L"SpriteFonts/Consolas_32.fnt" };
+
 	const std::wstring PowerUpMesh{ L"Meshes/Exam/PowerUp.ovm" };
 }

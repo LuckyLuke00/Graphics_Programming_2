@@ -161,6 +161,7 @@
     <ClCompile Include="Materials\UberMaterial.cpp" />
     <ClCompile Include="Prefabs\Exam\UI\UIManager.cpp" />
     <ClCompile Include="Prefabs\Exam\UI\Buttons\UIButton.cpp" />
+    <ClCompile Include="Prefabs\Exam\UI\CountdownTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OverlordEngine\OverlordEngine.vcxproj">
@@ -225,6 +226,7 @@
     <ClInclude Include="Materials\UberMaterial.h" />
     <ClInclude Include="Prefabs\Exam\UI\UIManager.h" />
     <ClInclude Include="Prefabs\Exam\UI\Buttons\UIButton.h" />
+    <ClInclude Include="Prefabs\Exam\UI\CountdownTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

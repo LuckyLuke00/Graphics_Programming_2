@@ -3,6 +3,8 @@
 #include "Materials/Shadow/DiffuseMaterial_Shadow.h"
 #include "Prefabs/Exam/Player/Player.h"
 #include "Exam/ExamAssets.h"
+#include "Prefabs/Exam/Level/GridMap.h"
+#include "Prefabs/Exam/UI/CountdownTimer.h"
 
 void LevelScene::Initialize()
 {
@@ -15,6 +17,12 @@ void LevelScene::Initialize()
 	CreateGroundPlane();
 
 	m_pGridMap = AddChild(new GridMap{ 19, 13 });
+
+	// Middle of the screen at the top
+	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
+	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
+	m_pCountdownTimer->SetCountdownTime(60.f * 3.f);
+	AddChild(m_pCountdownTimer);
 }
 
 void LevelScene::Update()
@@ -59,6 +67,8 @@ void LevelScene::OnSceneActivated()
 	{
 		SetupPlayer(i);
 	}
+
+	m_pCountdownTimer->StartTimer();
 }
 
 void LevelScene::SetupPlayer(int playerIndex) const
