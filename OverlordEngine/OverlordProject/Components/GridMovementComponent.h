@@ -14,6 +14,10 @@ public:
 	GridMovementComponent& operator=(const GridMovementComponent& other) = delete;
 	GridMovementComponent& operator=(GridMovementComponent&& other) noexcept = delete;
 
+	// Normalize the amount
+	void IncreaseMoveSpeed() { m_MoveTime = std::max(.1f, m_MoveTime - .1f); }
+	void DecreaseMoveSpeed() { m_MoveTime = std::min(1.f, m_MoveTime + .1f); }
+
 	void MoveNorth();
 	void MoveSouth();
 	void MoveEast();

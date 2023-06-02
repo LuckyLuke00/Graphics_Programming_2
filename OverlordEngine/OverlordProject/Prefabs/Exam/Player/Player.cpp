@@ -217,6 +217,8 @@ void Player::HandleDeath()
 	m_IsDead = false;
 	m_RespawnTimer = 0.f;
 
+	m_pGridMovementComponent->DecreaseMoveSpeed();
+
 	if (m_Lives < 1)
 	{
 		MarkForDelete();
