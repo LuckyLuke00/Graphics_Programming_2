@@ -70,6 +70,8 @@ void GridMovementComponent::MoveWest()
 
 void GridMovementComponent::Update(const SceneContext& sceneContext)
 {
+	if (m_pGridObjectOwner->IsPaused()) return;
+
 	if (!IsMoving())
 	{
 		// We need to reset, because the transform might have been changed externally

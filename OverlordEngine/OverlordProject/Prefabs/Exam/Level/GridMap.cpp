@@ -9,8 +9,7 @@ const std::wstring GridMap::m_Tag{ L"GridMap" };
 GridMap::GridMap(int rows, int cols) :
 	m_Rows{ rows },
 	m_Cols{ cols }
-{
-}
+{}
 
 bool GridMap::IsOccupied(int row, int col) const
 {

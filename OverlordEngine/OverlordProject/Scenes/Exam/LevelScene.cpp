@@ -13,10 +13,12 @@ void LevelScene::TogglePause()
 	if (m_Paused)
 	{
 		m_pCountdownTimer->PauseTimer();
+		GridObject::Pause();
 	}
 	else
 	{
 		m_pCountdownTimer->ResumeTimer();
+		GridObject::UnPause();
 	}
 }
 
@@ -33,6 +35,8 @@ void LevelScene::Initialize()
 
 void LevelScene::Update()
 {
+	if (m_Paused) return;
+
 	AddGridObjects();
 	RemoveGridObjects();
 

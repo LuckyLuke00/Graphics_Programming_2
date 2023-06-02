@@ -34,6 +34,8 @@ void Bomb::OnSceneAttach(GameScene*)
 
 void Bomb::Update(const SceneContext& sceneContext)
 {
+	if (IsPaused()) return;
+
 	if (!m_pModelAnimator->IsPlaying())
 	{
 		m_pModelAnimator->Play();

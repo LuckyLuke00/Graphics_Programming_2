@@ -2,6 +2,7 @@
 #include "GridObject.h"
 #include "GridMap.h"
 
+bool GridObject::m_IsPaused{ false };
 std::vector<GridObject*> GridObject::m_pObjectsToDestroy{};
 std::vector<std::pair<GridObject*, bool>> GridObject::m_pObjectsToAdd{};
 

@@ -29,6 +29,8 @@ void Explosion::Initialize(const SceneContext&)
 
 void Explosion::Update(const SceneContext& sceneContext)
 {
+	if (IsPaused()) return;
+
 	GridObject* pGridObject{ GetGridMap()->GetGridObjectAt(GetPosition()) };
 
 	Block* pBlock{ dynamic_cast<Block*>(pGridObject) };

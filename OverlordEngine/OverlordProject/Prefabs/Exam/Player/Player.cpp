@@ -38,7 +38,10 @@ void Player::OnSceneAttach(GameScene*)
 void Player::Update(const SceneContext&)
 {
 	HandleInput();
+
 	HandleAnimations();
+
+	if (IsPaused()) return;
 	HandleDeath();
 }
 
@@ -70,12 +73,18 @@ void Player::EnableInput() const
 
 void Player::HandleInput() const
 {
-	if (m_IsDead || HandleThumbstickInput()) return;
-
 	using namespace ExamInput;
 	using enum InputActions;
 
 	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
+	if (pInput->IsActionTriggered(GetActionID(Pause)))
+	{
+		const auto pScene{ dynamic_cast<LevelScene*>(GetScene()) };
+		if (pScene) pScene->TogglePause();
+	}
+
+	if (IsPaused() || m_IsDead || HandleThumbstickInput()) return;
+
 	if (pInput->IsActionTriggered(GetActionID(MoveNorth)))
 	{
 		m_pGridMovementComponent->MoveNorth();
@@ -96,12 +105,6 @@ void Player::HandleInput() const
 	if (pInput->IsActionTriggered(GetActionID(PlaceBomb)))
 	{
 		m_pPlaceBombComponent->PlaceBomb();
-	}
-
-	if (pInput->IsActionTriggered(GetActionID(Pause)))
-	{
-		const auto pScene{ dynamic_cast<LevelScene*>(GetScene()) };
-		if (pScene) pScene->TogglePause();
 	}
 }
 
@@ -193,6 +196,8 @@ int Player::GetActionID(ExamInput::InputActions action) const
 
 void Player::HandleAnimations()
 {
+	if (IsPaused()) m_pModelAnimator->Pause();
+
 	if (m_IsDead)
 	{
 		m_AnimationState = AnimationState::Death;

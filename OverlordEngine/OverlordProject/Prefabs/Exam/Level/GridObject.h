@@ -27,6 +27,11 @@ public:
 	void MarkForAdd(bool addToGridobject = true) { m_pObjectsToAdd.emplace_back(std::make_pair(this, addToGridobject)); }
 	void MarkForDelete() { m_pObjectsToDestroy.emplace_back(this); }
 
+	static void Pause() { m_IsPaused = true; };
+	static void UnPause() { m_IsPaused = false; };
+
+	static bool IsPaused() { return m_IsPaused; };
+
 	// Getter for the objects to destroy
 	static std::vector<GridObject*>& GetObjectsToDestroy() { return m_pObjectsToDestroy; }
 	static std::vector<std::pair<GridObject*, bool>>& GetObjectsToAdd() { return m_pObjectsToAdd; }
@@ -39,6 +44,7 @@ private:
 	static std::vector<std::pair<GridObject*, bool>> m_pObjectsToAdd;
 
 	bool m_HasCollision{ true };
+	static bool m_IsPaused;
 
 	GridMap* m_pGridMap{ nullptr };
 	XMFLOAT3 m_Offset{ .0f, .0f, .0f };
