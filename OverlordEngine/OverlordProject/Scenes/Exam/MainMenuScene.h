@@ -17,23 +17,8 @@ protected:
 	void Initialize() override;
 
 private:
-
-	enum class Menus
-	{
-		MainMenu,
-		None
-	};
-
-	// Function that loads and opens the specified menu
-	void LoadMenu(const Menus& menu);
 	void LoadSprites();
-
-	// Container that holds all the menu's
-	std::map<Menus, GameObject*> m_pMenuBackgroundSprites{};
-
-	// Variable that stores the current menu
-	Menus m_CurrentMenu{ Menus::None };
-	UIManager* m_pUIManager{ };
+	UIManager* m_pUIManager{};
 
 	// OnClick functions for the buttons
 	void ExitGame();

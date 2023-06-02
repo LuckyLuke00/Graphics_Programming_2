@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Scenes\Exam\EndScene.cpp" />
     <ClCompile Include="Prefabs\Exam\Bomb\ExplosionParticleEffect.cpp" />
     <ClCompile Include="Prefabs\Exam\Power-Ups\GetaPowerUp.cpp" />
     <ClCompile Include="Prefabs\Exam\Power-Ups\FireDownPowerUp.cpp" />
@@ -169,6 +170,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scenes\Exam\EndScene.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\ExplosionParticleEffect.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\GetaPowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\FireDownPowerUp.h" />

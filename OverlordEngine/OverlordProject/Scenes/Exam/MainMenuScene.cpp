@@ -17,8 +17,9 @@ void MainMenuScene::Initialize()
 	m_pUIManager = new UIManager{};
 	AddChild(m_pUIManager);
 
-	LoadSprites();
-	LoadMenu(Menus::MainMenu);
+	GameObject* pBackground{ new GameObject{} };
+	pBackground->AddComponent(new SpriteComponent{ ExamAssets::MainMenuBackground });
+	AddChild(pBackground);
 
 	// Create a button
 	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
@@ -43,32 +44,6 @@ void MainMenuScene::Initialize()
 	m_pUIManager->SetFirstSelectedButton(pButtonOne);
 
 	m_pUIManager->EnableInput();
-}
-
-void MainMenuScene::LoadMenu(const Menus& menu)
-{
-	// If the menu is already loaded, return
-	if (m_CurrentMenu == menu) return;
-
-	// Remove the current menu from the scene
-	if (m_CurrentMenu != Menus::None)
-	{
-		RemoveChild(m_pMenuBackgroundSprites[m_CurrentMenu]);
-	}
-
-	// Add the new menu to the scene
-	m_CurrentMenu = menu;
-	if (m_CurrentMenu != Menus::None)
-	{
-		AddChild(m_pMenuBackgroundSprites[m_CurrentMenu]);
-	}
-}
-
-void MainMenuScene::LoadSprites()
-{
-	// Load all menu sprites
-	m_pMenuBackgroundSprites[Menus::MainMenu] = new GameObject();
-	m_pMenuBackgroundSprites[Menus::MainMenu]->AddComponent(new SpriteComponent(L"Textures/Exam/Menus/MainMenu_Background.png"));
 }
 
 void MainMenuScene::ExitGame()
