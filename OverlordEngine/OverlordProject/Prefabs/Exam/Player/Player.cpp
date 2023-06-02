@@ -3,6 +3,7 @@
 #include "Components/PlaceBombComponent.h"
 #include "Components/GridMovementComponent.h"
 #include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
+#include "Prefabs/Exam/Level/GridMap.h"
 
 int Player::m_InputId{ -1 };
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
@@ -221,6 +222,7 @@ void Player::HandleDeath()
 
 	if (m_Lives < 1)
 	{
+		GetGridMap()->AddDeadPlayer(this);
 		MarkForDelete();
 		return;
 	}

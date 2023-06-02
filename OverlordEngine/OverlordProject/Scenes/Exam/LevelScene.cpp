@@ -59,6 +59,8 @@ void LevelScene::Update()
 	}
 
 	GridObject::GetObjectsToDestroy().clear();
+
+	if (HasGameEnded()) std::cout << "Game has ended!\n";
 }
 
 void LevelScene::OnSceneActivated()
@@ -115,4 +117,15 @@ void LevelScene::CreateGroundPlane()
 			AddChild(pGround);
 		}
 	}
+}
+
+bool LevelScene::HasGameEnded() const
+{
+	// Check if the timer has run out
+	if (m_pCountdownTimer->HasCountdownEnded()) return true;
+
+	// Check if the Deadplayers vector is greater than or equal to the amount of players
+	if (m_pGridMap->GetDeadPlayers().size() >= m_MaxPlayers) return true;
+
+	return false;
 }

@@ -34,6 +34,9 @@ public:
 	void RemoveGridObject(GridObject* pGridObject);
 	void RemovePlayer(Player* pPlayer);
 
+	void AddDeadPlayer(Player* pPlayer) { if (pPlayer) m_DeadPlayers.emplace_back(pPlayer); }
+	std::vector<Player*>& GetDeadPlayers() { return m_DeadPlayers; }
+
 	XMINT2 GetGridIndex(const XMFLOAT3& position) const;
 
 	int GetRows() const { return m_Rows; }
@@ -48,6 +51,7 @@ private:
 
 	std::vector<GridObject*> m_pGridObjects{};
 	std::vector<Player*> m_pPlayers{};
+	std::vector<Player*> m_DeadPlayers{};
 
 	void SetUpFloor() const;
 	void SetUpWalls();

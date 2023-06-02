@@ -28,4 +28,6 @@ private:
 	void SetupPlayer(int playerIndex) const;
 	void SetUpCamera();
 	void CreateGroundPlane();
+
+	bool HasGameEnded() const;
 };

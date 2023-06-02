@@ -19,7 +19,7 @@ public:
 	void StopTimer() { m_TimerPaused = true; m_CountdownEnded = true;  m_Timer = .0f; }
 
 	int GetTimeInSeconds() const { return static_cast<int>(m_Time + .5f); }
-	bool IsCountdownEnded() const { return m_CountdownEnded; }
+	bool HasCountdownEnded() const { return m_CountdownEnded; }
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
