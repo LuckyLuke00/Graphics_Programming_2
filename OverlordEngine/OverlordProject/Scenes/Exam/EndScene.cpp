@@ -26,9 +26,9 @@ void EndScene::Initialize()
 
 	XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .05f, m_SceneContext.windowHeight * .3f };
 
-	auto pButtonOne{ new UIButton{ pFont, L"Restart", buttonPos } };
+	auto pButtonOne{ new UIButton{ pFont, L"Main Menu", buttonPos } };
 	buttonPos.y += 75.f;
-	auto pButtonTwo{ new UIButton{ pFont, L"Main Menu", { buttonPos.x, buttonPos.y } } };
+	auto pButtonTwo{ new UIButton{ pFont, L"Restart", { buttonPos.x, buttonPos.y } } };
 	buttonPos.y += 75.f;
 	auto pButtonThree{ new UIButton{ pFont, L"Exit Game", { buttonPos.x, buttonPos.y } } };
 
