@@ -27,7 +27,7 @@ void PlaceBombComponent::PlaceBomb()
 		};
 		it != m_pLiveBombs.end()) return;
 
-	Bomb* pBomb{ new Bomb{ ExamAssets::BombMesh, ExamAssets::BombTexture, this } };
+	Bomb* pBomb{ new Bomb{ ExamAssets::BombMesh, ExamAssets::BombTexture, this, m_ExplosionRadius } };
 	pBomb->SetPosition(position.x, position.y);
 	pBomb->OffsetPosition(.0f, -.5f);
 	pBomb->MarkForAdd();

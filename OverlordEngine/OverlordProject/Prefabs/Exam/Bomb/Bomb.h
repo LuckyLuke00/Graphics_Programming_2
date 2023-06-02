@@ -17,7 +17,6 @@ public:
 	Bomb& operator=(Bomb&& other) noexcept = delete;
 
 	void Explode();
-	void SetExplosionRadius(int explosionRadius) { m_ExplosionRadius = explosionRadius; }
 	void SetFuseTime(float fuseTime) { m_FuseTime = fuseTime; }
 
 protected:
@@ -34,5 +33,5 @@ private:
 	float m_FuseTime{ 10.f };
 	float m_FuseTimer{ 0.f };
 
-	void CreateExplosion(int x, int y);
+	bool CreateExplosion(int x, int y);
 };

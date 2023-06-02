@@ -14,8 +14,7 @@ GridMap::GridMap(int rows, int cols) :
 bool GridMap::IsOccupied(int row, int col) const
 {
 	// Check if the grid index is out of bounds
-	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
-		return true;
+	if (IsOutOfBounds(row, col)) return true;
 
 	return FindGridObjectIndex(row, col) > -1;
 }
@@ -23,10 +22,14 @@ bool GridMap::IsOccupied(int row, int col) const
 bool GridMap::IsOccupiedByPlayer(int row, int col) const
 {
 	// Check if the grid index is out of bounds
-	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
-		return false;
+	if (IsOutOfBounds(row, col)) return true;
 
 	return FindPlayerIndex(row, col) > -1;
+}
+
+bool GridMap::IsOutOfBounds(int row, int col) const
+{
+	return row < 0 || row >= m_Rows || col < 0 || col >= m_Cols;
 }
 
 XMINT2 GridMap::GetGridIndex(const XMFLOAT3& position) const
@@ -55,8 +58,7 @@ void GridMap::RemovePlayer(Player* pPlayer)
 GridObject* GridMap::GetGridObjectAt(int row, int col) const
 {
 	// Check if the grid index is out of bounds
-	if (row < 0 || row >= m_Rows || col < 0 || col >= m_Cols)
-		return nullptr;
+	if (IsOutOfBounds(row, col)) return nullptr;
 
 	int index{ FindGridObjectIndex(row, col) };
 	if (index > -1)

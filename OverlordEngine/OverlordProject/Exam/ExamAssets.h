@@ -26,7 +26,7 @@ namespace ExamAssets
 	const std::wstring BackgroundTexture{ L"Textures/Exam/Background.png" };
 
 	const std::wstring FirePowerUpTexture{ L"Textures/Exam/FirePowerUp.png" };
-	const std::wstring PowerUpMesh{ L"Meshes/Exam/FirePowerUp.ovm" };
+	const std::wstring PowerUpMesh{ L"Meshes/Exam/PowerUp.ovm" };
 
 	const std::wstring PlayerMesh{ L"Meshes/Exam/Player.ovm" };
 }

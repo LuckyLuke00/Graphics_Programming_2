@@ -22,6 +22,9 @@ public:
 	bool IsOccupiedByPlayer(const XMINT2& gridIndex) const { return IsOccupiedByPlayer(gridIndex.x, gridIndex.y); }
 	bool IsOccupiedByPlayer(int row, int col) const;
 
+	bool IsOutOfBounds(const XMINT2& gridIndex) const { return IsOutOfBounds(gridIndex.x, gridIndex.y); }
+	bool IsOutOfBounds(int row, int col) const;
+
 	GridObject* GetGridObjectAt(const XMINT2& gridIndex) const { return GetGridObjectAt(gridIndex.x, gridIndex.y); }
 	GridObject* GetGridObjectAt(int row, int col) const;
 
