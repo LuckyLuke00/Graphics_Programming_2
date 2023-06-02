@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "LevelScene.h"
-#include "Materials/DiffuseMaterial.h"
+#include "Materials/Shadow/DiffuseMaterial_Shadow.h"
 #include "Prefabs/Exam/Player/Player.h"
 #include "Exam/ExamAssets.h"
 
@@ -8,6 +8,8 @@ void LevelScene::Initialize()
 {
 	GetSceneSettings().drawGrid = false;
 	GetSceneSettings().drawPhysXDebug = false;
+
+	m_SceneContext.pLights->SetDirectionalLight({ .0f, 50.f, .0f }, { .2f, -.7f, .4f });
 
 	SetUpCamera();
 	CreateGroundPlane();
@@ -89,7 +91,7 @@ void LevelScene::SetUpCamera()
 
 void LevelScene::CreateGroundPlane()
 {
-	auto* pMaterial{ MaterialManager::Get()->CreateMaterial<DiffuseMaterial>() };
+	auto* pMaterial{ MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>() };
 	pMaterial->SetDiffuseTexture(ExamAssets::BackgroundTexture);
 
 	for (int i{ 0 }; i < 4; ++i)
@@ -99,7 +101,7 @@ void LevelScene::CreateGroundPlane()
 			auto* pGround{ new GameObject{} };
 			auto* pModel{ pGround->AddComponent(new ModelComponent{ L"Meshes/UnitPlane.ovm", false }) };
 			pModel->SetMaterial(pMaterial);
-			pGround->GetTransform()->Translate(-5.f + 10.f * static_cast<float>(i), -.1f, 10.f * static_cast<float>(j));
+			pGround->GetTransform()->Translate(-5.f + 10.f * static_cast<float>(i), -.5f, 10.f * static_cast<float>(j));
 			AddChild(pGround);
 		}
 	}
