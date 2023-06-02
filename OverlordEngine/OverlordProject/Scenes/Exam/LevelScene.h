@@ -14,6 +14,8 @@ public:
 	LevelScene& operator=(const LevelScene& other) = delete;
 	LevelScene& operator=(LevelScene&& other) noexcept = delete;
 
+	void TogglePause();
+
 protected:
 	void Initialize() override;
 	void Update() override;
@@ -23,6 +25,7 @@ private:
 	GridMap* m_pGridMap{ nullptr };
 	CountdownTimer* m_pCountdownTimer{ nullptr };
 
+	bool m_Paused{ false };
 	int m_MaxPlayers{ 4 };
 
 	void SetupPlayer(int playerIndex) const;

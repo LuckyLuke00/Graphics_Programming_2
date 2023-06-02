@@ -6,6 +6,20 @@
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Prefabs/Exam/UI/CountdownTimer.h"
 
+void LevelScene::TogglePause()
+{
+	m_Paused = !m_Paused;
+
+	if (m_Paused)
+	{
+		m_pCountdownTimer->PauseTimer();
+	}
+	else
+	{
+		m_pCountdownTimer->ResumeTimer();
+	}
+}
+
 void LevelScene::Initialize()
 {
 	GetSceneSettings().drawGrid = false;
@@ -19,6 +33,9 @@ void LevelScene::Initialize()
 
 void LevelScene::Update()
 {
+	AddGridObjects();
+	RemoveGridObjects();
+
 	if (HasGameEnded())
 	{
 		m_pGridMap->Reset();
@@ -26,14 +43,6 @@ void LevelScene::Update()
 
 		SceneManager::Get()->SetActiveGameScene(L"MainMenuScene");
 	}
-
-	if (m_pCountdownTimer->IsTimerPaused() && !HasGameEnded())
-	{
-		m_pCountdownTimer->StartTimer();
-	}
-
-	AddGridObjects();
-	RemoveGridObjects();
 }
 
 void LevelScene::OnSceneActivated()

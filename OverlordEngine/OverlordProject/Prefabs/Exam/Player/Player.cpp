@@ -4,6 +4,7 @@
 #include "Components/GridMovementComponent.h"
 #include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
 #include "Prefabs/Exam/Level/GridMap.h"
+#include "Scenes/Exam/LevelScene.h"
 
 int Player::m_InputId{ -1 };
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
@@ -62,6 +63,9 @@ void Player::EnableInput() const
 
 	InputAction placeBomb{ InputAction{GetActionID(PlaceBomb), InputState::pressed, -1, -1, XINPUT_GAMEPAD_A, static_cast<GamepadIndex>(m_GamepadIndex) } };
 	pInput->AddInputAction(placeBomb);
+
+	InputAction pause{ InputAction{ GetActionID(Pause), InputState::pressed, VK_ESCAPE, -1, XINPUT_GAMEPAD_START, static_cast<GamepadIndex>(m_GamepadIndex) } };
+	pInput->AddInputAction(pause);
 }
 
 void Player::HandleInput() const
@@ -92,6 +96,12 @@ void Player::HandleInput() const
 	if (pInput->IsActionTriggered(GetActionID(PlaceBomb)))
 	{
 		m_pPlaceBombComponent->PlaceBomb();
+	}
+
+	if (pInput->IsActionTriggered(GetActionID(Pause)))
+	{
+		const auto pScene{ dynamic_cast<LevelScene*>(GetScene()) };
+		if (pScene) pScene->TogglePause();
 	}
 }
 

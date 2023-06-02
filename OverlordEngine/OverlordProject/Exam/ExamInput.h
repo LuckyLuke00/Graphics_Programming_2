@@ -16,7 +16,8 @@ namespace ExamInput
 		MoveSouth,
 		MoveWest,
 		PlaceBomb,
+		Pause,
 	};
 
-	constexpr int PlayerActionCount{ 5 };
+	constexpr int PlayerActionCount{ 6 };
 }

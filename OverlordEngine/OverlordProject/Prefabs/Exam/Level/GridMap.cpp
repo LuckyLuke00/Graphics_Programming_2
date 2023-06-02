@@ -10,7 +10,6 @@ GridMap::GridMap(int rows, int cols) :
 	m_Rows{ rows },
 	m_Cols{ cols }
 {
-	SetupGrid();
 }
 
 bool GridMap::IsOccupied(int row, int col) const
@@ -88,6 +87,7 @@ void GridMap::Reset()
 void GridMap::Initialize(const SceneContext&)
 {
 	SetTag(m_Tag);
+	SetupGrid();
 }
 
 void GridMap::SetupGrid()
@@ -215,7 +215,7 @@ int GridMap::FindGridObjectIndex(int row, int col) const
 {
 	const auto it{ std::ranges::find_if(m_pGridObjects, [row, col](const GridObject* pGridObject)
 					{
-			return pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
+			return pGridObject->HasCollision() && pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
 		}) };
 
 	if (it != m_pGridObjects.end()) return static_cast<int>(std::distance(m_pGridObjects.begin(), it));
