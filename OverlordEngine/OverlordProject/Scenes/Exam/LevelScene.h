@@ -29,5 +29,8 @@ private:
 	void SetUpCamera();
 	void CreateGroundPlane();
 
+	void RemoveGridObjects();
+	void AddGridObjects();
+
 	bool HasGameEnded() const;
 };

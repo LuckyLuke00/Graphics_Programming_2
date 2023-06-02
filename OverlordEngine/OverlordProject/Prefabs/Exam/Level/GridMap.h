@@ -42,6 +42,8 @@ public:
 	int GetRows() const { return m_Rows; }
 	int GetCols() const { return m_Cols; }
 
+	void Reset();
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 
@@ -52,6 +54,8 @@ private:
 	std::vector<GridObject*> m_pGridObjects{};
 	std::vector<Player*> m_pPlayers{};
 	std::vector<Player*> m_DeadPlayers{};
+
+	void SetupGrid();
 
 	void SetUpFloor() const;
 	void SetUpWalls();

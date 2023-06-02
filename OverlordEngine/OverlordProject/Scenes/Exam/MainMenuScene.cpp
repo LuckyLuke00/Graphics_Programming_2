@@ -22,8 +22,11 @@ void MainMenuScene::Initialize()
 
 	// Create a button
 	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
-	auto pButtonOne{ new UIButton{ pFont, L"Start Game", { 100, 100 } } };
-	auto pButtonTwo{ new UIButton{ pFont, L"Exit Game", { 100, 200 } } };
+
+	const XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .05f, m_SceneContext.windowHeight * .3f };
+
+	auto pButtonOne{ new UIButton{ pFont, L"Start Game", buttonPos } };
+	auto pButtonTwo{ new UIButton{ pFont, L"Exit Game", { buttonPos.x, buttonPos.y + 75.f } } };
 
 	pButtonOne->SetOnClickFunction(std::bind_front(&MainMenuScene::StartGame, this));
 	pButtonTwo->SetOnClickFunction(std::bind_front(&MainMenuScene::ExitGame, this));

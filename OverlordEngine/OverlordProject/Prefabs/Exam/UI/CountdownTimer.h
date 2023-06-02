@@ -14,12 +14,13 @@ public:
 	void SetColor(const DirectX::XMFLOAT4& color) { m_Color = color; }
 
 	void PauseTimer() { m_TimerPaused = true; }
-	void ResumenTimer() { m_TimerPaused = false; }
+	void ResumeTimer() { m_TimerPaused = false; }
 	void StartTimer() { m_TimerPaused = false; m_CountdownEnded = false; m_Timer = m_Time; }
-	void StopTimer() { m_TimerPaused = true; m_CountdownEnded = true;  m_Timer = .0f; }
+	void StopTimer() { m_TimerPaused = true; m_CountdownEnded = false;  m_Timer = .0f; }
 
 	int GetTimeInSeconds() const { return static_cast<int>(m_Time + .5f); }
 	bool HasCountdownEnded() const { return m_CountdownEnded; }
+	bool IsTimerPaused() const { return m_TimerPaused; }
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;

@@ -15,62 +15,42 @@ void LevelScene::Initialize()
 
 	SetUpCamera();
 	CreateGroundPlane();
+}
 
+void LevelScene::Update()
+{
+	if (HasGameEnded())
+	{
+		m_pGridMap->Reset();
+		m_pCountdownTimer->StopTimer();
+
+		SceneManager::Get()->SetActiveGameScene(L"MainMenuScene");
+	}
+
+	if (m_pCountdownTimer->IsTimerPaused() && !HasGameEnded())
+	{
+		m_pCountdownTimer->StartTimer();
+	}
+
+	AddGridObjects();
+	RemoveGridObjects();
+}
+
+void LevelScene::OnSceneActivated()
+{
 	m_pGridMap = AddChild(new GridMap{ 19, 13 });
 
 	// Middle of the screen at the top
 	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
 	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(60.f * 3.f);
+	m_pCountdownTimer->SetCountdownTime(180.f);
+	m_pCountdownTimer->StartTimer();
 	AddChild(m_pCountdownTimer);
-}
 
-void LevelScene::Update()
-{
-	const auto& toAdd{ GridObject::GetObjectsToAdd() };
-
-	for (auto& pObject : toAdd)
-	{
-		if (!pObject.first) continue;
-
-		if (pObject.second)
-		{
-			Player* pPlayer{ dynamic_cast<Player*>(pObject.first) };
-			if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
-			else m_pGridMap->AddGridObject(pObject.first);
-		}
-
-		m_pGridMap->AddChild(pObject.first);
-	}
-
-	GridObject::GetObjectsToAdd().clear();
-
-	const auto& toDestroy{ GridObject::GetObjectsToDestroy() };
-
-	for (auto* pObject : toDestroy)
-	{
-		if (!pObject) continue;
-
-		Player* pPlayer{ dynamic_cast<Player*>(pObject) };
-		if (pPlayer) m_pGridMap->RemovePlayer(pPlayer);
-		else m_pGridMap->RemoveGridObject(pObject);
-
-		m_pGridMap->RemoveChild(pObject);
-	}
-
-	GridObject::GetObjectsToDestroy().clear();
-
-	if (HasGameEnded()) std::cout << "Game has ended!\n";
-}
-
-void LevelScene::OnSceneActivated()
-{
 	for (int i{ 0 }; i < m_MaxPlayers; ++i)
 	{
 		SetupPlayer(i);
 	}
-
-	m_pCountdownTimer->StartTimer();
 }
 
 void LevelScene::SetupPlayer(int playerIndex) const
@@ -117,6 +97,45 @@ void LevelScene::CreateGroundPlane()
 			AddChild(pGround);
 		}
 	}
+}
+
+void LevelScene::RemoveGridObjects()
+{
+	const auto& toDestroy{ GridObject::GetObjectsToDestroy() };
+
+	for (auto* pObject : toDestroy)
+	{
+		if (!pObject) continue;
+
+		Player* pPlayer{ dynamic_cast<Player*>(pObject) };
+		if (pPlayer) m_pGridMap->RemovePlayer(pPlayer);
+		else m_pGridMap->RemoveGridObject(pObject);
+
+		m_pGridMap->RemoveChild(pObject);
+	}
+
+	GridObject::GetObjectsToDestroy().clear();
+}
+
+void LevelScene::AddGridObjects()
+{
+	const auto& toAdd{ GridObject::GetObjectsToAdd() };
+
+	for (auto& pObject : toAdd)
+	{
+		if (!pObject.first) continue;
+
+		if (pObject.second)
+		{
+			Player* pPlayer{ dynamic_cast<Player*>(pObject.first) };
+			if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
+			else m_pGridMap->AddGridObject(pObject.first);
+		}
+
+		m_pGridMap->AddChild(pObject.first);
+	}
+
+	GridObject::GetObjectsToAdd().clear();
 }
 
 bool LevelScene::HasGameEnded() const

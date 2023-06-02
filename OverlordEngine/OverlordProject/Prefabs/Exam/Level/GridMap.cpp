@@ -9,7 +9,9 @@ const std::wstring GridMap::m_Tag{ L"GridMap" };
 GridMap::GridMap(int rows, int cols) :
 	m_Rows{ rows },
 	m_Cols{ cols }
-{}
+{
+	SetupGrid();
+}
 
 bool GridMap::IsOccupied(int row, int col) const
 {
@@ -71,10 +73,25 @@ GridObject* GridMap::GetGridObjectAt(int row, int col) const
 	return nullptr;
 }
 
+void GridMap::Reset()
+{
+	for (auto* pPlayer : m_pPlayers)
+		pPlayer->MarkForDelete();
+
+	for (auto* pGridObject : m_pGridObjects)
+		pGridObject->MarkForDelete();
+
+	Player::Reset();
+	m_DeadPlayers.clear();
+}
+
 void GridMap::Initialize(const SceneContext&)
 {
 	SetTag(m_Tag);
+}
 
+void GridMap::SetupGrid()
+{
 	SetUpFloor();
 	SetUpWalls();
 	SetUpPillars();
@@ -95,7 +112,8 @@ void GridMap::SetUpFloor() const
 			auto pBlock{ new Block{ ExamAssets::FloorMesh, texturePath, false } };
 			pBlock->SetPosition(row, col);
 			pBlock->SetDimensions(1, 0);
-			GetScene()->AddChild(pBlock);
+			pBlock->SetCollision(false);
+			pBlock->MarkForAdd();
 
 			useLightGreen = !useLightGreen; // Toggle the texture index
 		}
@@ -113,10 +131,10 @@ void GridMap::SetUpWalls()
 		{
 			if (row == 0 || row == m_Rows - 1 || col == 0 || col == m_Cols - 1)
 			{
-				AddGridObject(new Block{ ExamAssets::WallMesh, ExamAssets::WallTexture, false });
-				m_pGridObjects.back()->SetPosition(row, col);
-				m_pGridObjects.back()->SetDimensions(1, 1);
-				GetScene()->AddChild(m_pGridObjects.back());
+				auto pBlock{ new Block{ ExamAssets::WallMesh, ExamAssets::WallTexture, false } };
+				pBlock->SetPosition(row, col);
+				pBlock->SetDimensions(1, 1);
+				pBlock->MarkForAdd();
 			}
 		}
 	}
@@ -128,10 +146,10 @@ void GridMap::SetUpPillars()
 	{
 		for (int col{ 2 }; col < m_Cols - 2; col += 2)
 		{
-			AddGridObject(new Block{ ExamAssets::PillarMesh, ExamAssets::PillarTexture, false });
-			m_pGridObjects.back()->SetPosition(row, col);
-			m_pGridObjects.back()->SetDimensions(1, 1);
-			GetScene()->AddChild(m_pGridObjects.back());
+			auto pBlock{ new Block{ ExamAssets::PillarMesh, ExamAssets::PillarTexture, false } };
+			pBlock->SetPosition(row, col);
+			pBlock->SetDimensions(1, 1);
+			pBlock->MarkForAdd();
 		}
 	}
 }

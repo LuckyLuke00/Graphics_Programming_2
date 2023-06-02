@@ -15,6 +15,8 @@ Player::Player(const std::wstring& model)
 
 	m_pModelComponent = AddComponent(new ModelComponent{ model });
 	SetPlayerMaterials();
+
+	m_Lives = m_MaxLives;
 }
 
 void Player::Initialize(const SceneContext&)
@@ -223,11 +225,18 @@ void Player::HandleDeath()
 	if (m_Lives < 1)
 	{
 		GetGridMap()->AddDeadPlayer(this);
+		GetGridMap()->RemovePlayer(this);
 		MarkForDelete();
 		return;
 	}
 
 	SetPosition(m_SpawnPoint.x, m_SpawnPoint.y);
+}
+
+void Player::Reset()
+{
+	m_InputId = -1;
+	m_ColorVariants = { Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
 }
 
 void Player::Kill()

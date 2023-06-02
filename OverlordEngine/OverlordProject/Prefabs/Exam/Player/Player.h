@@ -17,6 +17,8 @@ public:
 	Player& operator=(const Player& other) = delete;
 	Player& operator=(Player&& other) noexcept = delete;
 
+	static void Reset();
+
 	void SetSpawnPoint(const XMINT2& spawnPoint) { m_SpawnPoint = spawnPoint; }
 	void SetSpawnPoint(int row, int col) { m_SpawnPoint.x = row; m_SpawnPoint.y = col; }
 	void SetLives(int lives) { m_Lives = lives; }
@@ -45,6 +47,7 @@ private:
 	bool m_IsDead{ false };
 
 	int m_GamepadIndex{ 0 };
+	int m_MaxLives{ 3 };
 	int m_Lives{ 3 };
 	float m_RespawnTimer{ 0.f };
 	float m_RespawnTime{ 2.f };
