@@ -41,7 +41,8 @@ namespace MathHelper
 		// Prevent a divide by zero
 		if (min == max) return min;
 
-		return min + (rand() % max - min + 1);
+		// Return our random number with max inclusive
+		return min + (rand() % (max - min + 1));
 	}
 
 	inline LONG BinaryClamp(LONG x)

@@ -6,14 +6,14 @@
 
 PlaceBombComponent::PlaceBombComponent(int maxBombs, int explosionRadius) :
 	m_ExplosionRadius{ explosionRadius },
-	m_MaxBombs{ maxBombs }
+	m_Bombs{ maxBombs }
 {
 	m_pLiveBombs.reserve(maxBombs);
 }
 
 void PlaceBombComponent::PlaceBomb()
 {
-	if (m_MaxBombs <= m_pLiveBombs.size()) return;
+	if (m_Bombs <= m_pLiveBombs.size()) return;
 	// If the current position already has a bomb, don't place another one
 
 	const auto& position{ m_pGridObjectOwner->GetPosition() };

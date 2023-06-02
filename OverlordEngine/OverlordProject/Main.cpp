@@ -34,6 +34,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR /*pCmdLine*/, int /*nC
 	//	//_CrtSetBreakAlloc(10725);
 	//#endif
 
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	const auto pGame = new MainGame();
 	auto result = pGame->Run(hInstance);
 	UNREFERENCED_PARAMETER(result);
