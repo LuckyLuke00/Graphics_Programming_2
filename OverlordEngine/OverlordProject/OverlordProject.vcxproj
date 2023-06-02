@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\PowerUpSpawnerComponent.h" />
+    <ClInclude Include="Exam\ExamAssets.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\FirePowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Power-Ups\PowerUp.h" />
     <ClInclude Include="Prefabs\Exam\Bomb\Explosion.h" />
@@ -170,7 +171,7 @@
     <ClInclude Include="Components\PlaceBombComponent.h" />
     <ClInclude Include="Materials\Shadow\ColorMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Components\GridMovementComponent.h" />
-    <ClInclude Include="Input\ExamInput.h" />
+    <ClInclude Include="Exam\ExamInput.h" />
     <ClInclude Include="Prefabs\Exam\Player\Player.h" />
     <ClInclude Include="Prefabs\Exam\Level\Block.h" />
     <ClInclude Include="Prefabs\Exam\Level\GridObject.h" />

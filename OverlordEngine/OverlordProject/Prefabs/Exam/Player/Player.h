@@ -1,11 +1,10 @@
 #pragma once
-#include "Components/GridMovementComponent.h"
-#include "Components/PlaceBombComponent.h"
-#include "Input/ExamInput.h"
-#include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
+#include "Exam/ExamInput.h"
 #include "Prefabs/Exam/Level/GridObject.h"
 
+class ColorMaterial_Shadow_Skinned;
 class GridMovementComponent;
+class PlaceBombComponent;
 
 class Player final : public GridObject
 {

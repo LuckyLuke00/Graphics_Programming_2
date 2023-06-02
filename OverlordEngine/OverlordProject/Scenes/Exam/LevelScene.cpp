@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "LevelScene.h"
-#include <Components/GridMovementComponent.h>
-#include <Materials/DiffuseMaterial.h>
-#include <Prefabs/Exam/Player/Player.h>
+#include "Materials/DiffuseMaterial.h"
+#include "Prefabs/Exam/Player/Player.h"
+#include "Exam/ExamAssets.h"
 
 void LevelScene::Initialize()
 {
@@ -64,17 +64,10 @@ void LevelScene::SetupPlayer(int playerIndex) const
 	if (playerIndex < 0 || playerIndex >= m_MaxPlayers) return;
 
 	// Calculate the corner of the grid where the player should spawn
-	// If playerindex is 0, spawn in the bottom left corner, bottom left is (1, 1)
-	// If playerindex is 1, spawn in the top right corner
-	// If playerindex is 2, spawn in the bottom right corner
-	// If playerindex is 3, spawn in the top left corner
-
-	// Use m_pGridMap->GetCols and m_pGridMap->GetRows to calculate the spawn point
-	// PlayerIndex goes from 0 to 3
 	const int x{ playerIndex % 2 == 0 ? 1 : m_pGridMap->GetRows() - 2 };
 	const int y{ playerIndex < 2 ? 1 : m_pGridMap->GetCols() - 2 };
 
-	auto* pPlayer{ new Player{ L"Meshes/Exam/Player.ovm" } };
+	auto* pPlayer{ new Player{ ExamAssets::PlayerMesh } };
 
 	pPlayer->SetScale(.01f, .01f);
 	pPlayer->SetPosition(x, y);
@@ -97,7 +90,7 @@ void LevelScene::SetUpCamera()
 void LevelScene::CreateGroundPlane()
 {
 	auto* pMaterial{ MaterialManager::Get()->CreateMaterial<DiffuseMaterial>() };
-	pMaterial->SetDiffuseTexture(L"Textures/Exam/dark_oak_planks.png");
+	pMaterial->SetDiffuseTexture(ExamAssets::BackgroundTexture);
 
 	for (int i{ 0 }; i < 4; ++i)
 	{

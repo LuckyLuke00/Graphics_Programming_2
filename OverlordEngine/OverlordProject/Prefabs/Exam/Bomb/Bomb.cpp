@@ -5,7 +5,8 @@
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Components/PlaceBombComponent.h"
 #include "Prefabs/Exam/Player/Player.h"
-#include <Prefabs/Exam/Level/Block.h>
+#include "Prefabs/Exam/Level/Block.h"
+#include "Exam/ExamAssets.h"
 
 Bomb::Bomb(const std::wstring& model, const std::wstring& texture, PlaceBombComponent* placeBombComponent, int explosionRadius, float fuseTime) :
 	m_pPlaceBombComponent{ placeBombComponent },
@@ -82,7 +83,7 @@ void Bomb::CreateExplosion(int x, int y)
 		if (pBlock && !pBlock->IsBreakable()) return;
 	}
 
-	Explosion* pExplositon{ new Explosion{ m_ExplostionModel, m_ExplosionTexture } };
+	Explosion* pExplositon{ new Explosion{ ExamAssets::ExplosionMesh, ExamAssets::ExplosionTexture } };
 	pExplositon->SetPosition(x, y);
 	pExplositon->OffsetPosition(.0f, -.5f);
 	pExplositon->MarkForAdd(false);

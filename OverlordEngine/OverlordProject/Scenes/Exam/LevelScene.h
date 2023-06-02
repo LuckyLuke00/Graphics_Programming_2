@@ -1,6 +1,5 @@
 #pragma once
 #include "Prefabs/Exam/Level/GridMap.h"
-#include <array>
 
 class LevelScene final : public GameScene
 {

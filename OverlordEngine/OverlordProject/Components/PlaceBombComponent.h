@@ -1,6 +1,8 @@
 #pragma once
-#include "Prefabs/Exam/Level/GridMap.h"
-#include "Prefabs/Exam/Bomb/Bomb.h"
+
+class GridMap;
+class GridObject;
+class Bomb;
 
 class PlaceBombComponent final : public BaseComponent
 {

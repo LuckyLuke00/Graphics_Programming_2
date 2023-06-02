@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PowerUpSpawnerComponent.h"
 #include "Prefabs/Exam/Power-Ups/FirePowerUp.h"
+#include "Exam/ExamAssets.h"
 
 void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage)
 {
@@ -16,7 +17,7 @@ void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chance
 
 void PowerUpSpawnerComponent::Initialize(const SceneContext&)
 {
-	m_pAvailablePowerUps.emplace_back(new FirePowerUp{ L"Meshes/Exam/PowerUp.ovm", L"Textures/Exam/FirePowerUp.png" });
+	m_pAvailablePowerUps.emplace_back(new FirePowerUp{ ExamAssets::PowerUpMesh, ExamAssets::FirePowerUpTexture });
 	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
 	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
 }

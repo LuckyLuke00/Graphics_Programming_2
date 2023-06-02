@@ -4,6 +4,7 @@
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Prefabs/Exam/Player/Player.h"
 #include "Prefabs/Exam/Level/Block.h"
+#include "Prefabs/Exam/Bomb/Bomb.h"
 
 Explosion::Explosion(const std::wstring& model, const std::wstring& texture, float lifeTime) :
 	m_LifeTime{ lifeTime }

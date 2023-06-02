@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "Prefabs/Exam/Bomb/Bomb.h"
+#include "Components/PlaceBombComponent.h"
+#include "Components/GridMovementComponent.h"
+#include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
 
 int Player::m_InputId{ -1 };
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };

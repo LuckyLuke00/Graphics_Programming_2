@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "PlaceBombComponent.h"
-#include "Prefabs/Exam/Bomb/Explosion.h"
+#include "Exam/ExamAssets.h"
+#include "Prefabs/Exam/Bomb/Bomb.h"
+#include "Prefabs/Exam/Level/GridMap.h"
 
 PlaceBombComponent::PlaceBombComponent(int maxBombs, int explosionRadius) :
 	m_ExplosionRadius{ explosionRadius },
@@ -25,7 +27,7 @@ void PlaceBombComponent::PlaceBomb()
 		};
 		it != m_pLiveBombs.end()) return;
 
-	Bomb* pBomb{ new Bomb{ L"Meshes/Exam/Bomb.ovm", L"Textures/Exam/Bomb.png", this } };
+	Bomb* pBomb{ new Bomb{ ExamAssets::BombMesh, ExamAssets::BombTexture, this } };
 	pBomb->SetPosition(position.x, position.y);
 	pBomb->OffsetPosition(.0f, -.5f);
 	pBomb->MarkForAdd();

@@ -34,8 +34,5 @@ private:
 	float m_FuseTime{ 10.f };
 	float m_FuseTimer{ 0.f };
 
-	const std::wstring m_ExplostionModel{ L"Meshes/Exam/Explosion.ovm" };
-	const std::wstring m_ExplosionTexture{ L"Textures/Exam/Explosion.png" };
-
 	void CreateExplosion(int x, int y);
 };

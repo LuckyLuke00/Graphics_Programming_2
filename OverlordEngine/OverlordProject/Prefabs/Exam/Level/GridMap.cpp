@@ -2,6 +2,7 @@
 #include "GridMap.h"
 #include "Prefabs/Exam/Level/Block.h"
 #include "Prefabs/Exam/Player/Player.h"
+#include "Exam/ExamAssets.h"
 
 const std::wstring GridMap::m_Tag{ L"GridMap" };
 
@@ -88,8 +89,8 @@ void GridMap::SetUpFloor() const
 		for (int col{ 1 }; col < m_Cols - 1; ++col)
 		{
 			// For every cell that is not below a wall, create a floor plane
-			const std::wstring texturePath{ useLightGreen ? L"Textures/Exam/lime_concrete.png" : L"Textures/Exam/green_concrete.png" };
-			auto pBlock{ new Block{ L"Meshes/Exam/UnitTile.ovm", texturePath, false } };
+			const std::wstring texturePath{ useLightGreen ? ExamAssets::FloorDarkTexture : ExamAssets::FloorLightTexture };
+			auto pBlock{ new Block{ ExamAssets::FloorMesh, texturePath, false } };
 			pBlock->SetPosition(row, col);
 			pBlock->SetDimensions(1, 0);
 			GetScene()->AddChild(pBlock);
@@ -110,7 +111,7 @@ void GridMap::SetUpWalls()
 		{
 			if (row == 0 || row == m_Rows - 1 || col == 0 || col == m_Cols - 1)
 			{
-				AddGridObject(new Block{ L"Meshes/Exam/UnitBox.ovm", L"Textures/Exam/hopper_inside.png", false });
+				AddGridObject(new Block{ ExamAssets::WallMesh, ExamAssets::WallTexture, false });
 				m_pGridObjects.back()->SetPosition(row, col);
 				m_pGridObjects.back()->SetDimensions(1, 1);
 				GetScene()->AddChild(m_pGridObjects.back());
@@ -125,7 +126,7 @@ void GridMap::SetUpPillars()
 	{
 		for (int col{ 2 }; col < m_Cols - 2; col += 2)
 		{
-			AddGridObject(new Block{ L"Meshes/Exam/UnitBoxRounded.ovm", L"Textures/Exam/stone.png", false });
+			AddGridObject(new Block{ ExamAssets::PillarMesh, ExamAssets::PillarTexture, false });
 			m_pGridObjects.back()->SetPosition(row, col);
 			m_pGridObjects.back()->SetDimensions(1, 1);
 			GetScene()->AddChild(m_pGridObjects.back());
@@ -168,7 +169,7 @@ void GridMap::SetUpBreakableBlocks()
 
 			if (isCorner) continue;
 
-			Block* pBlock{ new Block{ L"Meshes/Exam/BreakableBox.ovm", L"Textures/Exam/BreakableBlock.png", true } };
+			Block* pBlock{ new Block{ ExamAssets::BreakableBlockMesh, ExamAssets::BreakableBlockTexture, true } };
 			pBlock->SetPosition(row, col);
 			pBlock->SetDimensions(1, 1);
 			pBlock->OffsetPosition(.0f, -.5f, .0f);
