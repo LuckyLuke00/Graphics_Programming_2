@@ -1,6 +1,8 @@
 #pragma once
 #include "Prefabs/Exam/Level/GridObject.h"
 
+class ExplosionParticleEffect;
+
 class Explosion final : public GridObject
 {
 public:
@@ -19,4 +21,6 @@ protected:
 private:
 	float m_LifeTime{ 1.f };
 	float m_Timer{ 0.f };
+
+	ExplosionParticleEffect* m_pExplosionParticleEffect{ nullptr };
 };

@@ -5,6 +5,8 @@
 #include "Prefabs/Exam/Player/Player.h"
 #include "Prefabs/Exam/Level/Block.h"
 #include "Prefabs/Exam/Bomb/Bomb.h"
+#include "ExplosionParticleEffect.h"
+#include "Exam/ExamAssets.h"
 
 Explosion::Explosion(const std::wstring& model, const std::wstring& texture, float lifeTime) :
 	m_LifeTime{ lifeTime }
@@ -13,10 +15,15 @@ Explosion::Explosion(const std::wstring& model, const std::wstring& texture, flo
 	if (!texture.empty()) pMaterial->SetDiffuseTexture(texture);
 
 	AddComponent(new ModelComponent{ model })->SetMaterial(pMaterial);
+
+	m_pExplosionParticleEffect = new ExplosionParticleEffect{ ExamAssets::ExplosionParticleTexture };
+	m_pExplosionParticleEffect->SetDimensions(1, 1);
+	m_pExplosionParticleEffect->MarkForAdd(false);
 }
 
 void Explosion::Initialize(const SceneContext&)
 {
+	m_pExplosionParticleEffect->SetPosition(GetPosition());
 	SetScale(.01f, .01f);
 }
 
@@ -38,5 +45,6 @@ void Explosion::Update(const SceneContext& sceneContext)
 	{
 		m_Timer = .0f;
 		MarkForDelete();
+		m_pExplosionParticleEffect->MarkForDelete();
 	}
 }

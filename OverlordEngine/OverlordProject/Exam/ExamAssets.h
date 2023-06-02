@@ -36,5 +36,7 @@ namespace ExamAssets
 	const std::wstring SkatePowerUpTexture{ L"Textures/Exam/SkatePowerUp.png" };
 	const std::wstring GetaPowerUpTexture{ L"Textures/Exam/GetaPowerUp.png" };
 
+	const std::wstring ExplosionParticleTexture{ L"Textures/Exam/ExplosionEffect.png" };
+
 	const std::wstring PowerUpMesh{ L"Meshes/Exam/PowerUp.ovm" };
 }

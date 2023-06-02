@@ -88,32 +88,31 @@ void CreateVertex(inout TriangleStream<GS_DATA> triStream, float3 pos, float2 te
 [maxvertexcount(4)]
 void MainGS(point VS_DATA vertex[1], inout TriangleStream<GS_DATA> triStream)
 {
-	//Use these variable names
-	float3 topLeft, topRight, bottomLeft, bottomRight;
 	float size = vertex[0].Size;
-	float3 origin = vertex[0].Position;
+    float3 origin = vertex[0].Position;
 
-	//Vertices (Keep in mind that 'origin' contains the center of the quad
-	topLeft = origin + float3(-size * 0.5f, size * 0.5f, 0);
-	topRight = origin + float3(size * 0.5f, size * 0.5f, 0);
-	bottomLeft = origin + float3(-size * 0.5f, -size * 0.5f, 0);
-	bottomRight = origin + float3(size * 0.5f, -size * 0.5f, 0);
+    // Calculate the camera view vector in world space
+    float3 viewVector = normalize(gViewInverse[2].xyz);
 
-	//Transform the vertices using the ViewInverse (Rotational Part Only!!! (~ normal transformation)), this will force them to always point towards the camera (cfr. BillBoarding)
-	float3x3 viewRotation = (float3x3)gViewInverse;
-	topLeft = mul(topLeft, viewRotation);
-	topRight = mul(topRight, viewRotation);
-	bottomLeft = mul(bottomLeft, viewRotation);
-	bottomRight = mul(bottomRight, viewRotation);
+    // Calculate the right and up vectors for the billboard
+    float3 rightVector = normalize(cross(float3(0, 1, 0), viewVector));
+    float3 upVector = normalize(cross(viewVector, rightVector));
 
-	//This is the 2x2 rotation matrix we need to transform our TextureCoordinates (Texture Rotation)
-	float2x2 uvRotation = { cos(vertex[0].Rotation), -sin(vertex[0].Rotation), sin(vertex[0].Rotation), cos(vertex[0].Rotation) };
+    // Calculate the billboard corners
+    float3 topLeft = origin - rightVector * size + upVector * size;
+    float3 topRight = origin + rightVector * size + upVector * size;
+    float3 bottomLeft = origin - rightVector * size - upVector * size;
+    float3 bottomRight = origin + rightVector * size - upVector * size;
 
-	//Create Geometry (Trianglestrip)
-	CreateVertex(triStream, topLeft, float2(0, 0), vertex[0].Color, uvRotation);
-	CreateVertex(triStream, topRight, float2(1, 0), vertex[0].Color, uvRotation);
-	CreateVertex(triStream, bottomLeft, float2(0, 1), vertex[0].Color, uvRotation);
-	CreateVertex(triStream, bottomRight, float2(1, 1), vertex[0].Color, uvRotation);
+    // This is the 2x2 rotation matrix we need to transform our TextureCoordinates (Texture Rotation)
+    float2x2 uvRotation = { cos(vertex[0].Rotation), -sin(vertex[0].Rotation),
+                            sin(vertex[0].Rotation), cos(vertex[0].Rotation) };
+
+    // Create Geometry (Triangle strip)
+    CreateVertex(triStream, topLeft, float2(0, 0), vertex[0].Color, uvRotation);
+    CreateVertex(triStream, topRight, float2(1, 0), vertex[0].Color, uvRotation);
+    CreateVertex(triStream, bottomLeft, float2(0, 1), vertex[0].Color, uvRotation);
+    CreateVertex(triStream, bottomRight, float2(1, 1), vertex[0].Color, uvRotation);
 }
 
 //PIXEL SHADER

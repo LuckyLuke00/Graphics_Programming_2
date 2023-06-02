@@ -14,6 +14,7 @@ public:
 	GridObject& operator=(GridObject&& other) noexcept = delete;
 
 	void SetPosition(int row, int col);
+	void SetPosition(const XMINT2& position) { SetPosition(position.x, position.y); }
 	void SetDimensions(int width, int height);
 	void SetScale(float width, float height);
 	void SetCollision(bool hasCollision) { m_HasCollision = hasCollision; }
