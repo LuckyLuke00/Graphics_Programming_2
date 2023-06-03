@@ -42,7 +42,7 @@ namespace ExamAssets
 
 	const std::wstring PowerUpMesh{ L"Meshes/Exam/PowerUp.ovm" };
 
-	const std::wstring MainMenuBackground{ L"Textures/Exam/Menus/MainMenu_Background.png" };
+	const std::wstring MainMenuBackground{ L"Textures/Exam/Menus/MainMenu_Background_new.png" };
 	const std::wstring PauseMenuBackground{ L"Textures/Exam/Menus/PauseMenu_Background.png" };
 
 	const std::string ExplosionSound01{ "Resources/Audio/Explosion_01.wav" };
