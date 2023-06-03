@@ -18,6 +18,7 @@ public:
 	LevelScene& operator=(LevelScene&& other) noexcept = delete;
 
 	void TogglePause();
+	static bool HasGameStarted() { return m_GameStarted; }
 
 protected:
 	void Initialize() override;
@@ -33,15 +34,16 @@ private:
 	CountdownTimer* m_pCountdownTimer{ nullptr };
 	std::vector<UIButton*> m_pPauseButtons{};
 
-	std::wstring m_SceneToLoad{};
-	bool m_UnloadScene{ false };
-
+	static bool m_GameStarted;
 	bool m_Paused{ false };
 	int m_MaxPlayers{ 4 };
+	int m_PlayerCount{ 0 };
 
+	bool WaitForPlayers();
 	void SetupPlayer(int playerIndex) const;
 	void SetUpCamera();
 	void CreateGroundPlane();
+	void SetupTimer();
 
 	void RemoveGridObjects();
 	void AddGridObjects();

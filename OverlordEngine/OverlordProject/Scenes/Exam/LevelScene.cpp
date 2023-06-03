@@ -9,6 +9,8 @@
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
 #include "Materials/Post/PostBloom.h"
 
+bool LevelScene::m_GameStarted{ false };
+
 LevelScene::~LevelScene()
 {
 	RemoveGridObjects();
@@ -16,6 +18,8 @@ LevelScene::~LevelScene()
 
 void LevelScene::TogglePause()
 {
+	if (!m_GameStarted) return;
+
 	m_Paused = !m_Paused;
 
 	if (m_Paused)
@@ -48,6 +52,9 @@ void LevelScene::Initialize()
 
 void LevelScene::Update()
 {
+	AddGridObjects();
+	RemoveGridObjects();
+
 	if (m_Paused)
 	{
 		if (m_pPauseMenu) return;
@@ -59,8 +66,14 @@ void LevelScene::Update()
 		ClearPauseMenu();
 	}
 
-	AddGridObjects();
-	RemoveGridObjects();
+	if (!WaitForPlayers()) return;
+
+	if (!m_GameStarted)
+	{
+		SetupTimer();
+	}
+
+	m_GameStarted = true;
 
 	if (HasGameEnded())
 	{
@@ -72,6 +85,23 @@ void LevelScene::Update()
 void LevelScene::OnSceneActivated()
 {
 	SetUpLevel();
+}
+
+bool LevelScene::WaitForPlayers()
+{
+	if (m_PlayerCount < 1 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerOne))
+		SetupPlayer(m_PlayerCount++);
+
+	if (m_PlayerCount < 2 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerTwo))
+		SetupPlayer(m_PlayerCount++);
+
+	if (m_PlayerCount < 3 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerThree))
+		SetupPlayer(m_PlayerCount++);
+
+	if (m_PlayerCount < 4 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerFour))
+		SetupPlayer(m_PlayerCount++);
+
+	return m_PlayerCount >= 2;
 }
 
 void LevelScene::SetupPlayer(int playerIndex) const
@@ -118,6 +148,15 @@ void LevelScene::CreateGroundPlane()
 			AddChild(pGround);
 		}
 	}
+}
+
+void LevelScene::SetupTimer()
+{
+	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
+	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
+	m_pCountdownTimer->SetCountdownTime(180.f);
+	m_pCountdownTimer->StartTimer();
+	AddChild(m_pCountdownTimer);
 }
 
 void LevelScene::RemoveGridObjects()
@@ -209,20 +248,7 @@ void LevelScene::CreatePauseMenu()
 void LevelScene::SetUpLevel()
 {
 	SoundManager::Get()->GetSystem()->playSound(m_pBattleStartSound, nullptr, false, nullptr);
-
 	m_pGridMap = AddChild(new GridMap{ 19, 13 });
-
-	// Middle of the screen at the top
-	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
-	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(180.f);
-	m_pCountdownTimer->StartTimer();
-	AddChild(m_pCountdownTimer);
-
-	for (int i{ 0 }; i < m_MaxPlayers; ++i)
-	{
-		SetupPlayer(i);
-	}
 }
 
 void LevelScene::ClearPauseMenu()
@@ -261,6 +287,9 @@ void LevelScene::Reset()
 
 	RemoveChild(m_pCountdownTimer, true);
 	m_pCountdownTimer = nullptr;
+
+	m_GameStarted = false;
+	m_PlayerCount = 0;
 }
 
 UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const

@@ -41,9 +41,11 @@ void Player::OnSceneAttach(GameScene*)
 
 void Player::Update(const SceneContext&)
 {
-	HandleInput();
-
 	HandleAnimations();
+
+	if (!LevelScene::HasGameStarted()) return;
+
+	HandleInput();
 
 	if (IsPaused()) return;
 	HandleDeath();
