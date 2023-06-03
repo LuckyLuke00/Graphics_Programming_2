@@ -73,14 +73,20 @@ GridObject* GridMap::GetGridObjectAt(int row, int col) const
 
 void GridMap::Reset()
 {
-	for (auto* pPlayer : m_pPlayers)
-		pPlayer->MarkForDelete();
+	for (auto* pDeadPlayer : m_DeadPlayers)
+		pDeadPlayer->MarkForDelete();
 
 	for (auto* pGridObject : m_pGridObjects)
 		pGridObject->MarkForDelete();
 
+	for (auto* pPlayer : m_pPlayers)
+		pPlayer->MarkForDelete();
+
 	Player::Reset();
+
 	m_DeadPlayers.clear();
+	m_pGridObjects.clear();
+	m_pPlayers.clear();
 }
 
 void GridMap::Initialize(const SceneContext&)

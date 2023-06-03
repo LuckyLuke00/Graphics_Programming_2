@@ -3,6 +3,7 @@
 class GridMap;
 class CountdownTimer;
 class UIManager;
+class UIButton;
 
 class LevelScene final : public GameScene
 {
@@ -27,6 +28,10 @@ private:
 	GameObject* m_pPauseMenu{ nullptr };
 	GridMap* m_pGridMap{ nullptr };
 	CountdownTimer* m_pCountdownTimer{ nullptr };
+	std::vector<UIButton*> m_pPauseButtons{};
+
+	std::wstring m_SceneToLoad{};
+	bool m_UnloadScene{ false };
 
 	bool m_Paused{ false };
 	int m_MaxPlayers{ 4 };
@@ -40,6 +45,9 @@ private:
 
 	bool HasGameEnded() const;
 	void CreatePauseMenu();
+	void SetUpLevel();
+	void ClearPauseMenu();
 
 	void Reset();
+	UIButton* CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const;
 };

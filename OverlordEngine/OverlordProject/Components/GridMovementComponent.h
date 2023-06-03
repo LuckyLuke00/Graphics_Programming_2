@@ -16,7 +16,7 @@ public:
 
 	// Normalize the amount
 	void IncreaseMoveSpeed() { m_MoveTime = std::max(.1f, m_MoveTime - .1f); }
-	void DecreaseMoveSpeed() { m_MoveTime = std::min(1.f, m_MoveTime + .1f); }
+	void DecreaseMoveSpeed() { m_MoveTime = std::min(m_MaxMoveTime, m_MoveTime + .1f); }
 
 	void MoveNorth();
 	void MoveSouth();
@@ -40,6 +40,7 @@ private:
 
 	float m_MoveTime{ 1.f };
 	float m_MoveTimer{ .0f };
+	float m_MaxMoveTime{ 1.f };
 
 	bool CanMoveTo(const XMINT2& gridIndex) const;
 };

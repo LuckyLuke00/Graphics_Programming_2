@@ -27,7 +27,7 @@ void MainMenuScene::Initialize()
 	const XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .05f, m_SceneContext.windowHeight * .3f };
 
 	auto pButtonOne{ new UIButton{ pFont, L"Start Game", buttonPos } };
-	auto pButtonTwo{ new UIButton{ pFont, L"Exit Game", { buttonPos.x, buttonPos.y + 75.f } } };
+	auto pButtonTwo{ new UIButton{ pFont, L"Quit", { buttonPos.x, buttonPos.y + 35.f } } };
 
 	pButtonOne->SetOnClickFunction(std::bind_front(&MainMenuScene::StartGame, this));
 	pButtonTwo->SetOnClickFunction(std::bind_front(&MainMenuScene::ExitGame, this));

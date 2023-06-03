@@ -50,11 +50,7 @@ void LevelScene::Update()
 	}
 	else
 	{
-		if (m_pPauseMenu)
-		{
-			RemoveChild(m_pPauseMenu, true);
-			m_pPauseMenu = nullptr;
-		}
+		ClearPauseMenu();
 	}
 
 	AddGridObjects();
@@ -69,19 +65,7 @@ void LevelScene::Update()
 
 void LevelScene::OnSceneActivated()
 {
-	m_pGridMap = AddChild(new GridMap{ 19, 13 });
-
-	// Middle of the screen at the top
-	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
-	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(180.f);
-	m_pCountdownTimer->StartTimer();
-	AddChild(m_pCountdownTimer);
-
-	for (int i{ 0 }; i < m_MaxPlayers; ++i)
-	{
-		SetupPlayer(i);
-	}
+	SetUpLevel();
 }
 
 void LevelScene::SetupPlayer(int playerIndex) const
@@ -142,7 +126,7 @@ void LevelScene::RemoveGridObjects()
 		if (pPlayer) m_pGridMap->RemovePlayer(pPlayer);
 		else m_pGridMap->RemoveGridObject(pObject);
 
-		RemoveChild(pObject, true);
+		m_pGridMap->RemoveChild(pObject, true);
 	}
 
 	GridObject::GetObjectsToDestroy().clear();
@@ -160,7 +144,7 @@ void LevelScene::AddGridObjects()
 		if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
 		else m_pGridMap->AddGridObject(pObject);
 
-		AddChild(pObject);
+		m_pGridMap->AddChild(pObject);
 	}
 
 	GridObject::GetObjectsToAdd().clear();
@@ -168,6 +152,8 @@ void LevelScene::AddGridObjects()
 
 bool LevelScene::HasGameEnded() const
 {
+	if (!m_pCountdownTimer || !m_pGridMap) return false;
+
 	// Check if the timer has run out
 	if (m_pCountdownTimer->HasCountdownEnded()) return true;
 
@@ -185,49 +171,103 @@ void LevelScene::CreatePauseMenu()
 	m_pPauseMenu->GetTransform()->Scale(1.5f, 1.5f, 1.f);
 	AddChild(m_pPauseMenu);
 
-	//m_pUIManager = new UIManager{};
-	//AddChild(m_pUIManager);
+	m_pUIManager = new UIManager{};
+	AddChild(m_pUIManager);
 
-	//auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
-	//XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f };
+	XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .35f };
 
-	//pFont;
+	m_pPauseButtons.emplace_back(CreatePauseButtons(L"Main Menu", buttonPos));
+	m_pUIManager->AddButton(m_pPauseButtons.back());
+	m_pPauseButtons.back()->SetOnClickFunction([this]() { Reset(); SceneManager::Get()->SetActiveGameScene(L"MainMenuScene"); });
+	AddChild(m_pPauseButtons.back());
+	buttonPos.y += 35.f;
 
-	//auto pButtonOne{ new UIButton{ pFont, L"Main Menu", buttonPos } };
-	//pButtonOne->SetOnClickFunction([this]() { Reset();  SceneManager::Get()->SetActiveGameScene(L"MainMenuScene"); });
+	m_pPauseButtons.emplace_back(CreatePauseButtons(L"Restart", buttonPos));
+	m_pUIManager->AddButton(m_pPauseButtons.back());
+	m_pPauseButtons.back()->SetOnClickFunction([this]() { Reset(); SetUpLevel(); });
+	AddChild(m_pPauseButtons.back());
+	buttonPos.y += 35.f;
 
-	//buttonPos.y += 50.f;
+	m_pPauseButtons.emplace_back(CreatePauseButtons(L"Quit", buttonPos));
+	m_pUIManager->AddButton(m_pPauseButtons.back());
+	m_pPauseButtons.back()->SetOnClickFunction([]() { PostQuitMessage(0); });
+	AddChild(m_pPauseButtons.back());
 
-	//auto pButtonTwo{ new UIButton{ pFont, L"Restart", buttonPos } };
-	//pButtonTwo->SetOnClickFunction([this]() { Reset();  SceneManager::Get()->SetActiveGameScene(L"LevelScene"); });
+	m_pPauseButtons[0]->SetNavigationButtons(m_pPauseButtons[2], m_pPauseButtons[1], nullptr, nullptr);
+	m_pPauseButtons[1]->SetNavigationButtons(m_pPauseButtons[0], m_pPauseButtons[2], nullptr, nullptr);
+	m_pPauseButtons[2]->SetNavigationButtons(m_pPauseButtons[1], m_pPauseButtons[0], nullptr, nullptr);
 
-	//buttonPos.y += 50.f;
+	m_pUIManager->SetFirstSelectedButton(m_pPauseButtons[0]);
+	m_pUIManager->EnableInput();
+}
 
-	//auto pButtonThree{ new UIButton{ pFont, L"Exit", buttonPos } };
-	//pButtonThree->SetOnClickFunction([this]() { Reset();  PostQuitMessage(0); });
+void LevelScene::SetUpLevel()
+{
+	m_pGridMap = AddChild(new GridMap{ 19, 13 });
 
-	//pButtonOne->SetNavigationButtons(pButtonThree, pButtonTwo, nullptr, nullptr);
-	//pButtonTwo->SetNavigationButtons(pButtonOne, pButtonThree, nullptr, nullptr);
-	//pButtonThree->SetNavigationButtons(pButtonTwo, pButtonOne, nullptr, nullptr);
+	// Middle of the screen at the top
+	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
+	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
+	m_pCountdownTimer->SetCountdownTime(180.f);
+	m_pCountdownTimer->StartTimer();
+	AddChild(m_pCountdownTimer);
 
-	//AddChild(pButtonOne);
-	//AddChild(pButtonTwo);
-	//AddChild(pButtonThree);
+	for (int i{ 0 }; i < m_MaxPlayers; ++i)
+	{
+		SetupPlayer(i);
+	}
+}
 
-	//m_pUIManager->AddButton(pButtonOne);
-	//m_pUIManager->AddButton(pButtonTwo);
-	//m_pUIManager->AddButton(pButtonThree);
+void LevelScene::ClearPauseMenu()
+{
+	if (m_pPauseMenu)
+	{
+		RemoveChild(m_pPauseMenu, true);
+		m_pPauseMenu = nullptr;
 
-	//m_pUIManager->SetFirstSelectedButton(pButtonOne);
+		RemoveChild(m_pUIManager, true);
+		m_pUIManager = nullptr;
 
-	//m_pUIManager->EnableInput();
+		for (UIButton* pButton : m_pPauseButtons)
+		{
+			RemoveChild(pButton, true);
+		}
+
+		m_pPauseButtons.clear();
+	}
 }
 
 void LevelScene::Reset()
 {
+	m_Paused = false;
+	m_pCountdownTimer->ResumeTimer();
+	GridObject::UnPause();
+
 	m_pGridMap->Reset();
 	m_pCountdownTimer->StopTimer();
 
-	AddGridObjects();
 	RemoveGridObjects();
+
+	RemoveChild(m_pGridMap, true);
+	m_pGridMap = nullptr;
+
+	RemoveChild(m_pCountdownTimer, true);
+	m_pCountdownTimer = nullptr;
+}
+
+UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const
+{
+	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
+
+	pFont->GetSize();
+
+	// Measure the size of the buttons
+	XMFLOAT2 buttonSize{ SpriteFont::MeasureString(text, pFont) };
+
+	// Pixel perfect button position
+	const int x{ static_cast<int>(pos.x - buttonSize.x * .5f + .5f) };
+
+	XMFLOAT2 buttonPos{ static_cast<float>(x), pos.y };
+
+	return new UIButton{ pFont, text, buttonPos };
 }

@@ -5,7 +5,8 @@
 #include "Prefabs/Exam/Player/Player.h"
 
 GridMovementComponent::GridMovementComponent(float moveTime) :
-	m_MoveTime{ moveTime }
+	m_MoveTime{ moveTime },
+	m_MaxMoveTime{ moveTime }
 {}
 
 void GridMovementComponent::Initialize(const SceneContext&)
