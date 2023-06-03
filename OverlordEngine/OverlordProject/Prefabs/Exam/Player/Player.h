@@ -9,7 +9,7 @@ class PlaceBombComponent;
 class Player final : public GridObject
 {
 public:
-	explicit Player(const std::wstring& model);
+	explicit Player(const std::wstring& model, int index);
 	~Player() override = default;
 
 	Player(const Player& other) = delete;
@@ -43,7 +43,6 @@ private:
 		Run,
 	};
 
-	static int m_InputId;
 	static std::vector<XMVECTORF32> m_ColorVariants;
 
 	bool m_IsDead{ false };

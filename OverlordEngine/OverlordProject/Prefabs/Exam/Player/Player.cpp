@@ -7,14 +7,12 @@
 #include "Scenes/Exam/LevelScene.h"
 #include "Exam/ExamAssets.h"
 
-int Player::m_InputId{ -1 };
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
 FMOD::Sound* Player::m_pDeathSound{ nullptr };
 
-Player::Player(const std::wstring& model)
+Player::Player(const std::wstring& model, int index)
 {
-	++m_InputId;
-	m_GamepadIndex = m_InputId;
+	m_GamepadIndex = index;
 
 	m_pModelComponent = AddComponent(new ModelComponent{ model });
 	SetPlayerMaterials();
@@ -273,7 +271,6 @@ void Player::HandleDeath()
 
 void Player::Reset()
 {
-	m_InputId = -1;
 	m_ColorVariants = { Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
 }
 

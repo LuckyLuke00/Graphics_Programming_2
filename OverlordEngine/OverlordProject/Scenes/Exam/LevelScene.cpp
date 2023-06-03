@@ -108,26 +108,30 @@ bool LevelScene::WaitForPlayers()
 {
 	if (!m_PlayerReady[0] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerOne))
 	{
-		SetupPlayer(m_PlayerCount++);
+		SetupPlayer(0);
 		m_PlayerReady[0] = true;
+		++m_PlayerCount;
 	}
 
 	if (!m_PlayerReady[1] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerTwo))
 	{
-		SetupPlayer(m_PlayerCount++);
+		SetupPlayer(1);
 		m_PlayerReady[1] = true;
+		++m_PlayerCount;
 	}
 
 	if (!m_PlayerReady[2] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerThree))
 	{
-		SetupPlayer(m_PlayerCount++);
+		SetupPlayer(2);
 		m_PlayerReady[2] = true;
+		++m_PlayerCount;
 	}
 
 	if (!m_PlayerReady[3] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerFour))
 	{
-		SetupPlayer(m_PlayerCount++);
+		SetupPlayer(3);
 		m_PlayerReady[3] = true;
+		++m_PlayerCount;
 	}
 
 	return m_PlayerCount >= 2;
@@ -141,7 +145,7 @@ void LevelScene::SetupPlayer(int playerIndex) const
 	const int x{ playerIndex % 2 == 0 ? 1 : m_pGridMap->GetRows() - 2 };
 	const int y{ playerIndex < 2 ? 1 : m_pGridMap->GetCols() - 2 };
 
-	auto* pPlayer{ new Player{ ExamAssets::PlayerMesh } };
+	auto* pPlayer{ new Player{ ExamAssets::PlayerMesh, playerIndex } };
 
 	pPlayer->SetScale(.01f, .01f);
 	pPlayer->SetPosition(x, y);
