@@ -1,4 +1,5 @@
 #pragma once
+#include "Exam/ExamInput.h"
 
 class UIButton;
 
@@ -31,4 +32,5 @@ private:
 	std::vector<UIButton*> m_pButtons;
 
 	void UpdateInput();
+	int GetActionID(ExamInput::InputActions action, int gamepadIndex) const;
 };

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "UIManager.h"
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
-#include "Exam/ExamInput.h"
 #include "Exam/ExamAssets.h"
 
 void UIManager::Update(const SceneContext&)
@@ -86,20 +85,38 @@ void UIManager::EnableInput() const
 	// Store the pInput
 	InputManager* pInput{ GetScene()->GetSceneContext().pInput };
 
-	InputAction submit{ InputAction{ static_cast<int>(Submit), InputState::pressed, VK_RETURN, VK_LBUTTON, XINPUT_GAMEPAD_A } };
-	pInput->AddInputAction(submit);
+	//InputAction submit{ InputAction{ static_cast<int>(Submit), InputState::pressed, VK_RETURN, VK_LBUTTON, XINPUT_GAMEPAD_A, GamepadIndex::playerOne } };
+	//pInput->AddInputAction(submit);
 
-	InputAction up{ InputAction{ static_cast<int>(Up), InputState::pressed, 'W', VK_UP, XINPUT_GAMEPAD_DPAD_UP } };
-	pInput->AddInputAction(up);
+	//InputAction up{ InputAction{ static_cast<int>(Up), InputState::pressed, 'W', VK_UP, XINPUT_GAMEPAD_DPAD_UP, GamepadIndex::playerOne } };
+	//pInput->AddInputAction(up);
 
-	InputAction down{ InputAction{ static_cast<int>(Down), InputState::pressed, 'S', VK_DOWN, XINPUT_GAMEPAD_DPAD_DOWN } };
-	pInput->AddInputAction(down);
+	//InputAction down{ InputAction{ static_cast<int>(Down), InputState::pressed, 'S', VK_DOWN, XINPUT_GAMEPAD_DPAD_DOWN, GamepadIndex::playerOne } };
+	//pInput->AddInputAction(down);
 
-	InputAction left{ InputAction{ static_cast<int>(Left), InputState::pressed, 'A', VK_LEFT, XINPUT_GAMEPAD_DPAD_LEFT } };
-	pInput->AddInputAction(left);
+	//InputAction left{ InputAction{ static_cast<int>(Left), InputState::pressed, 'A', VK_LEFT, XINPUT_GAMEPAD_DPAD_LEFT, GamepadIndex::playerOne } };
+	//pInput->AddInputAction(left);
 
-	InputAction right{ InputAction{ static_cast<int>(Right), InputState::pressed, 'D', VK_RIGHT, XINPUT_GAMEPAD_DPAD_RIGHT } };
-	pInput->AddInputAction(right);
+	//InputAction right{ InputAction{ static_cast<int>(Right), InputState::pressed, 'D', VK_RIGHT, XINPUT_GAMEPAD_DPAD_RIGHT, GamepadIndex::playerOne } };
+	//pInput->AddInputAction(right);
+
+	for (int i{ 0 }; i < 4; ++i)
+	{
+		InputAction submit{ InputAction{ GetActionID(Submit, i), InputState::pressed, VK_RETURN, VK_LBUTTON, XINPUT_GAMEPAD_A, static_cast<GamepadIndex>(i) } };
+		pInput->AddInputAction(submit);
+
+		InputAction up{ InputAction{ GetActionID(Up, i), InputState::pressed, 'W', VK_UP, XINPUT_GAMEPAD_DPAD_UP, static_cast<GamepadIndex>(i) } };
+		pInput->AddInputAction(up);
+
+		InputAction down{ InputAction{ GetActionID(Down, i), InputState::pressed, 'S', VK_DOWN, XINPUT_GAMEPAD_DPAD_DOWN, static_cast<GamepadIndex>(i) } };
+		pInput->AddInputAction(down);
+
+		InputAction left{ InputAction{ GetActionID(Left, i), InputState::pressed, 'A', VK_LEFT, XINPUT_GAMEPAD_DPAD_LEFT, static_cast<GamepadIndex>(i) } };
+		pInput->AddInputAction(left);
+
+		InputAction right{ InputAction{ GetActionID(Right, i), InputState::pressed, 'D', VK_RIGHT, XINPUT_GAMEPAD_DPAD_RIGHT, static_cast<GamepadIndex>(i) } };
+		pInput->AddInputAction(right);
+	}
 }
 
 void UIManager::UpdateInput()
@@ -109,74 +126,82 @@ void UIManager::UpdateInput()
 
 	const InputManager* pInput{ GetScene()->GetSceneContext().pInput };
 
-	if (pInput->IsActionTriggered(static_cast<int>(Submit)))
+	for (int i{ 0 }; i < 4; ++i)
 	{
-		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected()) return;
-
-		// Prevents the button from being clicked when the mouse is not hovering over the button
-		if (InputManager::IsMouseButton(InputState::pressed, VK_LBUTTON) && !m_pButtons[m_SelectedButtonIndex]->IsMouseHovering())
+		if (pInput->IsActionTriggered(GetActionID(Submit, i)))
 		{
-			UIButton::SetIsUsingNavigation(false);
+			if (!m_pButtons[m_SelectedButtonIndex]->IsSelected()) return;
+
+			// Prevents the button from being clicked when the mouse is not hovering over the button
+			if (InputManager::IsMouseButton(InputState::pressed, VK_LBUTTON) && !m_pButtons[m_SelectedButtonIndex]->IsMouseHovering())
+			{
+				UIButton::SetIsUsingNavigation(false);
+				return;
+			}
+
+			m_pButtons[m_SelectedButtonIndex]->OnClick();
 			return;
 		}
 
-		m_pButtons[m_SelectedButtonIndex]->OnClick();
-		return;
-	}
-
-	if (pInput->IsActionTriggered(static_cast<int>(Up)))
-	{
-		m_UsingButtonNavigation = true;
-		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		if (pInput->IsActionTriggered(GetActionID(Up, i)))
 		{
-			SetSelectedButton(m_FirstSelectedButtonIndex);
+			m_UsingButtonNavigation = true;
+			if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+			{
+				SetSelectedButton(m_FirstSelectedButtonIndex);
+				return;
+			}
+
+			SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetUpButton());
+
 			return;
 		}
 
-		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetUpButton());
-
-		return;
-	}
-
-	if (pInput->IsActionTriggered(static_cast<int>(Down)))
-	{
-		m_UsingButtonNavigation = true;
-		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		if (pInput->IsActionTriggered(GetActionID(Down, i)))
 		{
-			SetSelectedButton(m_FirstSelectedButtonIndex);
+			m_UsingButtonNavigation = true;
+			if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+			{
+				SetSelectedButton(m_FirstSelectedButtonIndex);
+				return;
+			}
+
+			SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetDownButton());
+
 			return;
 		}
 
-		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetDownButton());
-
-		return;
-	}
-
-	if (pInput->IsActionTriggered(static_cast<int>(Left)))
-	{
-		m_UsingButtonNavigation = true;
-		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		if (pInput->IsActionTriggered(GetActionID(Left, i)))
 		{
-			SetSelectedButton(m_FirstSelectedButtonIndex);
+			m_UsingButtonNavigation = true;
+			if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+			{
+				SetSelectedButton(m_FirstSelectedButtonIndex);
+				return;
+			}
+
+			SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetLeftButton());
+
 			return;
 		}
 
-		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetLeftButton());
-
-		return;
-	}
-
-	if (pInput->IsActionTriggered(static_cast<int>(Right)))
-	{
-		m_UsingButtonNavigation = true;
-		if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+		if (pInput->IsActionTriggered(GetActionID(Right, i)))
 		{
-			SetSelectedButton(m_FirstSelectedButtonIndex);
+			m_UsingButtonNavigation = true;
+			if (!m_pButtons[m_SelectedButtonIndex]->IsSelected())
+			{
+				SetSelectedButton(m_FirstSelectedButtonIndex);
+				return;
+			}
+
+			SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetRightButton());
+
 			return;
 		}
-
-		SetSelectedButton(m_pButtons[m_SelectedButtonIndex]->GetRightButton());
-
-		return;
 	}
+}
+
+int UIManager::GetActionID(ExamInput::InputActions action, int gamepadIndex) const
+{
+	return static_cast<int>(action) + gamepadIndex * ExamInput::UIActionCount;
 }

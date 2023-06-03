@@ -205,7 +205,7 @@ void Player::SetPlayerMaterials()
 
 int Player::GetActionID(ExamInput::InputActions action) const
 {
-	return static_cast<int>(action) + m_GamepadIndex * ExamInput::PlayerActionCount;
+	return (static_cast<int>(action) + m_GamepadIndex * ExamInput::PlayerActionCount) + ExamInput::UIActionCount * static_cast<int>(GamepadIndex::playerFour);
 }
 
 void Player::HandleAnimations()

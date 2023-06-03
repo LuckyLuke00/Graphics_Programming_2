@@ -20,4 +20,5 @@ namespace ExamInput
 	};
 
 	constexpr int PlayerActionCount{ 6 };
+	constexpr int UIActionCount{ 5 };
 }
