@@ -44,6 +44,7 @@ namespace ExamAssets
 
 	const std::wstring MainMenuBackground{ L"Textures/Exam/Menus/MainMenu_Background_new.png" };
 	const std::wstring PauseMenuBackground{ L"Textures/Exam/Menus/PauseMenu_Background.png" };
+	const std::wstring EndScreenBackground{ L"Textures/Exam/Menus/EndScreen_Background.png" };
 
 	const std::string ExplosionSound01{ "Resources/Audio/Explosion_01.wav" };
 	const std::string ExplosionSound02{ "Resources/Audio/Explosion_02.wav" };

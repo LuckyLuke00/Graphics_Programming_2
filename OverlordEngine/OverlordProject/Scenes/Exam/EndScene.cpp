@@ -18,7 +18,7 @@ void EndScene::Initialize()
 	AddChild(pUIManager);
 
 	GameObject* pBackground{ new GameObject{} };
-	pBackground->AddComponent(new SpriteComponent{ ExamAssets::MainMenuBackground });
+	pBackground->AddComponent(new SpriteComponent{ ExamAssets::EndScreenBackground });
 	AddChild(pBackground);
 
 	// Create a button
