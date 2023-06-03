@@ -5,6 +5,8 @@
 #include "Exam/ExamAssets.h"
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Prefabs/Exam/UI/CountdownTimer.h"
+#include "Prefabs/Exam/UI/UIManager.h"
+#include "Prefabs/Exam/UI/Buttons/UIButton.h"
 
 LevelScene::~LevelScene()
 {
@@ -40,19 +42,27 @@ void LevelScene::Initialize()
 
 void LevelScene::Update()
 {
-	if (m_Paused) return;
+	if (m_Paused)
+	{
+		if (m_pPauseMenu) return;
+
+		CreatePauseMenu();
+	}
+	else
+	{
+		if (m_pPauseMenu)
+		{
+			RemoveChild(m_pPauseMenu, true);
+			m_pPauseMenu = nullptr;
+		}
+	}
 
 	AddGridObjects();
 	RemoveGridObjects();
 
 	if (HasGameEnded())
 	{
-		m_pGridMap->Reset();
-		m_pCountdownTimer->StopTimer();
-
-		AddGridObjects();
-		RemoveGridObjects();
-
+		Reset();
 		SceneManager::Get()->SetActiveGameScene(L"EndScene");
 	}
 }
@@ -132,7 +142,7 @@ void LevelScene::RemoveGridObjects()
 		if (pPlayer) m_pGridMap->RemovePlayer(pPlayer);
 		else m_pGridMap->RemoveGridObject(pObject);
 
-		m_pGridMap->RemoveChild(pObject, true);
+		RemoveChild(pObject, true);
 	}
 
 	GridObject::GetObjectsToDestroy().clear();
@@ -150,7 +160,7 @@ void LevelScene::AddGridObjects()
 		if (pPlayer) m_pGridMap->AddPlayer(pPlayer);
 		else m_pGridMap->AddGridObject(pObject);
 
-		m_pGridMap->AddChild(pObject);
+		AddChild(pObject);
 	}
 
 	GridObject::GetObjectsToAdd().clear();
@@ -165,4 +175,59 @@ bool LevelScene::HasGameEnded() const
 	if (m_pGridMap->GetDeadPlayers().size() >= m_MaxPlayers) return true;
 
 	return false;
+}
+
+void LevelScene::CreatePauseMenu()
+{
+	m_pPauseMenu = new GameObject{};
+	m_pPauseMenu->AddComponent(new SpriteComponent{ ExamAssets::PauseMenuBackground, DirectX::XMFLOAT2{ 0.5f, 0.5f } });
+	m_pPauseMenu->GetTransform()->Translate(m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f, 0.f);
+	m_pPauseMenu->GetTransform()->Scale(1.5f, 1.5f, 1.f);
+	AddChild(m_pPauseMenu);
+
+	//m_pUIManager = new UIManager{};
+	//AddChild(m_pUIManager);
+
+	//auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
+	//XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f };
+
+	//pFont;
+
+	//auto pButtonOne{ new UIButton{ pFont, L"Main Menu", buttonPos } };
+	//pButtonOne->SetOnClickFunction([this]() { Reset();  SceneManager::Get()->SetActiveGameScene(L"MainMenuScene"); });
+
+	//buttonPos.y += 50.f;
+
+	//auto pButtonTwo{ new UIButton{ pFont, L"Restart", buttonPos } };
+	//pButtonTwo->SetOnClickFunction([this]() { Reset();  SceneManager::Get()->SetActiveGameScene(L"LevelScene"); });
+
+	//buttonPos.y += 50.f;
+
+	//auto pButtonThree{ new UIButton{ pFont, L"Exit", buttonPos } };
+	//pButtonThree->SetOnClickFunction([this]() { Reset();  PostQuitMessage(0); });
+
+	//pButtonOne->SetNavigationButtons(pButtonThree, pButtonTwo, nullptr, nullptr);
+	//pButtonTwo->SetNavigationButtons(pButtonOne, pButtonThree, nullptr, nullptr);
+	//pButtonThree->SetNavigationButtons(pButtonTwo, pButtonOne, nullptr, nullptr);
+
+	//AddChild(pButtonOne);
+	//AddChild(pButtonTwo);
+	//AddChild(pButtonThree);
+
+	//m_pUIManager->AddButton(pButtonOne);
+	//m_pUIManager->AddButton(pButtonTwo);
+	//m_pUIManager->AddButton(pButtonThree);
+
+	//m_pUIManager->SetFirstSelectedButton(pButtonOne);
+
+	//m_pUIManager->EnableInput();
+}
+
+void LevelScene::Reset()
+{
+	m_pGridMap->Reset();
+	m_pCountdownTimer->StopTimer();
+
+	AddGridObjects();
+	RemoveGridObjects();
 }

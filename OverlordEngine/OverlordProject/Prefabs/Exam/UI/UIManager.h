@@ -17,6 +17,8 @@ public:
 	void SetSelectedButton(size_t index);
 	void SetSelectedButton(UIButton* pButton);
 
+	std::vector<UIButton*>& GetButtons() { return m_pButtons; }
+
 	void EnableInput() const;
 
 protected:

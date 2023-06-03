@@ -8,50 +8,58 @@
 #include "Prefabs/Exam/Power-Ups/GetaPowerUp.h"
 #include "Prefabs/Exam/Power-Ups/SkatePowerUp.h"
 
-PowerUpSpawnerComponent::~PowerUpSpawnerComponent()
-{
-	for (PowerUp* pPowerUp : m_pAvailablePowerUps)
-	{
-		SafeDelete(pPowerUp);
-	}
-}
-
-void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage)
+void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage) const
 {
 	if (MathHelper::randF(0.f, 1.f) > chancePercentage) return;
 
-	const int randomIndex{ MathHelper::randI(0, static_cast<int>(m_pAvailablePowerUps.size() - 1)) };
-	PowerUp* pPowerUp{ m_pAvailablePowerUps[randomIndex] };
-
-	// Spawn the power-up on the grid
-	pPowerUp->SetPosition(gridIndex.x, gridIndex.y);
-	pPowerUp->SetCollision(false);
-	pPowerUp->MarkForAdd();
+	CreateRandomPowerUp(gridIndex);
 }
 
-void PowerUpSpawnerComponent::Initialize(const SceneContext&)
+// I hate this implementation but because GameObject has deleted copy/move constructors and assignment operators
+// We can't easily create copies of the power-ups, so this is the best I could come up with
+void PowerUpSpawnerComponent::CreateRandomPowerUp(const XMINT2& gridIndex) const
 {
-	m_pAvailablePowerUps.emplace_back(new FirePowerUp{ ExamAssets::PowerUpMesh, ExamAssets::FirePowerUpTexture });
-	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
-	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+	const int randomIndex{ MathHelper::randI(0, m_PowerUpCount - 1) };
 
-	m_pAvailablePowerUps.emplace_back(new FireDownPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::FireDownPowerUpTexture });
-	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
-	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+	PowerUp* pPowerUp{ nullptr };
 
-	m_pAvailablePowerUps.emplace_back(new BombUpPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::BombUpPowerUpTexture });
-	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
-	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+	switch (randomIndex)
+	{
+	case 0:
+		pPowerUp = new FirePowerUp{ ExamAssets::PowerUpMesh, ExamAssets::FirePowerUpTexture };
+		break;
 
-	m_pAvailablePowerUps.emplace_back(new BombDownPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::BombDownPowerUpTexture });
-	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
-	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+	case 1:
+		pPowerUp = new FireDownPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::FireDownPowerUpTexture };
+		break;
 
-	m_pAvailablePowerUps.emplace_back(new SkatePowerUp{ ExamAssets::PowerUpMesh, ExamAssets::SkatePowerUpTexture });
-	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
-	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+	case 2:
+		pPowerUp = new BombUpPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::BombUpPowerUpTexture };
+		break;
 
-	m_pAvailablePowerUps.emplace_back(new GetaPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::GetaPowerUpTexture });
-	m_pAvailablePowerUps.back()->SetDimensions(1, 1);
-	m_pAvailablePowerUps.back()->OffsetPosition(.0f, -.5f, .0f);
+	case 3:
+		pPowerUp = new BombDownPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::BombDownPowerUpTexture };
+		break;
+
+	case 4:
+		pPowerUp = new SkatePowerUp{ ExamAssets::PowerUpMesh, ExamAssets::SkatePowerUpTexture };
+		break;
+
+	case 5:
+		pPowerUp = new GetaPowerUp{ ExamAssets::PowerUpMesh, ExamAssets::GetaPowerUpTexture };
+		break;
+
+	default:
+		break;
+	}
+
+	if (pPowerUp)
+	{
+		pPowerUp->SetDimensions(1, 1);
+		pPowerUp->OffsetPosition(.0f, -.5f, .0f);
+		pPowerUp->SetPosition(gridIndex.x, gridIndex.y);
+		pPowerUp->SetCollision(false);
+		pPowerUp->SetPickUp(true);
+		pPowerUp->MarkForAdd();
+	}
 }

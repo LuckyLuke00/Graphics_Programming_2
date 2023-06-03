@@ -214,7 +214,7 @@ int GridMap::FindGridObjectIndex(int row, int col) const
 {
 	const auto it{ std::ranges::find_if(m_pGridObjects, [row, col](const GridObject* pGridObject)
 					{
-			return pGridObject->HasCollision() && pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
+			return (pGridObject->HasCollision() || pGridObject->IsPickUp()) && pGridObject->GetPosition().x == row && pGridObject->GetPosition().y == col;
 		}) };
 
 	if (it != m_pGridObjects.end()) return static_cast<int>(std::distance(m_pGridObjects.begin(), it));

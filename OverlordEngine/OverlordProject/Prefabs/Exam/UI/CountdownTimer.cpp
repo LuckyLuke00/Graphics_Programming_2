@@ -15,6 +15,8 @@ void CountdownTimer::Initialize(const SceneContext&)
 
 void CountdownTimer::Update(const SceneContext& sceneContext)
 {
+	if (m_TimerPaused || m_CountdownEnded) return;
+
 	const int seconds{ static_cast<int>(m_Timer + .5f) };
 	const int minutes{ seconds / 60 };
 	const int remainingSeconds{ seconds % 60 };
@@ -23,8 +25,6 @@ void CountdownTimer::Update(const SceneContext& sceneContext)
 	const auto size{ SpriteFont::MeasureString(timeString, m_pFont) };
 	const auto pos{ DirectX::XMFLOAT2(m_Position.x - size.x * .5f, m_Position.y - size.y * .5f) };
 	m_pTextRenderer->DrawText(m_pFont, timeString, pos, m_Color);
-
-	if (m_TimerPaused || m_CountdownEnded) return;
 
 	m_Timer -= sceneContext.pGameTime->GetElapsed();
 

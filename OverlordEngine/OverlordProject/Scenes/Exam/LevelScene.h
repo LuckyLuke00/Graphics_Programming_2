@@ -2,6 +2,7 @@
 
 class GridMap;
 class CountdownTimer;
+class UIManager;
 
 class LevelScene final : public GameScene
 {
@@ -22,6 +23,8 @@ protected:
 	void OnSceneActivated() override;
 
 private:
+	UIManager* m_pUIManager{};
+	GameObject* m_pPauseMenu{ nullptr };
 	GridMap* m_pGridMap{ nullptr };
 	CountdownTimer* m_pCountdownTimer{ nullptr };
 
@@ -36,4 +39,7 @@ private:
 	void AddGridObjects();
 
 	bool HasGameEnded() const;
+	void CreatePauseMenu();
+
+	void Reset();
 };
