@@ -39,12 +39,18 @@ void Player::OnSceneAttach(GameScene*)
 
 void Player::Update(const SceneContext&)
 {
-	HandleAnimations();
-
-	if (!LevelScene::HasGameStarted()) return;
+	if (!LevelScene::HasGameStarted())
+	{
+		// For playing idle animation when game is not started yet
+		HandleAnimations();
+	}
 	else EnableInput();
 
+	// Handle input needs to be called before HandleAnimations
+	// because otherwise the animation is a frame behind
+	// and causes jittering
 	HandleInput();
+	HandleAnimations();
 
 	if (IsPaused()) return;
 	HandleDeath();
@@ -81,6 +87,8 @@ void Player::EnableInput()
 
 void Player::HandleInput() const
 {
+	if (!m_IsInputEnabled) return;
+
 	using namespace ExamInput;
 	using enum InputActions;
 

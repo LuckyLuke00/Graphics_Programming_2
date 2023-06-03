@@ -28,6 +28,8 @@ protected:
 private:
 	CountdownTimer* m_pCountdownTimer{ nullptr };
 	FMOD::Sound* m_pBattleStartSound{ nullptr };
+	FMOD::Sound* m_pBattleMusic{ nullptr };
+	FMOD::ChannelGroup* m_pMusicChannelGroup{ nullptr };
 	GameObject* m_pPauseMenu{ nullptr };
 	GridMap* m_pGridMap{ nullptr };
 	PostBloom* m_pPostBloom{ nullptr };

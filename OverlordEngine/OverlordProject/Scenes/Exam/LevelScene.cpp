@@ -48,6 +48,9 @@ void LevelScene::Initialize()
 	AddPostProcessingEffect(m_pPostBloom);
 
 	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleStartSound.c_str(), FMOD_DEFAULT, nullptr, &m_pBattleStartSound);
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleMusic.c_str(), FMOD_LOOP_NORMAL, nullptr, &m_pBattleMusic);
+	SoundManager::Get()->GetSystem()->createChannelGroup("Music", &m_pMusicChannelGroup);
+	m_pMusicChannelGroup->setVolume(.5f);
 
 	m_pFont = ContentManager::Load<SpriteFont>(ExamAssets::Font);
 }
@@ -84,6 +87,7 @@ void LevelScene::Update()
 	if (!m_GameStarted)
 	{
 		SetupTimer();
+		SoundManager::Get()->GetSystem()->playSound(m_pBattleMusic, m_pMusicChannelGroup, false, nullptr);
 	}
 
 	m_GameStarted = true;
@@ -179,7 +183,7 @@ void LevelScene::SetupTimer()
 {
 	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
 	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(3.f);
+	m_pCountdownTimer->SetCountdownTime(180.f);
 	m_pCountdownTimer->StartTimer();
 	AddChild(m_pCountdownTimer);
 }
@@ -320,6 +324,8 @@ void LevelScene::Reset()
 	m_PlayerReady[1] = false;
 	m_PlayerReady[2] = false;
 	m_PlayerReady[3] = false;
+
+	m_pMusicChannelGroup->stop();
 }
 
 UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const
