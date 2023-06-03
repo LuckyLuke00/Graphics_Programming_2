@@ -39,6 +39,7 @@ public:
 	//Instance Interface
 	void Update();
 	bool AddInputAction(InputAction action);
+	bool RemoveInputAction(int actionID);
 	bool IsActionTriggered(int actionID) const;
 
 private:

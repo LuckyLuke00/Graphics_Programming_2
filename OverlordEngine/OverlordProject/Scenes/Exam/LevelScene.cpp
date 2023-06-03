@@ -60,7 +60,6 @@ void LevelScene::Update()
 	if (m_Paused)
 	{
 		if (m_pPauseMenu) return;
-
 		CreatePauseMenu();
 	}
 	else
@@ -78,6 +77,7 @@ void LevelScene::Update()
 		pos.y = static_cast<float>(static_cast<int>(pos.y + .5f));
 
 		TextRenderer::Get()->DrawText(m_pFont, L"Press START to join", pos);
+
 		return;
 	}
 
@@ -102,17 +102,29 @@ void LevelScene::OnSceneActivated()
 
 bool LevelScene::WaitForPlayers()
 {
-	if (m_PlayerCount < 1 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerOne))
+	if (!m_PlayerReady[0] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerOne))
+	{
 		SetupPlayer(m_PlayerCount++);
+		m_PlayerReady[0] = true;
+	}
 
-	if (m_PlayerCount < 2 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerTwo))
+	if (!m_PlayerReady[1] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerTwo))
+	{
 		SetupPlayer(m_PlayerCount++);
+		m_PlayerReady[1] = true;
+	}
 
-	if (m_PlayerCount < 3 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerThree))
+	if (!m_PlayerReady[2] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerThree))
+	{
 		SetupPlayer(m_PlayerCount++);
+		m_PlayerReady[2] = true;
+	}
 
-	if (m_PlayerCount < 4 && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerFour))
+	if (!m_PlayerReady[3] && InputManager::IsGamepadButton(InputState::pressed, XINPUT_GAMEPAD_START, GamepadIndex::playerFour))
+	{
 		SetupPlayer(m_PlayerCount++);
+		m_PlayerReady[3] = true;
+	}
 
 	return m_PlayerCount >= 2;
 }
@@ -303,6 +315,11 @@ void LevelScene::Reset()
 
 	m_GameStarted = false;
 	m_PlayerCount = 0;
+
+	m_PlayerReady[0] = false;
+	m_PlayerReady[1] = false;
+	m_PlayerReady[2] = false;
+	m_PlayerReady[3] = false;
 }
 
 UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const

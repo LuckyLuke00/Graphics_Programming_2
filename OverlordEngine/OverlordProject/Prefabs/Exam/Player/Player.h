@@ -23,6 +23,7 @@ public:
 	void SetSpawnPoint(int row, int col) { m_SpawnPoint.x = row; m_SpawnPoint.y = col; }
 	void SetLives(int lives) { m_Lives = lives; }
 	void Kill();
+	void DisableInput();
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
@@ -46,6 +47,7 @@ private:
 	static std::vector<XMVECTORF32> m_ColorVariants;
 
 	bool m_IsDead{ false };
+	bool m_IsInputEnabled{ false };
 	bool m_HasDeathSoundPlayed{ false };
 
 	int m_GamepadIndex{ 0 };
@@ -72,7 +74,7 @@ private:
 	XMINT2 m_SpawnPoint{ 1, 1 };
 
 	bool HandleThumbstickInput() const;
-	void EnableInput() const;
+	void EnableInput();
 	void HandleAnimations();
 	void HandleDeath();
 	void HandleInput() const;

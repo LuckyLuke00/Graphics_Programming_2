@@ -71,8 +71,21 @@ bool InputManager::AddInputAction(InputAction action)
 	return true;
 }
 
+bool InputManager::RemoveInputAction(int actionID)
+{
+	if (const auto it = m_InputActions.find(actionID); it != m_InputActions.end())
+	{
+		m_InputActions.erase(it);
+		return true;
+	}
+
+	return false;
+}
+
 bool InputManager::IsActionTriggered(int actionID) const
 {
+	if (!m_InputActions.contains(actionID)) return false;
+
 	return m_InputActions.at(actionID).isTriggered;
 }
 

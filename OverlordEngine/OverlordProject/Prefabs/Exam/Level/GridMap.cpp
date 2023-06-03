@@ -77,7 +77,10 @@ void GridMap::Reset()
 		pGridObject->MarkForDelete();
 
 	for (auto* pPlayer : m_pPlayers)
+	{
 		pPlayer->MarkForDelete();
+		pPlayer->DisableInput();
+	}
 
 	Player::Reset();
 

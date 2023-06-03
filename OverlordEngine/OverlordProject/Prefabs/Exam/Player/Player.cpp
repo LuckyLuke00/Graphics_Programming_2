@@ -35,8 +35,6 @@ void Player::OnSceneAttach(GameScene*)
 {
 	m_pModelAnimator = m_pModelComponent->GetAnimator();
 	m_pModelAnimator->SetAnimationSpeed(1.f);
-
-	EnableInput();
 }
 
 void Player::Update(const SceneContext&)
@@ -44,6 +42,7 @@ void Player::Update(const SceneContext&)
 	HandleAnimations();
 
 	if (!LevelScene::HasGameStarted()) return;
+	else EnableInput();
 
 	HandleInput();
 
@@ -51,8 +50,11 @@ void Player::Update(const SceneContext&)
 	HandleDeath();
 }
 
-void Player::EnableInput() const
+void Player::EnableInput()
 {
+	if (m_IsInputEnabled) return;
+	m_IsInputEnabled = true;
+
 	InputManager* pInput{ GetScene()->GetSceneContext().pInput };
 
 	using namespace ExamInput;
@@ -273,4 +275,17 @@ void Player::Kill()
 
 	--m_Lives;
 	m_IsDead = true;
+}
+
+void Player::DisableInput()
+{
+	m_IsInputEnabled = false;
+	InputManager* pInput{ GetScene()->GetSceneContext().pInput };
+
+	pInput->RemoveInputAction(GetActionID(ExamInput::InputActions::MoveNorth));
+	pInput->RemoveInputAction(GetActionID(ExamInput::InputActions::MoveEast));
+	pInput->RemoveInputAction(GetActionID(ExamInput::InputActions::MoveSouth));
+	pInput->RemoveInputAction(GetActionID(ExamInput::InputActions::MoveWest));
+	pInput->RemoveInputAction(GetActionID(ExamInput::InputActions::PlaceBomb));
+	pInput->RemoveInputAction(GetActionID(ExamInput::InputActions::Pause));
 }

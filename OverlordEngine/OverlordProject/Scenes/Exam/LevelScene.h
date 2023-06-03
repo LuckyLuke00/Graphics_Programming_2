@@ -39,6 +39,7 @@ private:
 	bool m_Paused{ false };
 	int m_MaxPlayers{ 4 };
 	int m_PlayerCount{ 0 };
+	bool m_PlayerReady[4]{ false, false, false, false };
 
 	bool WaitForPlayers();
 	void SetupPlayer(int playerIndex) const;
