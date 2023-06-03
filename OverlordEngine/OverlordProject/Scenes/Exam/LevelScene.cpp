@@ -48,6 +48,8 @@ void LevelScene::Initialize()
 	AddPostProcessingEffect(m_pPostBloom);
 
 	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleStartSound.c_str(), FMOD_DEFAULT, nullptr, &m_pBattleStartSound);
+
+	m_pFont = ContentManager::Load<SpriteFont>(ExamAssets::Font);
 }
 
 void LevelScene::Update()
@@ -66,7 +68,18 @@ void LevelScene::Update()
 		ClearPauseMenu();
 	}
 
-	if (!WaitForPlayers()) return;
+	if (!WaitForPlayers())
+	{
+		XMFLOAT2 pos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .9f };
+		pos.x -= SpriteFont::MeasureString(L"Press START to join", m_pFont).x * .5f;
+
+		// Pixel perfect
+		pos.x = static_cast<float>(static_cast<int>(pos.x + .5f));
+		pos.y = static_cast<float>(static_cast<int>(pos.y + .5f));
+
+		TextRenderer::Get()->DrawText(m_pFont, L"Press START to join", pos);
+		return;
+	}
 
 	if (!m_GameStarted)
 	{
@@ -294,15 +307,13 @@ void LevelScene::Reset()
 
 UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const
 {
-	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
-
 	// Measure the size of the buttons
-	XMFLOAT2 buttonSize{ SpriteFont::MeasureString(text, pFont) };
+	XMFLOAT2 buttonSize{ SpriteFont::MeasureString(text, m_pFont) };
 
 	// Pixel perfect button position
 	const int x{ static_cast<int>(pos.x - buttonSize.x * .5f + .5f) };
 
 	XMFLOAT2 buttonPos{ static_cast<float>(x), pos.y };
 
-	return new UIButton{ pFont, text, buttonPos };
+	return new UIButton{ m_pFont, text, buttonPos };
 }

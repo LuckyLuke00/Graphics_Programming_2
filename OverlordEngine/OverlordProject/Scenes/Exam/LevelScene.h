@@ -26,13 +26,14 @@ protected:
 	void OnSceneActivated() override;
 
 private:
+	CountdownTimer* m_pCountdownTimer{ nullptr };
 	FMOD::Sound* m_pBattleStartSound{ nullptr };
-	PostBloom* m_pPostBloom{ nullptr };
-	UIManager* m_pUIManager{};
 	GameObject* m_pPauseMenu{ nullptr };
 	GridMap* m_pGridMap{ nullptr };
-	CountdownTimer* m_pCountdownTimer{ nullptr };
+	PostBloom* m_pPostBloom{ nullptr };
+	SpriteFont* m_pFont{ nullptr };
 	std::vector<UIButton*> m_pPauseButtons{};
+	UIManager* m_pUIManager{};
 
 	static bool m_GameStarted;
 	bool m_Paused{ false };
