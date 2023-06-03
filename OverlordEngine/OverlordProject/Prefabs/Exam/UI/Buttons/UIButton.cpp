@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "UIButton.h"
+#include "Exam/ExamAssets.h"
 
 bool UIButton::m_IsUsingNavigation{ false };
+FMOD::Sound* UIButton::m_pSubmitSound{ nullptr };
+FMOD::Sound* UIButton::m_pSelectSound{ nullptr };
 
 UIButton::UIButton(SpriteFont* pFont, const std::wstring& text, DirectX::XMFLOAT2 position) :
 	m_pFont{ pFont },
@@ -33,6 +36,12 @@ bool UIButton::IsMouseHovering() const
 		mousePos.y <= m_Position.y + size.y;
 }
 
+void UIButton::Initialize(const SceneContext&)
+{
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::SelectSound.c_str(), FMOD_DEFAULT, nullptr, &m_pSelectSound);
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::SubmitSound.c_str(), FMOD_DEFAULT, nullptr, &m_pSubmitSound);
+}
+
 void UIButton::Update(const SceneContext&)
 {
 	UpdateButtonColor();
@@ -61,7 +70,15 @@ void UIButton::UpdateButtonColor()
 	TextRenderer::Get()->DrawText(m_pFont, m_Text, m_Position, m_CurrentColor);
 }
 
+void UIButton::Select()
+{
+	SoundManager::Get()->GetSystem()->playSound(m_pSelectSound, nullptr, false, nullptr);
+	m_IsSelected = true;
+	m_IsUsingNavigation = true;
+}
+
 void UIButton::OnClick() const
 {
+	SoundManager::Get()->GetSystem()->playSound(m_pSubmitSound, nullptr, false, nullptr);
 	if (m_OnClickFunction) m_OnClickFunction();
 }

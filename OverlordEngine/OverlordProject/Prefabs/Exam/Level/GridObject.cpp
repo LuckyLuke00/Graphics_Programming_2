@@ -56,6 +56,22 @@ void GridObject::OffsetPosition(float x, float y, float z)
 	SetPosition(m_Position.x, m_Position.y);
 }
 
+void GridObject::MarkForAdd()
+{
+	if (std::ranges::find(m_pObjectsToAdd, this) != m_pObjectsToAdd.end())
+		return;
+
+	m_pObjectsToAdd.emplace_back(this);
+}
+
+void GridObject::MarkForDelete()
+{
+	if (std::ranges::find(m_pObjectsToDestroy, this) != m_pObjectsToDestroy.end())
+		return;
+
+	m_pObjectsToDestroy.emplace_back(this);
+}
+
 GridMap* GridObject::GetGridMap()
 {
 	if (!m_pGridMap)

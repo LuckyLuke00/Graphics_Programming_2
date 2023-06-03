@@ -16,4 +16,7 @@ public:
 
 	void PickUp(Player* pPlayer);
 	virtual void Use(Player* pPlayer) = 0;
+
+private:
+	static FMOD::Sound* m_pPickUpSound;
 };

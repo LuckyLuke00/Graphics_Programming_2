@@ -33,6 +33,9 @@ protected:
 	void Initialize(const SceneContext& sceneContext) override;
 
 private:
+	std::vector<FMOD::Sound*> m_pExplosionSounds{};
+	FMOD::Sound* m_pPlaceBombSound{ nullptr };
+
 	int m_ExplosionRadius{ 1 };
 	int m_ExplosionRadiusMax{ 5 };
 	int m_Bombs{ 1 };

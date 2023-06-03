@@ -5,9 +5,11 @@
 #include "Materials/Shadow/ColorMaterial_Shadow_Skinned.h"
 #include "Prefabs/Exam/Level/GridMap.h"
 #include "Scenes/Exam/LevelScene.h"
+#include "Exam/ExamAssets.h"
 
 int Player::m_InputId{ -1 };
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
+FMOD::Sound* Player::m_pDeathSound{ nullptr };
 
 Player::Player(const std::wstring& model)
 {
@@ -25,6 +27,8 @@ void Player::Initialize(const SceneContext&)
 	m_pPlaceBombComponent = AddComponent(new PlaceBombComponent{});
 	m_pGridMovementComponent = AddComponent(new GridMovementComponent{ .5f });
 	m_pPlaceBombComponent->SetGridMap(GetGridMap());
+
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::DeathSound.c_str(), FMOD_DEFAULT, nullptr, &m_pDeathSound);
 }
 
 void Player::OnSceneAttach(GameScene*)
@@ -229,10 +233,17 @@ void Player::HandleDeath()
 {
 	if (!m_IsDead) return;
 
+	if (!m_HasDeathSoundPlayed)
+	{
+		SoundManager::Get()->GetSystem()->playSound(m_pDeathSound, nullptr, false, nullptr);
+		m_HasDeathSoundPlayed = true;
+	}
+
 	m_RespawnTimer += GetScene()->GetSceneContext().pGameTime->GetElapsed();
 	if (m_RespawnTimer < m_RespawnTime) return;
 
 	m_IsDead = false;
+	m_HasDeathSoundPlayed = false;
 	m_RespawnTimer = 0.f;
 
 	m_pGridMovementComponent->DecreaseMoveSpeed();

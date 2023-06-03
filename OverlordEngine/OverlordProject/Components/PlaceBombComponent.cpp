@@ -33,6 +33,8 @@ void PlaceBombComponent::PlaceBomb()
 	pBomb->MarkForAdd();
 
 	m_pLiveBombs.emplace_back(pBomb);
+
+	SoundManager::Get()->GetSystem()->playSound(m_pPlaceBombSound, nullptr, false, nullptr);
 }
 
 void PlaceBombComponent::OnBombExploded(Bomb* pBomb)
@@ -41,6 +43,8 @@ void PlaceBombComponent::OnBombExploded(Bomb* pBomb)
 	if (it != m_pLiveBombs.end())
 	{
 		m_pLiveBombs.erase(it);
+		const int randomSound{ MathHelper::randI(0, static_cast<int>(m_pExplosionSounds.size() - 1)) };
+		SoundManager::Get()->GetSystem()->playSound(m_pExplosionSounds[randomSound], nullptr, false, nullptr);
 	}
 }
 
@@ -61,4 +65,13 @@ void PlaceBombComponent::Initialize(const SceneContext&)
 		Logger::LogError(L"PlaceBombComponent::PlaceBombComponent() > Failed to find GridObject");
 		return;
 	}
+
+	// Make the vector of sounds to three
+	m_pExplosionSounds.resize(3);
+
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::ExplosionSound01.c_str(), FMOD_DEFAULT, nullptr, &m_pExplosionSounds[0]);
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::ExplosionSound02.c_str(), FMOD_DEFAULT, nullptr, &m_pExplosionSounds[1]);
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::ExplosionSound03.c_str(), FMOD_DEFAULT, nullptr, &m_pExplosionSounds[2]);
+
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BombPlaceSound.c_str(), FMOD_DEFAULT, nullptr, &m_pPlaceBombSound);
 }

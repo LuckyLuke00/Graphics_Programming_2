@@ -30,6 +30,7 @@ protected:
 	void Update(const SceneContext& sceneContext) override;
 
 private:
+	static FMOD::Sound* m_pDeathSound;
 	enum class AnimationState : UINT
 	{
 		Dance,
@@ -45,6 +46,7 @@ private:
 	static std::vector<XMVECTORF32> m_ColorVariants;
 
 	bool m_IsDead{ false };
+	bool m_HasDeathSoundPlayed{ false };
 
 	int m_GamepadIndex{ 0 };
 	int m_MaxLives{ 3 };

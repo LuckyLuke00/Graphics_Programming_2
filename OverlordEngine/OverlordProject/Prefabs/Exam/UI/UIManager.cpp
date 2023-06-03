@@ -2,6 +2,7 @@
 #include "UIManager.h"
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
 #include "Exam/ExamInput.h"
+#include "Exam/ExamAssets.h"
 
 void UIManager::Update(const SceneContext&)
 {

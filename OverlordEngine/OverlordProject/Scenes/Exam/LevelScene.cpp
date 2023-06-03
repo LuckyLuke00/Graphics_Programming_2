@@ -42,6 +42,8 @@ void LevelScene::Initialize()
 
 	m_pPostBloom = MaterialManager::Get()->CreateMaterial<PostBloom>();
 	AddPostProcessingEffect(m_pPostBloom);
+
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleStartSound.c_str(), FMOD_DEFAULT, nullptr, &m_pBattleStartSound);
 }
 
 void LevelScene::Update()
@@ -206,6 +208,8 @@ void LevelScene::CreatePauseMenu()
 
 void LevelScene::SetUpLevel()
 {
+	SoundManager::Get()->GetSystem()->playSound(m_pBattleStartSound, nullptr, false, nullptr);
+
 	m_pGridMap = AddChild(new GridMap{ 19, 13 });
 
 	// Middle of the screen at the top
@@ -246,9 +250,10 @@ void LevelScene::Reset()
 	m_pCountdownTimer->ResumeTimer();
 	GridObject::UnPause();
 
-	m_pGridMap->Reset();
 	m_pCountdownTimer->StopTimer();
+	m_pGridMap->Reset();
 
+	AddGridObjects();
 	RemoveGridObjects();
 
 	RemoveChild(m_pGridMap, true);

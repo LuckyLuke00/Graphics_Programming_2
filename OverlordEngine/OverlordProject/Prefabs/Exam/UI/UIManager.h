@@ -25,8 +25,6 @@ protected:
 	void Update(const SceneContext&) override;
 
 private:
-
-	// Container for all the buttons
 	bool m_UsingButtonNavigation{ false };
 	size_t m_FirstSelectedButtonIndex{ 0 };
 	size_t m_SelectedButtonIndex{ 0 };

@@ -11,7 +11,7 @@ public:
 	UIButton& operator=(UIButton&& other) noexcept = delete;
 
 	bool IsSelected() const { return m_IsSelected; }
-	void Select() { m_IsSelected = true; m_IsUsingNavigation = true; }
+	void Select();
 	void Deselect() { m_IsSelected = false; m_IsUsingNavigation = true; }
 
 	void OnClick() const;
@@ -35,9 +35,13 @@ public:
 	static void SetIsUsingNavigation(bool isUsingNavigation) { m_IsUsingNavigation = isUsingNavigation; }
 
 protected:
+	void Initialize(const SceneContext&) override;
 	void Update(const SceneContext&) override;
 
 private:
+	static FMOD::Sound* m_pSubmitSound;
+	static FMOD::Sound* m_pSelectSound;
+
 	static bool m_IsUsingNavigation;
 
 	std::vector<UIButton*> m_pNavigationButtons;

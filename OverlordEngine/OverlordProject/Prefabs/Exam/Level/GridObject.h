@@ -26,8 +26,8 @@ public:
 	XMINT2 GetDimensions() const { return m_Dimensions; }
 	XMINT2 GetPosition() const { return m_Position; }
 
-	void MarkForAdd() { m_pObjectsToAdd.emplace_back(this); }
-	void MarkForDelete() { m_pObjectsToDestroy.emplace_back(this); }
+	void MarkForAdd();
+	void MarkForDelete();
 
 	static void Pause() { m_IsPaused = true; };
 	static void UnPause() { m_IsPaused = false; };

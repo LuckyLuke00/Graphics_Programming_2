@@ -44,4 +44,21 @@ namespace ExamAssets
 
 	const std::wstring MainMenuBackground{ L"Textures/Exam/Menus/MainMenu_Background.png" };
 	const std::wstring PauseMenuBackground{ L"Textures/Exam/Menus/PauseMenu_Background.png" };
+
+	const std::string ExplosionSound01{ "Resources/Audio/Explosion_01.wav" };
+	const std::string ExplosionSound02{ "Resources/Audio/Explosion_02.wav" };
+	const std::string ExplosionSound03{ "Resources/Audio/Explosion_03.wav" };
+
+	const std::string PowerUpSpawnSound{ "Resources/Audio/PowerUp_Spawn.wav" };
+	const std::string PowerUpPickupSound{ "Resources/Audio/PowerUp_Pickup.wav" };
+
+	const std::string BombPlaceSound{ "Resources/Audio/BombPlace.wav" };
+
+	const std::string SubmitSound{ "Resources/Audio/Submit.wav" };
+	const std::string SelectSound{ "Resources/Audio/Select.wav" };
+
+	const std::string DeathSound{ "Resources/Audio/Death.wav" };
+
+	const std::string BattleStartSound{ "Resources/Audio/BattleStart.flac" };
+	const std::string BattleMusic{ "Resources/Audio/BattleMusic.flac" };
 }

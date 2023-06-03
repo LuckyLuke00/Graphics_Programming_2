@@ -8,11 +8,18 @@
 #include "Prefabs/Exam/Power-Ups/GetaPowerUp.h"
 #include "Prefabs/Exam/Power-Ups/SkatePowerUp.h"
 
+FMOD::Sound* PowerUpSpawnerComponent::m_pPowerUpSpawnSound{ nullptr };
+
 void PowerUpSpawnerComponent::SpawnPowerUp(const XMINT2& gridIndex, float chancePercentage) const
 {
 	if (MathHelper::randF(0.f, 1.f) > chancePercentage) return;
 
 	CreateRandomPowerUp(gridIndex);
+
+	if (!m_pPowerUpSpawnSound)
+	{
+		SoundManager::Get()->GetSystem()->createSound(ExamAssets::PowerUpSpawnSound.c_str(), FMOD_DEFAULT, nullptr, &m_pPowerUpSpawnSound);
+	}
 }
 
 // I hate this implementation but because GameObject has deleted copy/move constructors and assignment operators
@@ -61,5 +68,7 @@ void PowerUpSpawnerComponent::CreateRandomPowerUp(const XMINT2& gridIndex) const
 		pPowerUp->SetCollision(false);
 		pPowerUp->SetPickUp(true);
 		pPowerUp->MarkForAdd();
+
+		SoundManager::Get()->GetSystem()->playSound(m_pPowerUpSpawnSound, nullptr, false, nullptr);
 	}
 }

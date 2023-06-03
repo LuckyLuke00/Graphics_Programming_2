@@ -73,9 +73,6 @@ GridObject* GridMap::GetGridObjectAt(int row, int col) const
 
 void GridMap::Reset()
 {
-	for (auto* pDeadPlayer : m_DeadPlayers)
-		pDeadPlayer->MarkForDelete();
-
 	for (auto* pGridObject : m_pGridObjects)
 		pGridObject->MarkForDelete();
 

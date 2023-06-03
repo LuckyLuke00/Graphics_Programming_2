@@ -27,4 +27,6 @@ private:
 	GridObject* m_pGridObjectOwner{ nullptr };
 
 	void CreateRandomPowerUp(const XMINT2& gridIndex) const;
+
+	static FMOD::Sound* m_pPowerUpSpawnSound;
 };

@@ -25,6 +25,7 @@ protected:
 	void OnSceneActivated() override;
 
 private:
+	FMOD::Sound* m_pBattleStartSound{ nullptr };
 	PostBloom* m_pPostBloom{ nullptr };
 	UIManager* m_pUIManager{};
 	GameObject* m_pPauseMenu{ nullptr };
