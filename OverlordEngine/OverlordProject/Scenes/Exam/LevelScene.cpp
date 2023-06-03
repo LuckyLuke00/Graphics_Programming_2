@@ -167,7 +167,7 @@ void LevelScene::SetupTimer()
 {
 	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
 	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(180.f);
+	m_pCountdownTimer->SetCountdownTime(3.f);
 	m_pCountdownTimer->StartTimer();
 	AddChild(m_pCountdownTimer);
 }
