@@ -59,6 +59,7 @@
     <ClCompile Include="Prefabs\Exam\Bomb\ExplosionParticleEffect.cpp" />
     <ClCompile Include="Prefabs\Exam\UI\CountdownTimer.cpp" />
     <ClCompile Include="Scenes\Exam\EndScene.cpp" />
+    <ClCompile Include="Materials\Post\PostBloom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -120,5 +121,6 @@
     <ClInclude Include="Prefabs\Exam\Bomb\ExplosionParticleEffect.h" />
     <ClInclude Include="Prefabs\Exam\UI\CountdownTimer.h" />
     <ClInclude Include="Scenes\Exam\EndScene.h" />
+    <ClInclude Include="Materials\Post\PostBloom.h" />
   </ItemGroup>
 </Project>

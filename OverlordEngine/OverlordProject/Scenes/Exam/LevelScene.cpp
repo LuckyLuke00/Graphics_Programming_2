@@ -7,6 +7,7 @@
 #include "Prefabs/Exam/UI/CountdownTimer.h"
 #include "Prefabs/Exam/UI/UIManager.h"
 #include "Prefabs/Exam/UI/Buttons/UIButton.h"
+#include "Materials/Post/PostBloom.h"
 
 LevelScene::~LevelScene()
 {
@@ -38,6 +39,9 @@ void LevelScene::Initialize()
 
 	SetUpCamera();
 	CreateGroundPlane();
+
+	m_pPostBloom = MaterialManager::Get()->CreateMaterial<PostBloom>();
+	AddPostProcessingEffect(m_pPostBloom);
 }
 
 void LevelScene::Update()
@@ -168,7 +172,6 @@ void LevelScene::CreatePauseMenu()
 	m_pPauseMenu = new GameObject{};
 	m_pPauseMenu->AddComponent(new SpriteComponent{ ExamAssets::PauseMenuBackground, DirectX::XMFLOAT2{ 0.5f, 0.5f } });
 	m_pPauseMenu->GetTransform()->Translate(m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f, 0.f);
-	m_pPauseMenu->GetTransform()->Scale(1.5f, 1.5f, 1.f);
 	AddChild(m_pPauseMenu);
 
 	m_pUIManager = new UIManager{};
@@ -258,8 +261,6 @@ void LevelScene::Reset()
 UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const
 {
 	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
-
-	pFont->GetSize();
 
 	// Measure the size of the buttons
 	XMFLOAT2 buttonSize{ SpriteFont::MeasureString(text, pFont) };

@@ -1,9 +1,10 @@
 #pragma once
 
-class GridMap;
 class CountdownTimer;
-class UIManager;
+class GridMap;
+class PostBloom;
 class UIButton;
+class UIManager;
 
 class LevelScene final : public GameScene
 {
@@ -24,6 +25,7 @@ protected:
 	void OnSceneActivated() override;
 
 private:
+	PostBloom* m_pPostBloom{ nullptr };
 	UIManager* m_pUIManager{};
 	GameObject* m_pPauseMenu{ nullptr };
 	GridMap* m_pGridMap{ nullptr };
