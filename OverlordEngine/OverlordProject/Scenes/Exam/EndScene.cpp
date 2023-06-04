@@ -8,6 +8,8 @@ void EndScene::Initialize()
 {
 	GetSceneSettings().drawGrid = false;
 	GetSceneSettings().drawPhysXDebug = false;
+	GetSceneSettings().showInfoOverlay = false;
+	GetSceneSettings().enableOnGUI = false;
 
 	// Set-up a fixed camera
 	auto pCameraObject{ new FixedCamera{} };

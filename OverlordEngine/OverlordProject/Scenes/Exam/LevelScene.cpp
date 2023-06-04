@@ -39,6 +39,8 @@ void LevelScene::Initialize()
 {
 	GetSceneSettings().drawGrid = false;
 	GetSceneSettings().drawPhysXDebug = false;
+	GetSceneSettings().showInfoOverlay = false;
+	GetSceneSettings().enableOnGUI = false;
 
 	m_SceneContext.pLights->SetDirectionalLight({ .0f, 50.f, .0f }, { .2f, -.7f, .4f });
 
