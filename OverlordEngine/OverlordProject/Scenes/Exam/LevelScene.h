@@ -37,8 +37,11 @@ private:
 	SpriteFont* m_pFont{ nullptr };
 	std::vector<UIButton*> m_pPauseButtons{};
 	UIManager* m_pUIManager{};
+	std::string m_WinnerName{};
+	std::string m_WinMessage{};
 
 	static bool m_GameStarted;
+	static bool m_GameEnded;
 	bool m_Paused{ false };
 	int m_MaxPlayers{ 4 };
 	int m_PlayerCount{ 0 };
@@ -57,6 +60,7 @@ private:
 	void CreatePauseMenu();
 	void SetUpLevel();
 	void ClearPauseMenu();
+	void DecideWinner();
 
 	void Reset();
 	UIButton* CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const;

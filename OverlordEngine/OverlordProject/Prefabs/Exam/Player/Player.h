@@ -1,6 +1,7 @@
 #pragma once
 #include "Exam/ExamInput.h"
 #include "Prefabs/Exam/Level/GridObject.h"
+#include <array>
 
 class ColorMaterial_Shadow_Skinned;
 class GridMovementComponent;
@@ -24,6 +25,11 @@ public:
 	void SetLives(int lives) { m_Lives = lives; }
 	void Kill();
 	void DisableInput();
+	void AddScore(int score) { m_Score += score; }
+	void SubtractScore(int score) { m_Score -= score; }
+	int GetScore() const { return m_Score; }
+	int GetLives() const { return m_Lives; }
+	std::string GetName() const { return m_Name; }
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
@@ -31,7 +37,6 @@ protected:
 	void Update(const SceneContext& sceneContext) override;
 
 private:
-
 	enum class AnimationState : UINT
 	{
 		Dance,
@@ -52,10 +57,14 @@ private:
 	bool m_HasDeathSoundPlayed{ false };
 
 	int m_GamepadIndex{ 0 };
+	int m_Score{ 0 };
 	int m_MaxLives{ 3 };
 	int m_Lives{ 3 };
 	float m_RespawnTimer{ 0.f };
 	float m_RespawnTime{ 2.f };
+
+	std::string m_Name{};
+	std::array<std::string, 4> m_ColorNames{ "White", "Red", "Blue", "Yellow" };
 
 	ColorMaterial_Shadow_Skinned* m_pBlack{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pEyebrow{ nullptr };

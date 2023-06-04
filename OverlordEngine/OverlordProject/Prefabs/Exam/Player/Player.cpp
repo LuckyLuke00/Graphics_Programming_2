@@ -101,12 +101,14 @@ void Player::HandleInput() const
 		if (pScene) pScene->TogglePause();
 	}
 
+	if (IsPaused() || m_IsDead) return;
+
 	if (pInput->IsActionTriggered(GetActionID(PlaceBomb)))
 	{
 		m_pPlaceBombComponent->PlaceBomb();
 	}
 
-	if (IsPaused() || m_IsDead || HandleThumbstickInput()) return;
+	if (HandleThumbstickInput()) return;
 
 	if (pInput->IsActionTriggered(GetActionID(MoveNorth)))
 	{
@@ -162,6 +164,9 @@ void Player::SetPlayerMaterials()
 	const int colorIndex{ MathHelper::randI(0, static_cast<int>(m_ColorVariants.size()) - 1) };
 	const XMVECTORF32 color{ m_ColorVariants[colorIndex] };
 	m_ColorVariants.erase(m_ColorVariants.begin() + colorIndex);
+
+	// Set the name based on the color
+	m_Name = m_ColorNames[colorIndex];
 
 	m_pBlack = MaterialManager::Get()->CreateMaterial<ColorMaterial_Shadow_Skinned>();
 	m_pBlack->SetColor(Colors::Black);

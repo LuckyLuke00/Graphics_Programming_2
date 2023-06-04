@@ -21,4 +21,5 @@ void SkatePowerUp::Use(Player* pPlayer)
 	if (!pGridMovementComponent) return;
 
 	pGridMovementComponent->IncreaseMoveSpeed();
+	pPlayer->AddScore(400);
 }

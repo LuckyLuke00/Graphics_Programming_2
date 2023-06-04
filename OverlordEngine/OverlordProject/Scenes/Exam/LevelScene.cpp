@@ -10,6 +10,7 @@
 #include "Materials/Post/PostBloom.h"
 
 bool LevelScene::m_GameStarted{ false };
+bool LevelScene::m_GameEnded{ false };
 
 LevelScene::~LevelScene()
 {
@@ -93,9 +94,14 @@ void LevelScene::Update()
 
 	m_GameStarted = true;
 
-	if (HasGameEnded())
+	if (HasGameEnded() && !m_GameEnded)
 	{
+		m_GameEnded = true;
+		m_pMusicChannelGroup->stop();
 		SoundManager::Get()->GetSystem()->playSound(m_pBattleWinSound, nullptr, false, nullptr);
+		DecideWinner();
+
+		std::cout << m_WinMessage << '\n';
 
 		Reset();
 		SceneManager::Get()->SetActiveGameScene(L"EndScene");
@@ -190,7 +196,7 @@ void LevelScene::SetupTimer()
 {
 	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
 	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(180.f);
+	m_pCountdownTimer->SetCountdownTime(10.f);
 	m_pCountdownTimer->StartTimer();
 	AddChild(m_pCountdownTimer);
 }
@@ -306,9 +312,50 @@ void LevelScene::ClearPauseMenu()
 	}
 }
 
+void LevelScene::DecideWinner()
+{
+	if (!m_pGridMap) return;
+
+	const auto& players{ m_pGridMap->GetPlayers() };
+	m_WinnerName = "";
+	int highestScore{ 0 };
+	int highestLives{ 0 };
+	int tieCount{ 0 };
+
+	for (const Player* pPlayer : players)
+	{
+		if (!pPlayer) continue;
+
+		if (pPlayer->GetLives() >= highestLives)
+		{
+			if (pPlayer->GetLives() > highestLives || pPlayer->GetScore() > highestScore)
+			{
+				highestLives = pPlayer->GetLives();
+				highestScore = pPlayer->GetScore();
+				m_WinnerName = pPlayer->GetName();
+				tieCount = 0;
+			}
+			else if (pPlayer->GetLives() == highestLives && pPlayer->GetScore() == highestScore)
+			{
+				++tieCount;
+			}
+		}
+	}
+
+	if (tieCount > 0)
+	{
+		m_WinMessage = "It's a tie!";
+	}
+	else
+	{
+		m_WinMessage = m_WinnerName + " wins!";
+	}
+}
+
 void LevelScene::Reset()
 {
 	m_Paused = false;
+	m_GameEnded = false;
 	m_pCountdownTimer->ResumeTimer();
 	GridObject::UnPause();
 

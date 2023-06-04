@@ -30,6 +30,7 @@ public:
 
 	void AddGridObject(GridObject* pGridObject) { m_pGridObjects.emplace_back(pGridObject); }
 	void AddPlayer(Player* pPlayer) { m_pPlayers.emplace_back(pPlayer); }
+	std::vector<Player*>& GetPlayers() { return m_pPlayers; }
 
 	void RemoveGridObject(GridObject* pGridObject);
 	void RemovePlayer(Player* pPlayer);

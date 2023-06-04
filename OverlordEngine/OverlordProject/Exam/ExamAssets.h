@@ -64,5 +64,5 @@ namespace ExamAssets
 
 	const std::string BattleStartSound{ "Resources/Audio/BattleStart.flac" };
 	const std::string BattleMusic{ "Resources/Audio/BattleMusic.flac" };
-	const std::string BattleWinSound{ "Resources/Audio/MenuMusic.flac" };
+	const std::string BattleWinSound{ "Resources/Audio/BattleWin.flac" };
 }

@@ -21,4 +21,5 @@ void BombUpPowerUp::Use(Player* pPlayer)
 	if (!pPlaceBombComponent) return;
 
 	pPlaceBombComponent->IncreaseBombs();
+	pPlayer->AddScore(10);
 }

@@ -21,4 +21,5 @@ void FirePowerUp::Use(Player* pPlayer)
 	if (!pPlaceBombComponent) return;
 
 	pPlaceBombComponent->IncreaseExplosionRadius();
+	pPlayer->AddScore(200);
 }
