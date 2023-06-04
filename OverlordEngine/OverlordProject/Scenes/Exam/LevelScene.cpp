@@ -48,6 +48,7 @@ void LevelScene::Initialize()
 	AddPostProcessingEffect(m_pPostBloom);
 
 	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleStartSound.c_str(), FMOD_DEFAULT, nullptr, &m_pBattleStartSound);
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleWinSound.c_str(), FMOD_DEFAULT, nullptr, &m_pBattleWinSound);
 	SoundManager::Get()->GetSystem()->createSound(ExamAssets::BattleMusic.c_str(), FMOD_LOOP_NORMAL, nullptr, &m_pBattleMusic);
 	SoundManager::Get()->GetSystem()->createChannelGroup("Music", &m_pMusicChannelGroup);
 	m_pMusicChannelGroup->setVolume(.5f);
@@ -94,6 +95,8 @@ void LevelScene::Update()
 
 	if (HasGameEnded())
 	{
+		SoundManager::Get()->GetSystem()->playSound(m_pBattleWinSound, nullptr, false, nullptr);
+
 		Reset();
 		SceneManager::Get()->SetActiveGameScene(L"EndScene");
 	}

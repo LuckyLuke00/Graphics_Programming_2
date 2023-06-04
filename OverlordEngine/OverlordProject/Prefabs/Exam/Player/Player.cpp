@@ -101,6 +101,11 @@ void Player::HandleInput() const
 		if (pScene) pScene->TogglePause();
 	}
 
+	if (pInput->IsActionTriggered(GetActionID(PlaceBomb)))
+	{
+		m_pPlaceBombComponent->PlaceBomb();
+	}
+
 	if (IsPaused() || m_IsDead || HandleThumbstickInput()) return;
 
 	if (pInput->IsActionTriggered(GetActionID(MoveNorth)))
@@ -118,11 +123,6 @@ void Player::HandleInput() const
 	else if (pInput->IsActionTriggered(GetActionID(MoveEast)))
 	{
 		m_pGridMovementComponent->MoveEast();
-	}
-
-	if (pInput->IsActionTriggered(GetActionID(PlaceBomb)))
-	{
-		m_pPlaceBombComponent->PlaceBomb();
 	}
 }
 
