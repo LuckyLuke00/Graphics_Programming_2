@@ -22,7 +22,7 @@ void EndScene::Initialize()
 	AddChild(pBackground);
 
 	// Create a button
-	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::Font) };
+	auto pFont{ ContentManager::Load<SpriteFont>(ExamAssets::SmallFont) };
 
 	XMFLOAT2 buttonPos{ m_SceneContext.windowWidth * .155f, m_SceneContext.windowHeight * .3f };
 	XMFLOAT2 size{ SpriteFont::MeasureString(L"Main Menu", pFont) };

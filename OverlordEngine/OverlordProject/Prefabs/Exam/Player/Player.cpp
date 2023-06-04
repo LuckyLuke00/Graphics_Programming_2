@@ -11,10 +11,9 @@ std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Co
 FMOD::Sound* Player::m_pDeathSound{ nullptr };
 FMOD::Sound* Player::m_pSpawnSound{ nullptr };
 
-Player::Player(const std::wstring& model, int index)
+Player::Player(const std::wstring& model, int index) :
+	m_GamepadIndex{ index }
 {
-	m_GamepadIndex = index;
-
 	m_pModelComponent = AddComponent(new ModelComponent{ model });
 	SetPlayerMaterials();
 
@@ -41,10 +40,11 @@ void Player::OnSceneAttach(GameScene*)
 
 void Player::Update(const SceneContext&)
 {
-	if (!LevelScene::HasGameStarted())
+	if (!LevelScene::HasGameStarted() || LevelScene::GameEnd())
 	{
 		// For playing idle animation when game is not started yet
 		HandleAnimations();
+		return;
 	}
 	else EnableInput();
 

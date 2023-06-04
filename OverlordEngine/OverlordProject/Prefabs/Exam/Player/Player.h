@@ -29,7 +29,7 @@ public:
 	void SubtractScore(int score) { m_Score -= score; }
 	int GetScore() const { return m_Score; }
 	int GetLives() const { return m_Lives; }
-	std::string GetName() const { return m_Name; }
+	std::wstring GetName() const { return m_Name; }
 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
@@ -63,8 +63,8 @@ private:
 	float m_RespawnTimer{ 0.f };
 	float m_RespawnTime{ 2.f };
 
-	std::string m_Name{};
-	std::array<std::string, 4> m_ColorNames{ "White", "Red", "Blue", "Yellow" };
+	std::wstring m_Name{};
+	std::array<std::wstring, 4> m_ColorNames{ L"White", L"Red", L"Blue", L"Yellow" };
 
 	ColorMaterial_Shadow_Skinned* m_pBlack{ nullptr };
 	ColorMaterial_Shadow_Skinned* m_pEyebrow{ nullptr };

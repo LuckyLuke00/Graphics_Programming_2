@@ -54,7 +54,8 @@ void LevelScene::Initialize()
 	SoundManager::Get()->GetSystem()->createChannelGroup("Music", &m_pMusicChannelGroup);
 	m_pMusicChannelGroup->setVolume(.5f);
 
-	m_pFont = ContentManager::Load<SpriteFont>(ExamAssets::Font);
+	m_pSmallFont = ContentManager::Load<SpriteFont>(ExamAssets::SmallFont);
+	m_pMediumFont = ContentManager::Load<SpriteFont>(ExamAssets::MediumFont);
 }
 
 void LevelScene::Update()
@@ -75,13 +76,13 @@ void LevelScene::Update()
 	if (!WaitForPlayers())
 	{
 		XMFLOAT2 pos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .9f };
-		pos.x -= SpriteFont::MeasureString(L"Press START to join", m_pFont).x * .5f;
+		pos.x -= SpriteFont::MeasureString(L"Press START to join", m_pSmallFont).x * .5f;
 
 		// Pixel perfect
 		pos.x = static_cast<float>(static_cast<int>(pos.x + .5f));
 		pos.y = static_cast<float>(static_cast<int>(pos.y + .5f));
 
-		TextRenderer::Get()->DrawText(m_pFont, L"Press START to join", pos);
+		TextRenderer::Get()->DrawText(m_pSmallFont, L"Press START to join", pos);
 
 		return;
 	}
@@ -100,11 +101,32 @@ void LevelScene::Update()
 		m_pMusicChannelGroup->stop();
 		SoundManager::Get()->GetSystem()->playSound(m_pBattleWinSound, nullptr, false, nullptr);
 		DecideWinner();
+		CreateWinMessage();
+	}
 
-		std::cout << m_WinMessage << '\n';
+	if (m_GameEnded)
+	{
+		XMFLOAT2 pos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f };
+		XMFLOAT2 size{ SpriteFont::MeasureString(m_WinMessage, m_pMediumFont) };
+		pos.x -= size.x * .5f;
+		pos.y -= size.y * .5f;
 
-		Reset();
-		SceneManager::Get()->SetActiveGameScene(L"EndScene");
+		// Pixel perfect
+		pos.x = static_cast<float>(static_cast<int>(pos.x + .5f));
+		pos.y = static_cast<float>(static_cast<int>(pos.y + .5f));
+
+		TextRenderer::Get()->DrawText(m_pMediumFont, m_WinMessage, pos);
+
+		m_WinMessageTimer += m_SceneContext.pGameTime->GetElapsed();
+		if (m_WinMessageTimer >= m_WinMessageTime)
+		{
+			m_WinMessageTimer = .0f;
+			m_GameEnded = false;
+
+			Reset();
+			ClearWinMessage();
+			SceneManager::Get()->SetActiveGameScene(L"EndScene");
+		}
 	}
 }
 
@@ -195,8 +217,8 @@ void LevelScene::CreateGroundPlane()
 void LevelScene::SetupTimer()
 {
 	const XMFLOAT2 timerTextPos{ m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .05f };
-	m_pCountdownTimer = new CountdownTimer{ ExamAssets::Font, timerTextPos };
-	m_pCountdownTimer->SetCountdownTime(10.f);
+	m_pCountdownTimer = new CountdownTimer{ ExamAssets::SmallFont, timerTextPos };
+	m_pCountdownTimer->SetCountdownTime(180.f);
 	m_pCountdownTimer->StartTimer();
 	AddChild(m_pCountdownTimer);
 }
@@ -253,8 +275,8 @@ bool LevelScene::HasGameEnded() const
 void LevelScene::CreatePauseMenu()
 {
 	m_pPauseMenu = new GameObject{};
-	m_pPauseMenu->AddComponent(new SpriteComponent{ ExamAssets::PauseMenuBackground, DirectX::XMFLOAT2{ 0.5f, 0.5f } });
-	m_pPauseMenu->GetTransform()->Translate(m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f, 0.f);
+	m_pPauseMenu->AddComponent(new SpriteComponent{ ExamAssets::PauseMenuBackground, DirectX::XMFLOAT2{ .5f, .5f } });
+	m_pPauseMenu->GetTransform()->Translate(m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f, .0f);
 	AddChild(m_pPauseMenu);
 
 	m_pUIManager = new UIManager{};
@@ -317,7 +339,7 @@ void LevelScene::DecideWinner()
 	if (!m_pGridMap) return;
 
 	const auto& players{ m_pGridMap->GetPlayers() };
-	m_WinnerName = "";
+	m_WinnerName = L"";
 	int highestScore{ 0 };
 	int highestLives{ 0 };
 	int tieCount{ 0 };
@@ -344,12 +366,29 @@ void LevelScene::DecideWinner()
 
 	if (tieCount > 0)
 	{
-		m_WinMessage = "It's a tie!";
+		m_WinMessage = L"It's a tie!";
 	}
 	else
 	{
-		m_WinMessage = m_WinnerName + " wins!";
+		m_WinMessage = m_WinnerName + L" wins!";
 	}
+}
+
+void LevelScene::CreateWinMessage()
+{
+	m_pWinMessage = new GameObject{};
+	m_pWinMessage->AddComponent(new SpriteComponent{ ExamAssets::TextBackground, DirectX::XMFLOAT2{ .5f, .5f } });
+	m_pWinMessage->GetTransform()->Translate(m_SceneContext.windowWidth * .5f, m_SceneContext.windowHeight * .5f, .0f);
+	m_pWinMessage->GetTransform()->Scale(.75f, .75f, 1.f);
+	AddChild(m_pWinMessage);
+}
+
+void LevelScene::ClearWinMessage()
+{
+	if (!m_pWinMessage) return;
+
+	RemoveChild(m_pWinMessage, true);
+	m_pWinMessage = nullptr;
 }
 
 void LevelScene::Reset()
@@ -371,6 +410,8 @@ void LevelScene::Reset()
 	RemoveChild(m_pCountdownTimer, true);
 	m_pCountdownTimer = nullptr;
 
+	ClearWinMessage();
+
 	m_GameStarted = false;
 	m_PlayerCount = 0;
 
@@ -385,12 +426,12 @@ void LevelScene::Reset()
 UIButton* LevelScene::CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const
 {
 	// Measure the size of the buttons
-	XMFLOAT2 buttonSize{ SpriteFont::MeasureString(text, m_pFont) };
+	XMFLOAT2 buttonSize{ SpriteFont::MeasureString(text, m_pSmallFont) };
 
 	// Pixel perfect button position
 	const int x{ static_cast<int>(pos.x - buttonSize.x * .5f + .5f) };
 
 	XMFLOAT2 buttonPos{ static_cast<float>(x), pos.y };
 
-	return new UIButton{ m_pFont, text, buttonPos };
+	return new UIButton{ m_pSmallFont, text, buttonPos };
 }

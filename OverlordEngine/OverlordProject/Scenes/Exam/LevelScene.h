@@ -19,6 +19,7 @@ public:
 
 	void TogglePause();
 	static bool HasGameStarted() { return m_GameStarted; }
+	static bool GameEnd() { return m_GameEnded; }
 
 protected:
 	void Initialize() override;
@@ -27,18 +28,26 @@ protected:
 
 private:
 	CountdownTimer* m_pCountdownTimer{ nullptr };
-	FMOD::Sound* m_pBattleStartSound{ nullptr };
-	FMOD::Sound* m_pBattleMusic{ nullptr };
-	FMOD::Sound* m_pBattleWinSound{ nullptr };
+
 	FMOD::ChannelGroup* m_pMusicChannelGroup{ nullptr };
+	FMOD::Sound* m_pBattleMusic{ nullptr };
+	FMOD::Sound* m_pBattleStartSound{ nullptr };
+	FMOD::Sound* m_pBattleWinSound{ nullptr };
+
 	GameObject* m_pPauseMenu{ nullptr };
+	GameObject* m_pWinMessage{ nullptr };
+
 	GridMap* m_pGridMap{ nullptr };
 	PostBloom* m_pPostBloom{ nullptr };
-	SpriteFont* m_pFont{ nullptr };
+	SpriteFont* m_pSmallFont{ nullptr };
+	SpriteFont* m_pMediumFont{ nullptr };
+
+	std::wstring m_WinMessage{};
+	std::wstring m_WinnerName{};
+
 	std::vector<UIButton*> m_pPauseButtons{};
+
 	UIManager* m_pUIManager{};
-	std::string m_WinnerName{};
-	std::string m_WinMessage{};
 
 	static bool m_GameStarted;
 	static bool m_GameEnded;
@@ -47,20 +56,23 @@ private:
 	int m_PlayerCount{ 0 };
 	bool m_PlayerReady[4]{ false, false, false, false };
 
-	bool WaitForPlayers();
-	void SetupPlayer(int playerIndex) const;
-	void SetUpCamera();
-	void CreateGroundPlane();
-	void SetupTimer();
-
-	void RemoveGridObjects();
-	void AddGridObjects();
+	float m_WinMessageTimer{ .0f };
+	float m_WinMessageTime{ 5.f };
 
 	bool HasGameEnded() const;
-	void CreatePauseMenu();
-	void SetUpLevel();
+	bool WaitForPlayers();
+	void AddGridObjects();
 	void ClearPauseMenu();
+	void ClearWinMessage();
+	void CreateGroundPlane();
+	void CreatePauseMenu();
+	void CreateWinMessage();
 	void DecideWinner();
+	void RemoveGridObjects();
+	void SetUpCamera();
+	void SetUpLevel();
+	void SetupPlayer(int playerIndex) const;
+	void SetupTimer();
 
 	void Reset();
 	UIButton* CreatePauseButtons(const std::wstring& text, const XMFLOAT2& pos) const;

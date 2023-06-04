@@ -7,6 +7,7 @@
 #include "Prefabs/Exam/Bomb/Bomb.h"
 #include "ExplosionParticleEffect.h"
 #include "Exam/ExamAssets.h"
+#include "Scenes/Exam/LevelScene.h"
 
 Explosion::Explosion(const std::wstring& model, const std::wstring& texture, float lifeTime) :
 	m_LifeTime{ lifeTime }
@@ -38,7 +39,7 @@ void Explosion::Update(const SceneContext& sceneContext)
 	if (pBlock && pBlock->IsBreakable()) pBlock->Break();
 
 	Player* pPlayer{ dynamic_cast<Player*>(pGridObject) };
-	if (pPlayer) pPlayer->Kill();
+	if (pPlayer && !LevelScene::GameEnd()) pPlayer->Kill();
 
 	Bomb* pBomb{ dynamic_cast<Bomb*>(pGridObject) };
 	if (pBomb) pBomb->Explode();
