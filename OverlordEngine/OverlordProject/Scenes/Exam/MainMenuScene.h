@@ -15,8 +15,12 @@ public:
 
 protected:
 	void Initialize() override;
+	void OnSceneActivated() override;
 
 private:
+	FMOD::ChannelGroup* m_pMusicChannelGroup{ nullptr };
+	FMOD::Sound* m_pMenuMusic{ nullptr };
+
 	UIManager* m_pUIManager{};
 
 	// OnClick functions for the buttons

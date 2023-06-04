@@ -56,15 +56,26 @@ void EndScene::Initialize()
 	pUIManager->SetFirstSelectedButton(pButtonOne);
 
 	pUIManager->EnableInput();
+
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::EndScreenMusic.c_str(), FMOD_LOOP_NORMAL, nullptr, &m_pMenuMusic);
+	SoundManager::Get()->GetSystem()->createChannelGroup("Music", &m_pMusicChannelGroup);
+	m_pMusicChannelGroup->setVolume(.5f);
+}
+
+void EndScene::OnSceneActivated()
+{
+	SoundManager::Get()->GetSystem()->playSound(m_pMenuMusic, m_pMusicChannelGroup, false, nullptr);
 }
 
 void EndScene::MainMenu()
 {
+	m_pMusicChannelGroup->stop();
 	SceneManager::Get()->SetActiveGameScene(L"MainMenuScene");
 }
 
 void EndScene::RestartGame()
 {
+	m_pMusicChannelGroup->stop();
 	SceneManager::Get()->SetActiveGameScene(L"LevelScene");
 }
 
