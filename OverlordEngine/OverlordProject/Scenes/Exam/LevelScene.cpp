@@ -236,7 +236,7 @@ bool LevelScene::HasGameEnded() const
 	if (m_pCountdownTimer->HasCountdownEnded()) return true;
 
 	// Check if the Deadplayers vector is greater than or equal to the amount of players
-	if (m_pGridMap->GetDeadPlayers().size() >= m_MaxPlayers) return true;
+	if (m_pGridMap->GetDeadPlayers().size() >= m_PlayerCount - 1) return true;
 
 	return false;
 }
