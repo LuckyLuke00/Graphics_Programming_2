@@ -9,6 +9,7 @@
 
 std::vector<XMVECTORF32> Player::m_ColorVariants{ Colors::White, Colors::Red, Colors::Blue, Colors::Yellow };
 FMOD::Sound* Player::m_pDeathSound{ nullptr };
+FMOD::Sound* Player::m_pSpawnSound{ nullptr };
 
 Player::Player(const std::wstring& model, int index)
 {
@@ -27,6 +28,9 @@ void Player::Initialize(const SceneContext&)
 	m_pPlaceBombComponent->SetGridMap(GetGridMap());
 
 	SoundManager::Get()->GetSystem()->createSound(ExamAssets::DeathSound.c_str(), FMOD_DEFAULT, nullptr, &m_pDeathSound);
+	SoundManager::Get()->GetSystem()->createSound(ExamAssets::SpawnSound.c_str(), FMOD_DEFAULT, nullptr, &m_pSpawnSound);
+
+	SoundManager::Get()->GetSystem()->playSound(m_pSpawnSound, nullptr, false, nullptr);
 }
 
 void Player::OnSceneAttach(GameScene*)
@@ -267,6 +271,7 @@ void Player::HandleDeath()
 	}
 
 	SetPosition(m_SpawnPoint.x, m_SpawnPoint.y);
+	SoundManager::Get()->GetSystem()->playSound(m_pSpawnSound, nullptr, false, nullptr);
 }
 
 void Player::Reset()

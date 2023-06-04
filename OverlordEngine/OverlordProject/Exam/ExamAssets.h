@@ -55,6 +55,8 @@ namespace ExamAssets
 
 	const std::string BombPlaceSound{ "Resources/Audio/BombPlace.wav" };
 
+	const std::string SpawnSound{ "Resources/Audio/Spawn.wav" };
+
 	const std::string SubmitSound{ "Resources/Audio/Submit.wav" };
 	const std::string SelectSound{ "Resources/Audio/Select.wav" };
 
